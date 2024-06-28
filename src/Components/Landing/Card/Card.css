@@ -1,0 +1,14 @@
+.Landing-card {
+  height: 350px;
+  width: 350px;
+  background-color: aqua;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.card-input {
+  width: 200px;
+  height: 30px;
+}
