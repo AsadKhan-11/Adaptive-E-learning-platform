@@ -1,0 +1,27 @@
+.Navbar-sec {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+  color: white;
+}
+
+.nav-link-wrapper {
+  display: flex;
+  gap: 50px;
+}
+
+.nav-link,
+.nav-sign {
+  text-decoration: none;
+  color: white;
+}
+
+.nav-link:hover {
+  color: #04d9ff;
+}
+
+.nav-header {
+  font-size: 30px;
+}

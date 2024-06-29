@@ -1,22 +1,27 @@
 .Landing-card {
-  height: 450px;
-  width: 400px;
   background-color: rgb(48, 48, 48);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .card {
+  padding-top: 40px;
+  height: 400px;
+  width: 350px;
   display: flex;
   flex-direction: column;
   gap: 40px;
   align-items: center;
 }
 
+.card-back {
+  height: 450px;
+  width: 350px;
+}
+
 label,
 .card-header {
   color: white;
-  font-family: sans-serif;
 }
 
 .card-header {
