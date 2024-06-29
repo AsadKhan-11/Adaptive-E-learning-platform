@@ -12,7 +12,7 @@ function Card() {
   return (
     <div className="Landing-card">
       <ReactCardFlip flipDirection="horizontal" isFlipped={isFlipped}>
-        <div className="card" onClick={Flipped}>
+        <div id="card-form" name="card-form" className="card" onClick={Flipped}>
           <h1 className="card-header">Login</h1>
 
           <div className="card-info">
@@ -25,7 +25,11 @@ function Card() {
             <input className="card-input" />
           </div>
 
-          <button className="card-btn">Login</button>
+          <a className="card-forgot">Forgotten Password?</a>
+
+          <button type="submit" className="card-btn">
+            Login
+          </button>
         </div>
 
         <div className="card card-back" onClick={Flipped}>
@@ -45,7 +49,9 @@ function Card() {
             <input className="card-input" />
           </div>
 
-          <button className="card-btn">Sign up</button>
+          <button type="submit" className="card-btn">
+            Sign up
+          </button>
         </div>
       </ReactCardFlip>
     </div>

@@ -16,6 +16,7 @@
 .nav-sign {
   text-decoration: none;
   color: white;
+  transition: all 1.5s;
 }
 
 .nav-link:hover {

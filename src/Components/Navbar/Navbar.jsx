@@ -10,6 +10,9 @@ function Navbar() {
           Home
         </a>
         <a href="" className="nav-link">
+          Profile
+        </a>
+        <a href="" className="nav-link">
           Courses
         </a>
         <a href="" className="nav-link">
@@ -17,9 +20,6 @@ function Navbar() {
         </a>
         <a href="" className="nav-link">
           Help
-        </a>
-        <a href="" className="nav-link">
-          Profile
         </a>
       </nav>
       <a href="" className="nav-sign">
