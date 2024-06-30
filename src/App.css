@@ -12,8 +12,9 @@
   grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(20, 1fr);
   overflow: hidden;
-  background-color: rgb(10, 10, 10);
+  background-color: rgb(5, 5, 5);
   filter: saturate(2);
+  z-index: -2;
 }
 
 .colorBox {
@@ -38,7 +39,7 @@
 
 @keyframes anim {
   0% {
-    top: -60px;
+    top: -160px;
   }
   100% {
     top: 120%;

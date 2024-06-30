@@ -1,10 +1,11 @@
 import React from "react";
+import Nexedu from "../../assets/NEXEDU.png";
 import "./Navbar.css";
-function Navbar() {
+
+function Navbar({ navText, handleNavClick }) {
   return (
     <div className="Navbar-sec">
-      <h1 className="nav-header">Learn Genie</h1>
-
+      <img src={Nexedu} alt="" className="nav-logo" />
       <nav className="nav-link-wrapper">
         <a href="" className="nav-link">
           Home
@@ -19,12 +20,15 @@ function Navbar() {
           Progress
         </a>
         <a href="" className="nav-link">
-          Help
+          About Us
         </a>
       </nav>
-      <a href="" className="nav-sign">
-        Sign-up / Login
-      </a>
+      <button className="nav-sign-btn">
+        {" "}
+        <a href="#landing-card" className="nav-sign" onClick={handleNavClick}>
+          {navText}
+        </a>
+      </button>
     </div>
   );
 }

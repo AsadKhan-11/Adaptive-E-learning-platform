@@ -1,11 +1,12 @@
 .Navbar-sec {
-  width: 100%;
+  width: 95%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 20px;
   color: white;
-  position: sticky;
+  position: fixed;
+
   top: 0;
   z-index: 2;
 }
@@ -26,7 +27,20 @@
   color: #04d9ff;
 }
 
-.nav-header {
-  font-size: 30px;
-  color: #04d9ff;
+.nav-logo {
+  height: 100px;
+  width: 100px;
+}
+
+.nav-sign-btn {
+  background: linear-gradient(120deg, rgb(218, 218, 218), #04d9ff);
+  height: 50px;
+  width: 120px;
+  border: none;
+  border-radius: 15px;
+  font-size: 20px;
+}
+
+.nav-sign-btn:hover {
+  cursor: pointer;
 }

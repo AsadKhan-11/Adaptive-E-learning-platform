@@ -2,17 +2,11 @@ import React, { useState } from "react";
 import "./Card.css";
 import ReactCardFlip from "react-card-flip";
 
-function Card() {
-  const [isFlipped, SetIsFlipped] = useState(false);
-
-  function Flipped() {
-    SetIsFlipped(!isFlipped);
-  }
-
+function Card({ isFlipped }) {
   return (
-    <div className="Landing-card">
+    <div className="Landing-card" id="landing-card">
       <ReactCardFlip flipDirection="horizontal" isFlipped={isFlipped}>
-        <div id="card-form" name="card-form" className="card" onClick={Flipped}>
+        <div id="card-form" name="card-form" className="card">
           <h1 className="card-header">Login</h1>
 
           <div className="card-info">
@@ -32,7 +26,7 @@ function Card() {
           </button>
         </div>
 
-        <div className="card card-back" onClick={Flipped}>
+        <div className="card card-back">
           <h1 className="card-header">Sign up</h1>
           <div className="card-info">
             <label htmlFor="card-label">Email</label>
