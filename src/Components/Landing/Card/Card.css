@@ -14,7 +14,8 @@
   gap: 40px;
   align-items: center;
 
-  box-shadow: -5px 6px 5px -5px #0369df, 5px 6px 5px -5px #0369df;
+  box-shadow: -5px 6px 10px 0px #0369df, 5px 6px 10px 0px #0369df;
+  border-radius: 5px;
 }
 
 .card-back {

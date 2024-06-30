@@ -6,14 +6,14 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-bottom: 200px;
+  margin-bottom: 100px;
 }
 
 .landing-header {
   font-size: 40px;
   width: 780px;
   text-align: center;
-  padding: 150px 0 50px;
+  padding: 50px;
   background: linear-gradient(
     to right,
     rgb(54, 54, 54),
@@ -26,6 +26,7 @@
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: transparent;
   word-break: break-all;
+  z-index: 1;
 }
 
 .line {

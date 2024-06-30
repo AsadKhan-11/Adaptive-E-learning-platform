@@ -2,3 +2,45 @@
   width: 100%;
   height: 100%;
 }
+.BgAnimation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 850px;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+  overflow: hidden;
+  background-color: rgb(10, 10, 10);
+  filter: saturate(2);
+}
+
+.colorBox {
+  z-index: 0;
+  filter: brightness(1.1);
+  transition: 2s ease;
+  position: relative;
+  margin: 2px;
+  background-color: rgb(3, 3, 3);
+}
+
+.BackgroundAnim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background-color: #04d9ff;
+  filter: blur(60px);
+  animation: anim 6s linear infinite;
+}
+
+@keyframes anim {
+  0% {
+    top: -60px;
+  }
+  100% {
+    top: 120%;
+  }
+}
