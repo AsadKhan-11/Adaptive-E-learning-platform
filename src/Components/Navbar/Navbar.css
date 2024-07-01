@@ -2,11 +2,11 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 1050px;
   font-size: 20px;
   color: white;
   position: sticky;
-  background-color: grey;
+  background-color: rgb(88, 143, 140);
 
   top: 0;
   z-index: 2;

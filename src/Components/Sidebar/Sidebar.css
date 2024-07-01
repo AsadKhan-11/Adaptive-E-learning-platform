@@ -3,11 +3,10 @@
   flex-direction: column;
   gap: 40px;
   color: white;
-  padding: 20px;
-  position: absolute;
-  left: 0;
-  background-color: grey;
-  height: 100%;
+  background-color: rgb(88, 143, 140);
+  height: auto;
+  overflow: hidden;
+  padding: 50px 0 150px;
 }
 ion-icon {
   height: 30px;
@@ -22,4 +21,8 @@ ion-icon {
   align-items: center;
   justify-content: start;
   gap: 5px;
+  padding: 10px 20px;
+}
+.icon-tag:nth-child(2) {
+  background-color: rgb(95, 95, 95);
 }

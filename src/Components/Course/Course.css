@@ -1,0 +1,25 @@
+.course {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+}
+
+.course-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(88, 143, 140);
+  padding: 0 30px;
+  border-radius: 12px;
+}
+
+.course-container:hover {
+  cursor: pointer;
+}
+
+.course-image {
+  height: 200px;
+  width: 100%;
+}

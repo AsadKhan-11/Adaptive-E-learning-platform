@@ -4,6 +4,7 @@ import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
 import Landing from "./Components/LandingPage/Landing";
 import Sidebar from "./Components/Sidebar/Sidebar";
+import Course from "./Components/Course/Course";
 
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -20,7 +21,10 @@ function App() {
 
       {/* <Landing />  */}
       {/* <Login isFlipped={isFlipped} /> */}
-      <Sidebar />
+      <div className="app-container">
+        <Sidebar />
+        <Course />
+      </div>
     </div>
   );
 }

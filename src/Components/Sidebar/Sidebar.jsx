@@ -9,17 +9,17 @@ function Sidebar() {
         Dashboard
       </a>
       <a href="#" className="icon-tag">
-        {" "}
-        <ion-icon name="videocam-outline" className="side-icon"></ion-icon>
-        Videos
-      </a>
-      <a href="#" className="icon-tag">
         <ion-icon name="book-outline" className="side-icon"></ion-icon>
-        Quiz
+        Courses
       </a>
       <a href="#" className="icon-tag">
         <ion-icon name="chatbubbles-outline" className="side-icon"></ion-icon>
         Ask a Question
+      </a>
+      <a href="#" className="icon-tag">
+        {" "}
+        <ion-icon name="person-outline" className="side-icon"></ion-icon>
+        Profile
       </a>
     </div>
   );

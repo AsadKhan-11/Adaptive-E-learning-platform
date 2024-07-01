@@ -26,7 +26,7 @@ function Navbar({ navText, handleNavClick }) {
       <button className="nav-sign-btn">
         {" "}
         <a href="#landing-card" className="nav-sign" onClick={handleNavClick}>
-          {navText}
+          Logout
         </a>
       </button>
     </div>
