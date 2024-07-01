@@ -5,6 +5,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Landing from "./Components/LandingPage/Landing";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import Course from "./Components/Course/Course";
+import Question from "./Components/Questiom/Question";
 
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -23,7 +24,7 @@ function App() {
       {/* <Login isFlipped={isFlipped} /> */}
       <div className="app-container">
         <Sidebar />
-        <Course />
+        <Question />
       </div>
     </div>
   );

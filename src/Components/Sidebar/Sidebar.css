@@ -23,6 +23,6 @@ ion-icon {
   gap: 5px;
   padding: 10px 20px;
 }
-.icon-tag:nth-child(2) {
+.icon-tag:hover {
   background-color: rgb(95, 95, 95);
 }
