@@ -11,12 +11,12 @@ function Card({ isFlipped }) {
 
           <div className="card-info">
             <label htmlFor="card-label">Email</label>
-            <input className="card-input" />
+            <input type="email" className="card-input" />
           </div>
 
           <div className="card-info">
             <label htmlFor="card-label">Password</label>
-            <input className="card-input" />
+            <input type="password" className="card-input" />
           </div>
 
           <a className="card-forgot">Forgotten Password?</a>

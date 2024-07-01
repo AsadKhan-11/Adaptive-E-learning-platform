@@ -1,0 +1,25 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  color: white;
+  padding: 20px;
+  position: absolute;
+  left: 0;
+  background-color: grey;
+  height: 100%;
+}
+ion-icon {
+  height: 30px;
+  width: 30px;
+  color: white;
+}
+
+.icon-tag {
+  text-decoration: none;
+  color: #04d9ff;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 5px;
+}

@@ -1,11 +1,12 @@
 .Navbar-sec {
-  width: 95%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 20px;
   color: white;
-  position: fixed;
+  position: sticky;
+  background-color: grey;
 
   top: 0;
   z-index: 2;

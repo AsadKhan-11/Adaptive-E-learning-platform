@@ -6,7 +6,7 @@ function Navbar({ navText, handleNavClick }) {
   return (
     <div className="Navbar-sec">
       <img src={Nexedu} alt="" className="nav-logo" />
-      <nav className="nav-link-wrapper">
+      {/* <nav className="nav-link-wrapper">
         <a href="" className="nav-link">
           Home
         </a>
@@ -22,7 +22,7 @@ function Navbar({ navText, handleNavClick }) {
         <a href="" className="nav-link">
           About Us
         </a>
-      </nav>
+      </nav> */}
       <button className="nav-sign-btn">
         {" "}
         <a href="#landing-card" className="nav-sign" onClick={handleNavClick}>
