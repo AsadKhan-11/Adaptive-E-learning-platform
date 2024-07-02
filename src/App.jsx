@@ -8,6 +8,7 @@ import Course from "./Components/Course/Course";
 import Question from "./Components/Questiom/Question";
 import Level from "./Components/Course/Level/Level";
 import Profile from "./Components/Profile/Profile";
+import Dashboard from "./Components/Dashboard/Dashboard";
 
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -26,7 +27,7 @@ function App() {
       {/* <Login isFlipped={isFlipped} /> */}
       <div className="app-container">
         <Sidebar />
-        <Profile />
+        <Dashboard />
       </div>
     </div>
   );
