@@ -1,0 +1,41 @@
+.quiz {
+  width: 100vw;
+}
+
+.quiz-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-left: 20px;
+}
+
+.quiz-header {
+  color: white;
+  text-align: center;
+  font-size: 40px;
+}
+
+.quiz-container {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(88, 143, 140);
+  width: 400px;
+  border-radius: 12px;
+  justify-content: start;
+  align-items: start;
+  padding: 10px 10px;
+  gap: 20px;
+}
+
+.quiz-container input {
+  height: 20px;
+  width: 15px;
+  cursor: pointer;
+}
+
+.quiz-detail {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}

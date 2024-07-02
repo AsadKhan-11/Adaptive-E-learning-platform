@@ -11,6 +11,7 @@ import Profile from "./Components/Profile/Profile";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Select from "./Components/Course/Level/Select/Select";
 import Videos from "./Components/Course/Level/Select/Videos/Videos";
+import Quiz from "./Components/Course/Level/Select/Quiz/Quiz";
 
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -29,7 +30,7 @@ function App() {
       {/* <Login isFlipped={isFlipped} /> */}
       <div className="app-container">
         <Sidebar />
-        <Select />
+        <Quiz />
       </div>
     </div>
   );

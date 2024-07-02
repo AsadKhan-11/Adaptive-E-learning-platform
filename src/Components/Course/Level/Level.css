@@ -12,4 +12,18 @@
 
 .level-header {
   text-align: center;
+  color: white;
+}
+.level-container button {
+  background-color: rgb(88, 143, 140);
+  border: none;
+  height: 70px;
+  width: 200px;
+  font-size: 28px;
+  border-radius: 12px;
+}
+
+.level-container button:hover {
+  opacity: 0.7;
+  cursor: pointer;
 }

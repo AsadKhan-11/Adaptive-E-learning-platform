@@ -6,15 +6,15 @@ function Level() {
       <h1 className="level-header">Choose Your Level</h1>
       <div className="level-items">
         <div className="level-container">
-          <h2 className="level-name">Beginner</h2>
+          <button className="level-btn">Beginner</button>
           <p className="course-duration"></p>
         </div>
         <div className="level-container">
-          <h2 className="level-name">Intermediate</h2>
+          <button className="level-btn">Intermediate</button>
           <p className="course-duration"></p>
         </div>
         <div className="level-container">
-          <h2 className="level-name">Expert</h2>
+          <button className="level-btn">Expert</button>
           <p className="course-duration"></p>
         </div>
       </div>
