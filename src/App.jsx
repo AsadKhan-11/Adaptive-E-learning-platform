@@ -10,6 +10,7 @@ import Level from "./Components/Course/Level/Level";
 import Profile from "./Components/Profile/Profile";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Select from "./Components/Course/Level/Select/Select";
+import Videos from "./Components/Course/Level/Select/Videos/Videos";
 
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
