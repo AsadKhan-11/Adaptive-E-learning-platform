@@ -9,6 +9,7 @@ import Question from "./Components/Questiom/Question";
 import Level from "./Components/Course/Level/Level";
 import Profile from "./Components/Profile/Profile";
 import Dashboard from "./Components/Dashboard/Dashboard";
+import Select from "./Components/Course/Level/Select/Select";
 
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -27,7 +28,7 @@ function App() {
       {/* <Login isFlipped={isFlipped} /> */}
       <div className="app-container">
         <Sidebar />
-        <Dashboard />
+        <Select />
       </div>
     </div>
   );
