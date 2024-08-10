@@ -29,8 +29,7 @@ function App() {
       {/* <Landing />  */}
       {/* <Login isFlipped={isFlipped} /> */}
       <div className="app-container">
-        <Sidebar />
-        <Quiz />
+        <Login isFlipped={isFlipped} />
       </div>
     </div>
   );

@@ -5,8 +5,9 @@
   gap: 1050px;
   font-size: 20px;
   color: white;
-  position: sticky;
-  background-color: rgb(88, 143, 140);
+  position: absolute;
+  /* background-color: rgb(88, 143, 140); */
+  /* background-color: transparent; */
 
   top: 0;
   z-index: 2;

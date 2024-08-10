@@ -8,11 +8,12 @@
 .card {
   padding-top: 40px;
   height: 400px;
-  width: 350px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   gap: 40px;
   align-items: center;
+  border-radius: 12px;
 
   box-shadow: -5px 6px 10px 0px #0369df, 5px 6px 10px 0px #0369df;
   border-radius: 5px;
@@ -20,7 +21,7 @@
 
 .card-back {
   height: 450px;
-  width: 350px;
+  width: 300px;
 }
 
 label,
@@ -34,12 +35,14 @@ label,
 }
 
 .card-input {
-  width: 250px;
-  height: 30px;
+  width: 200px;
+  height: 35px;
   background-color: rgb(54, 54, 54);
   border: 1px solid #04d9ff;
   outline: none;
   color: white;
+  border-radius: 12px;
+  font-size: 16px;
 }
 
 .card-info {
@@ -51,12 +54,12 @@ label,
 .card-btn {
   width: 110px;
   height: 40px;
-  font-size: 16px;
+  font-size: 18px;
   background: linear-gradient(120deg, rgb(218, 218, 218), #04d9ff);
   border: none;
-  font-weight: 600;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
+  border-radius: 15px;
 }
 
 .card-btn:hover {

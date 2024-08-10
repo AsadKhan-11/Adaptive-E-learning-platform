@@ -23,10 +23,9 @@ function Navbar({ navText, handleNavClick }) {
           About Us
         </a>
       </nav> */}
-      <button className="nav-sign-btn">
-        {" "}
-        <a href="#landing-card" className="nav-sign" onClick={handleNavClick}>
-          Logout
+      <button className="nav-sign-btn" onClick={handleNavClick}>
+        <a href="#" className="nav-sign">
+          {navText}
         </a>
       </button>
     </div>
