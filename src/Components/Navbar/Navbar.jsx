@@ -1,33 +1,20 @@
 import React from "react";
 import Nexedu from "../../assets/NEXEDU.png";
 import "./Navbar.css";
+import { Link } from "react-router-dom";
 
 function Navbar({ navText, handleNavClick }) {
   return (
     <div className="Navbar-sec">
-      <img src={Nexedu} alt="" className="nav-logo" />
-      {/* <nav className="nav-link-wrapper">
-        <a href="" className="nav-link">
-          Home
-        </a>
-        <a href="" className="nav-link">
-          Profile
-        </a>
-        <a href="" className="nav-link">
-          Courses
-        </a>
-        <a href="" className="nav-link">
-          Progress
-        </a>
-        <a href="" className="nav-link">
-          About Us
-        </a>
-      </nav> */}
-      <button className="nav-sign-btn" onClick={handleNavClick}>
-        <a href="#" className="nav-sign">
-          {navText}
-        </a>
-      </button>
+      <div className="nav-container">
+        <img src={Nexedu} alt="" className="nav-logo" />
+
+        <button className="nav-sign-btn" onClick={handleNavClick}>
+          <Link to={"/"} className="nav-sign">
+            {navText}
+          </Link>
+        </button>
+      </div>
     </div>
   );
 }

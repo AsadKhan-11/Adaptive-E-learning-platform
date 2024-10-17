@@ -12,6 +12,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import Select from "./Components/Course/Level/Select/Select";
 import Videos from "./Components/Course/Level/Select/Videos/Videos";
 import Quiz from "./Components/Course/Level/Select/Quiz/Quiz";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -24,13 +25,13 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar navText={navText} handleNavClick={handleNavClick} />
-
-      {/* <Landing />  */}
-      {/* <Login isFlipped={isFlipped} /> */}
-      <div className="app-container">
-        <Login isFlipped={isFlipped} />
-      </div>
+      <BrowserRouter>
+        <Navbar navText={navText} handleNavClick={handleNavClick} />
+        <Routes>
+          <Route path="/" element={<Login isFlipped={isFlipped} />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

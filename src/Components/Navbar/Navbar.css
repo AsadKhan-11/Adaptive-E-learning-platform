@@ -1,16 +1,21 @@
 .Navbar-sec {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 1050px;
+  width: 100vw;
+
   font-size: 20px;
   color: white;
-  position: absolute;
-  /* background-color: rgb(88, 143, 140); */
-  /* background-color: transparent; */
 
   top: 0;
+
+  background-color: rgb(88, 143, 140);
+  /* background-color: transparent; */
   z-index: 2;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
 }
 
 .nav-link-wrapper {
