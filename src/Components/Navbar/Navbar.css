@@ -4,11 +4,11 @@
   font-size: 20px;
   color: white;
 
-  top: 0;
-
-  background-color: rgb(88, 143, 140);
-  /* background-color: transparent; */
+  background-color: transparent;
+  /* background-color: rgb(88, 143, 140); */
   z-index: 2;
+  position: fixed;
+  top: 0;
 }
 
 .nav-container {
