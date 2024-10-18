@@ -40,14 +40,16 @@
 }
 
 .nav-sign-btn {
-  background: linear-gradient(120deg, rgb(218, 218, 218), #04d9ff);
+  background-color: #0369df;
   height: 50px;
   width: 120px;
   border: none;
-  border-radius: 15px;
+  border-radius: 35px;
   font-size: 20px;
+  transition: all 1s;
 }
 
 .nav-sign-btn:hover {
   cursor: pointer;
+  background-color: #1b71d381;
 }

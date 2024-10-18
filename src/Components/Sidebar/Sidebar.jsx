@@ -1,5 +1,6 @@
 import React from "react";
 import "./Sidebar.css";
+import { Link } from "react-router-dom";
 function Sidebar() {
   function highlightLink(event) {
     event.preventDefault();
@@ -14,23 +15,23 @@ function Sidebar() {
 
   return (
     <div className="sidebar">
-      <a href="#" className="icon-tag active" onClick={highlightLink}>
+      <Link to="/dashboard" className="icon-tag active" onClick={highlightLink}>
         <ion-icon name="home-outline" className="side-icon"></ion-icon>{" "}
         Dashboard
-      </a>
-      <a href="#" className="icon-tag " onClick={highlightLink}>
+      </Link>
+      <Link to="/courses" className="icon-tag " onClick={highlightLink}>
         <ion-icon name="book-outline" className="side-icon"></ion-icon>
         Courses
-      </a>
-      <a href="#" className="icon-tag" onClick={highlightLink}>
+      </Link>
+      <Link to="/question" className="icon-tag" onClick={highlightLink}>
         <ion-icon name="chatbubbles-outline" className="side-icon"></ion-icon>
         Ask a Question
-      </a>
-      <a href="#" className="icon-tag" onClick={highlightLink}>
+      </Link>
+      <Link to="/profile" className="icon-tag" onClick={highlightLink}>
         {" "}
         <ion-icon name="person-outline" className="side-icon"></ion-icon>
         Profile
-      </a>
+      </Link>
     </div>
   );
 }

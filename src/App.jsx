@@ -30,6 +30,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Login isFlipped={isFlipped} />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/course" element={<Course />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/question" element={<Question />} />
         </Routes>
       </BrowserRouter>
     </div>
