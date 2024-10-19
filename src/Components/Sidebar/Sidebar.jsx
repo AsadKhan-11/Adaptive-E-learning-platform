@@ -1,39 +1,60 @@
-import React from "react";
-import "./Sidebar.css";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-function Sidebar() {
-  function highlightLink(event) {
-    event.preventDefault();
+import "./Sidebar.css"; // Assuming your styles are in Sidebar.css
 
-    const links = document.querySelectorAll(".icon-tag");
-    links.forEach((link) => {
-      link.classList.remove("active");
-    });
+const Sidebar = () => {
+  const [activeLink, setActiveLink] = useState("dashboard"); // Default active link
 
-    event.target.classList.add("active");
-  }
+  // Function to handle the click and set active link
+  const highlightLink = (linkName) => {
+    setActiveLink(linkName);
+  };
 
   return (
     <div className="sidebar">
-      <Link to="/dashboard" className="icon-tag active" onClick={highlightLink}>
-        <ion-icon name="home-outline" className="side-icon"></ion-icon>{" "}
-        Dashboard
-      </Link>
-      <Link to="/courses" className="icon-tag " onClick={highlightLink}>
-        <ion-icon name="book-outline" className="side-icon"></ion-icon>
-        Courses
-      </Link>
-      <Link to="/question" className="icon-tag" onClick={highlightLink}>
-        <ion-icon name="chatbubbles-outline" className="side-icon"></ion-icon>
-        Ask a Question
-      </Link>
-      <Link to="/profile" className="icon-tag" onClick={highlightLink}>
-        {" "}
-        <ion-icon name="person-outline" className="side-icon"></ion-icon>
-        Profile
-      </Link>
+      <ul className="sidebar-list">
+        <li
+          className={`icon-tag ${activeLink === "dashboard" ? "active" : ""}`}
+          onClick={() => highlightLink("dashboard")}
+        >
+          <ion-icon name="home-outline" className="side-icon"></ion-icon>
+          <Link to="/dashboard" className="links">
+            Dashboard
+          </Link>
+        </li>
+
+        <li
+          className={`icon-tag ${activeLink === "course" ? "active" : ""}`}
+          onClick={() => highlightLink("course")}
+        >
+          <ion-icon name="book-outline" className="side-icon"></ion-icon>
+          <Link to="/course" className="links">
+            Courses
+          </Link>
+        </li>
+
+        <li
+          className={`icon-tag ${activeLink === "question" ? "active" : ""}`}
+          onClick={() => highlightLink("question")}
+        >
+          <ion-icon name="chatbubbles-outline" className="side-icon"></ion-icon>
+          <Link to="/question" className="links">
+            Ask a Question
+          </Link>
+        </li>
+
+        <li
+          className={`icon-tag ${activeLink === "profile" ? "active" : ""}`}
+          onClick={() => highlightLink("profile")}
+        >
+          <ion-icon name="person-outline" className="side-icon"></ion-icon>
+          <Link to="/profile" className="links">
+            Profile
+          </Link>
+        </li>
+      </ul>
     </div>
   );
-}
+};
 
 export default Sidebar;
