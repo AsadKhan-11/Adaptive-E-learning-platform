@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./Sidebar.css"; // Assuming your styles are in Sidebar.css
+import "./Sidebar.css";
 
 const Sidebar = () => {
-  const [activeLink, setActiveLink] = useState("dashboard"); // Default active link
+  const [activeLink, setActiveLink] = useState("");
 
-  // Function to handle the click and set active link
   const highlightLink = (linkName) => {
     setActiveLink(linkName);
   };

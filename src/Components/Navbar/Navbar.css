@@ -2,10 +2,9 @@
   width: 100vw;
 
   font-size: 20px;
-  color: white;
 
   background-color: transparent;
-  /* background-color: rgb(88, 143, 140); */
+  background-color: #0d47a1;
   z-index: 2;
   position: fixed;
   top: 0;
@@ -23,15 +22,8 @@
   gap: 50px;
 }
 
-.nav-link,
-.nav-sign {
-  text-decoration: none;
-  color: white;
-  transition: all 1.5s;
-}
-
-.nav-link:hover {
-  color: #04d9ff;
+.nav-link {
+  color: #1e90ff;
 }
 
 .nav-logo {
@@ -40,16 +32,22 @@
 }
 
 .nav-sign-btn {
-  background-color: #0369df;
-  height: 50px;
-  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: #0d47a1;
+  height: 45px;
+  width: 100px;
   border: none;
   border-radius: 35px;
-  font-size: 20px;
+  font-size: 18px;
+  text-decoration: none;
+
   transition: all 1s;
 }
 
 .nav-sign-btn:hover {
   cursor: pointer;
-  background-color: #1b71d381;
+  color: #ff5722;
 }

@@ -4,6 +4,7 @@
   justify-content: center;
   flex-direction: column;
   width: 100vw;
+  margin-top: 100px;
 }
 
 .question-container {

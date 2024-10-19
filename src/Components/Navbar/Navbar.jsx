@@ -9,11 +9,9 @@ function Navbar({ navText, handleNavClick }) {
       <div className="nav-container">
         <img src={Nexedu} alt="" className="nav-logo" />
 
-        <button className="nav-sign-btn" onClick={handleNavClick}>
-          <Link to={"/"} className="nav-sign">
-            {navText}
-          </Link>
-        </button>
+        <Link to={"/"} className="nav-sign-btn">
+          {navText}
+        </Link>
       </div>
     </div>
   );
