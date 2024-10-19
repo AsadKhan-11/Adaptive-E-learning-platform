@@ -13,6 +13,7 @@ import Select from "./Components/Course/Level/Select/Select";
 import Videos from "./Components/Course/Level/Select/Videos/Videos";
 import Quiz from "./Components/Course/Level/Select/Quiz/Quiz";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./Layout/Layout";
 
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -29,10 +30,42 @@ function App() {
         <Navbar navText={navText} handleNavClick={handleNavClick} />
         <Routes>
           <Route path="/" element={<Login isFlipped={isFlipped} />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/course" element={<Course />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/question" element={<Question />} />
+          <Route
+            path="/dashboard"
+            element={
+              <Layout>
+                {" "}
+                <Dashboard />{" "}
+              </Layout>
+            }
+          />
+          <Route
+            path="/course"
+            element={
+              <Layout>
+                {" "}
+                <Course />{" "}
+              </Layout>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Layout>
+                {" "}
+                <Profile />{" "}
+              </Layout>
+            }
+          />
+          <Route
+            path="/question"
+            element={
+              <Layout>
+                {" "}
+                <Question />{" "}
+              </Layout>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

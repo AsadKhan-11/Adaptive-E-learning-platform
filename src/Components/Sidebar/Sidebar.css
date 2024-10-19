@@ -1,12 +1,13 @@
 .sidebar {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 40px;
   color: white;
   background-color: rgb(88, 143, 140);
-  height: auto;
-  overflow: hidden;
-  padding: 50px 0 146px;
+  padding: 50px 0;
+  position: fixed;
+  left: 0;
 }
 ion-icon {
   height: 30px;

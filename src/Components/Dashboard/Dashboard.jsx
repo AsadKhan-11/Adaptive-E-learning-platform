@@ -5,7 +5,6 @@ import "./Dashboard.css";
 function Dashboard() {
   return (
     <div className="Dashboard">
-      <Sidebar />
       <div className="Dashboard-items">
         <div className="Dashboard-container">
           <h3 className="Dashboard-name">Student</h3>
