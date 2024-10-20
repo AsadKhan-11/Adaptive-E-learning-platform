@@ -16,8 +16,8 @@ const Sidebar = () => {
           className={`icon-tag ${activeLink === "dashboard" ? "active" : ""}`}
           onClick={() => highlightLink("dashboard")}
         >
-          <ion-icon name="home-outline" className="side-icon"></ion-icon>
           <Link to="/dashboard" className="links">
+            <ion-icon name="home-outline" className="side-icon"></ion-icon>
             Dashboard
           </Link>
         </li>
@@ -26,8 +26,8 @@ const Sidebar = () => {
           className={`icon-tag ${activeLink === "course" ? "active" : ""}`}
           onClick={() => highlightLink("course")}
         >
-          <ion-icon name="book-outline" className="side-icon"></ion-icon>
           <Link to="/course" className="links">
+            <ion-icon name="book-outline" className="side-icon"></ion-icon>
             Courses
           </Link>
         </li>
@@ -36,8 +36,11 @@ const Sidebar = () => {
           className={`icon-tag ${activeLink === "question" ? "active" : ""}`}
           onClick={() => highlightLink("question")}
         >
-          <ion-icon name="chatbubbles-outline" className="side-icon"></ion-icon>
           <Link to="/question" className="links">
+            <ion-icon
+              name="chatbubbles-outline"
+              className="side-icon"
+            ></ion-icon>
             Ask a Question
           </Link>
         </li>
@@ -46,8 +49,8 @@ const Sidebar = () => {
           className={`icon-tag ${activeLink === "profile" ? "active" : ""}`}
           onClick={() => highlightLink("profile")}
         >
-          <ion-icon name="person-outline" className="side-icon"></ion-icon>
           <Link to="/profile" className="links">
+            <ion-icon name="person-outline" className="side-icon"></ion-icon>
             Profile
           </Link>
         </li>

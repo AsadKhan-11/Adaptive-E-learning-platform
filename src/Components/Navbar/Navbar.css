@@ -2,9 +2,8 @@
   width: 100vw;
 
   font-size: 20px;
-
   background-color: transparent;
-  background-color: #0d47a1;
+
   z-index: 2;
   position: fixed;
   top: 0;
@@ -17,26 +16,20 @@
   padding: 0 30px;
 }
 
-.nav-link-wrapper {
-  display: flex;
-  gap: 50px;
-}
-
-.nav-link {
-  color: #1e90ff;
-}
-
 .nav-logo {
-  height: 100px;
-  width: 100px;
+  height: 80px;
+  width: 80px;
 }
 
+.nav-first {
+  background-color: transparent;
+}
 .nav-sign-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  color: #0d47a1;
+  color: white;
+  background-color: #1e90ff;
   height: 45px;
   width: 100px;
   border: none;
@@ -49,5 +42,5 @@
 
 .nav-sign-btn:hover {
   cursor: pointer;
-  color: #ff5722;
+  background-color: #187bcd;
 }

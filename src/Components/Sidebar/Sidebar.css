@@ -19,8 +19,8 @@
 }
 
 ion-icon {
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
   color: white;
 }
 
@@ -31,11 +31,12 @@ ion-icon {
   height: 100%;
   display: flex;
   align-items: center;
+  gap: 5px;
   justify-content: start;
 }
 
 .icon-tag:hover {
-  background-color: rgb(95, 95, 95);
+  background-color: #0a3d7d;
 }
 
 .icon-tag {
@@ -48,5 +49,5 @@ ion-icon {
   padding-left: 10px;
 }
 .active {
-  background-color: rgb(95, 95, 95);
+  background-color: #0a3d7d;
 }

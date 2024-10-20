@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
-  background-color: rgb(88, 143, 140);
+  background-color: #5a9bd3;
   width: 30%;
   border-radius: 12px;
   padding: 30px 0;
@@ -21,10 +21,12 @@
 .profile-input {
   width: 200px;
   height: 30px;
+  font-weight: 400;
   color: white;
 }
 
 .profile-info label {
   font-size: 20px;
-  color: #04d9ff;
+  color: #0d47a1;
+  font-weight: 600;
 }
