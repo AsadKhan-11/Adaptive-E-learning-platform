@@ -18,15 +18,53 @@
   margin-top: 20px;
 }
 
-.profile-input {
-  width: 200px;
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 50px;
   height: 30px;
-  font-weight: 400;
-  color: white;
+  width: 90%;
+  font-size: 20px;
 }
 
 .profile-info label {
-  font-size: 20px;
   color: #0d47a1;
   font-weight: 600;
+  text-align: center;
+}
+
+.disabled {
+  width: 70%;
+  height: 20px;
+  font-weight: 400;
+  font-size: 18px;
+  outline: none;
+  color: white;
+  background-color: #5a9bd3;
+  border: none;
+  padding: 5px;
+}
+.read-only {
+  border: none;
+  background: none;
+  color: black;
+  padding: 0;
+  cursor: default;
+  font-size: 1rem;
+}
+
+.editable {
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: text;
+  height: 20px;
+  border-radius: 12px;
+  padding: 5px;
+  font-size: 18px;
+}
+
+.profile-btns {
+  display: flex;
+  width: 60%;
+  justify-content: space-between;
 }
