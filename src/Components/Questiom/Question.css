@@ -1,9 +1,10 @@
 .question {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   flex-direction: column;
   width: 100vw;
+  height: 100%;
   margin-top: 100px;
 }
 
@@ -14,11 +15,12 @@
   gap: 20px;
 }
 .question-txt {
-  width: 400px;
-  padding: 0 0 200px;
+  height: 200px;
+  padding: 5px;
   outline: none;
   display: flex;
   font-size: 20px;
+  resize: none;
 }
 
 .question-header {
