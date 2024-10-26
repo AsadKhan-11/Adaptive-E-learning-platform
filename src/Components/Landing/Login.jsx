@@ -5,7 +5,7 @@ import Card from "./Card/Card";
 function Login({ isFlipped }) {
   return (
     <div className="Login-page">
-      <div className="BgAnimation">
+      <div className={`BgAnimation ${isFlipped ? "Bgheight" : ""}`}>
         <div className="BackgroundAnim"></div>
         <div className="colorBox"></div>
         <div className="colorBox"></div>
