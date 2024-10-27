@@ -2,7 +2,6 @@ import { useState } from "react";
 import Login from "./Components/Landing/Login";
 import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
-import Landing from "./Components/LandingPage/Landing";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import Course from "./Components/Course/Course";
 import Question from "./Components/Questiom/Question";
