@@ -79,3 +79,10 @@ label,
 .card-forgot:hover {
   color: rgb(60, 60, 252);
 }
+
+.error {
+  color: red;
+}
+.success {
+  color: green;
+}

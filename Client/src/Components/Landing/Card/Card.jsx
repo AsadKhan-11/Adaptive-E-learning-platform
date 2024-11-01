@@ -9,7 +9,8 @@ function Card({ isFlipped }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [err, setErr] = useState("");
+  const [message, setMessage] = useState("");
+  const [err, setErr] = useState(false);
 
   const SubmitSignup = (e) => {
     e.preventDefault();
@@ -105,6 +106,7 @@ function Card({ isFlipped }) {
           <button type="submit" className="card-btn">
             Sign up
           </button>
+          <p className={err ? "error" : "success"}>{message}</p>
         </form>
       </ReactCardFlip>
     </div>
