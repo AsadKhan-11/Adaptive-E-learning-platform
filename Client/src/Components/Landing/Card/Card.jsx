@@ -15,7 +15,7 @@ function Card({ isFlipped }) {
   const SubmitSignup = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3000/signUp", { name, email, password, phone })
+      .post("http://localhost:3000/signUp", { name, email, password })
       .then((result) => {
         console.log(result);
         setMessage(result.data.message);
@@ -92,21 +92,12 @@ function Card({ isFlipped }) {
             />
           </div>
 
-          <div className="card-info">
-            <label htmlFor="card-label">Phone Number</label>
-            <input
-              className="card-input"
-              type="tel"
-              required
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </div>
-
           <button type="submit" className="card-btn">
             Sign up
           </button>
-          <p className={err ? "error" : "success"}>{message}</p>
+          {message && (
+            <p className={`message ${err ? "error" : "success"}`}>{message}</p>
+          )}
         </form>
       </ReactCardFlip>
     </div>

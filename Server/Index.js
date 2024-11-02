@@ -15,14 +15,14 @@ mongoose
   .catch((err) => console.error("Failed to connect to MongoDB:", err));
 
 app.post("/signUp", (req, res) => {
-  const { name, email, password, phone } = req.body;
+  const { name, email, password } = req.body;
 
   userModel.findOne({ email: email }).then((user) => {
     if (user) {
       return res.json({ message: "Already has an account" });
     } else {
       userModel
-        .create({ name: name, email: email, password: password, phone: phone })
+        .create({ name: name, email: email, password: password })
         .then((result) => {
           res.json({
             message: "Account created succesfully",

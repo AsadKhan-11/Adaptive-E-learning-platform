@@ -29,8 +29,11 @@
   z-index: 1;
 }
 
-.Bgheight {
-  height: 190vh;
+.Signheight {
+  height: 130%;
+}
+.Logheight {
+  height: 120%;
 }
 
 .BgAnimation {
@@ -38,7 +41,6 @@
   top: 0;
   left: 0;
   width: 100%;
-  min-height: 130vh;
   display: grid;
   grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(20, 1fr);

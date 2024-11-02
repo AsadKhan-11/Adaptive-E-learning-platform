@@ -7,9 +7,10 @@
 
   z-index: 1;
 }
+
 .card {
-  padding-top: 40px;
-  height: 400px;
+  padding: 40px 0;
+  height: 100%;
   width: 300px;
   display: flex;
   flex-direction: column;
@@ -20,9 +21,8 @@
   box-shadow: -5px 6px 25px 1px #0369df, 5px 6px 25px 1px #0369df;
 }
 
-.card-back {
-  height: 550px;
-  width: 300px;
+.message {
+  margin: 0;
 }
 
 label,
