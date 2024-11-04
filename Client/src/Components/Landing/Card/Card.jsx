@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+import { useNavigate } from "react-router-dom";
 import "./Card.css";
 import ReactCardFlip from "react-card-flip";
 
@@ -11,6 +12,7 @@ function Card({ isFlipped }) {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [err, setErr] = useState(false);
+  const navigate = useNavigate();
 
   const SubmitSignup = (e) => {
     e.preventDefault();
@@ -21,6 +23,9 @@ function Card({ isFlipped }) {
         setMessage(result.data.message);
         if (result.data.message === "Account created succesfully") {
           setErr(false);
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
         } else if (result.data.message === "Already has an account") {
           setErr(true);
         }
