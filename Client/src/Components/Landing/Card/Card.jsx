@@ -5,10 +5,11 @@ import "./Card.css";
 import ReactCardFlip from "react-card-flip";
 
 function Card({ isFlipped }) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
+  const [signupName, setSignupName] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
   const [message, setMessage] = useState("");
   const [err, setErr] = useState(false);
   const navigate = useNavigate();
@@ -18,9 +19,9 @@ function Card({ isFlipped }) {
 
     try {
       const result = await axios.post("http://localhost:3000/auth/signup", {
-        name,
-        email,
-        password,
+        signupName,
+        signupEmail,
+        signupPassword,
       });
 
       console.log(result);
@@ -40,6 +41,46 @@ function Card({ isFlipped }) {
       ) {
         setErr(true);
         setMessage("Already has an account");
+        setTimeout(() => {
+          setErr(false);
+        }, 3000);
+      } else {
+        setErr(true);
+        console.error("Error:", err);
+        setMessage("An error occurred. Please try again.");
+        setTimeout(() => {
+          setErr(false);
+        }, 3000);
+      }
+    }
+  };
+  const SubmitLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const result = await axios.post("http://localhost:3000/auth/login", {
+        loginEmail,
+        loginPassword,
+      });
+
+      console.log(result);
+      setMessage(result.data.message);
+
+      if (result.data.message === "Login successful") {
+        navigate("/dashboard");
+        setErr(false);
+      }
+    } catch (err) {
+      if (err.response && err.response.data.message === "Wrong Password") {
+        setErr(true);
+        setMessage("Wrong Password");
+      }
+      if (
+        err.response &&
+        err.response.data.message === "Email does not exist"
+      ) {
+        setErr(true);
+        setMessage("Email does not exist");
       } else {
         console.error("Error:", err);
         setMessage("An error occurred. Please try again.");
@@ -50,17 +91,36 @@ function Card({ isFlipped }) {
   return (
     <div className="Landing-card" id="landing-card">
       <ReactCardFlip flipDirection="horizontal" isFlipped={isFlipped}>
-        <form id="card-form" name="login-card" className="card">
+        <form
+          id="card-form"
+          name="login-card"
+          className="card"
+          onSubmit={SubmitLogin}
+        >
           <h1 className="card-header">Login</h1>
 
           <div className="card-info">
             <label htmlFor="card-label">Email</label>
-            <input type="email" className="card-input" required />
+            <input
+              type="email"
+              className="card-input"
+              required
+              value={loginEmail}
+              name="email"
+              onChange={(e) => setLoginEmail(e.target.value)}
+            />
           </div>
 
           <div className="card-info">
             <label htmlFor="card-label">Password</label>
-            <input type="password" className="card-input" required />
+            <input
+              type="password"
+              className="card-input"
+              required
+              name="password"
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
+            />
           </div>
 
           <a className="card-forgot">Forgotten Password?</a>
@@ -68,6 +128,9 @@ function Card({ isFlipped }) {
           <button type="submit" className="card-btn">
             Login
           </button>
+          {message && (
+            <p className={`message ${err ? "error" : "success"}`}>{message}</p>
+          )}
         </form>
 
         <form
@@ -82,9 +145,9 @@ function Card({ isFlipped }) {
               className="card-input"
               type="text"
               required
-              value={name}
+              value={signupName}
               name="name"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setSignupName(e.target.value)}
             />
           </div>
           <div className="card-info">
@@ -93,9 +156,9 @@ function Card({ isFlipped }) {
               className="card-input"
               type="email"
               required
-              value={email}
+              value={signupEmail}
               name="email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setSignupEmail(e.target.value)}
             />
           </div>
 
@@ -106,15 +169,15 @@ function Card({ isFlipped }) {
               type="password"
               required
               name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={signupPassword}
+              onChange={(e) => setSignupPassword(e.target.value)}
             />
           </div>
 
           <button type="submit" className="card-btn">
             Sign up
           </button>
-          {message && (
+          {err && message && (
             <p className={`message ${err ? "error" : "success"}`}>{message}</p>
           )}
         </form>
