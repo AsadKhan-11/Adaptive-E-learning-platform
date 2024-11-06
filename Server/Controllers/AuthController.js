@@ -4,20 +4,20 @@ const bcrypt = require("bcrypt");
 const signup = async (req, res) => {
   const { name, email, password } = req.body;
 
-  const user = userModel.findOne({ email: email });
+  const user = await userModel.findOne({ email: email });
   try {
     if (user) {
       return res
         .status(409)
         .json({ message: "Already has an account", success: false });
     }
-    const newModel = new userModel({ name, email, password });
-    res.status(201).json({
-      message: "Account created succesfully",
-      response: result,
-    });
-    newModel.password = bcrypt.hash(password, 10);
+    const newPassword = await bcrypt.hash(password, 10);
+    const newModel = new userModel({ name, email, password: newPassword });
     newModel.save();
+    res.status(201).json({
+      message: "Account created successfully",
+      user: newModel,
+    });
   } catch (err) {
     res
       .status(500)

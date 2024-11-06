@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-
 import { useNavigate } from "react-router-dom";
 import "./Card.css";
 import ReactCardFlip from "react-card-flip";
@@ -14,26 +13,38 @@ function Card({ isFlipped }) {
   const [err, setErr] = useState(false);
   const navigate = useNavigate();
 
-  const SubmitSignup = (e) => {
+  const SubmitSignup = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3000/signUp", { name, email, password })
-      .then((result) => {
-        console.log(result);
-        setMessage(result.data.message);
-        if (result.data.message === "Account created succesfully") {
-          setErr(false);
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
-        } else if (result.data.message === "Already has an account") {
-          setErr(true);
-        }
-        console.log(result.data.message);
-      })
-      .catch((err) => {
-        console.log("Error:", err);
+
+    try {
+      const result = await axios.post("http://localhost:3000/auth/signup", {
+        name,
+        email,
+        password,
       });
+
+      console.log(result);
+      setMessage(result.data.message);
+
+      if (result.data.message === "Account created successfully") {
+        setErr(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+        console.log(result.data.message);
+      }
+    } catch (err) {
+      if (
+        err.response &&
+        err.response.data.message === "Already has an account"
+      ) {
+        setErr(true);
+        setMessage("Already has an account");
+      } else {
+        console.error("Error:", err);
+        setMessage("An error occurred. Please try again.");
+      }
+    }
   };
 
   return (
@@ -72,6 +83,7 @@ function Card({ isFlipped }) {
               type="text"
               required
               value={name}
+              name="name"
               onChange={(e) => setName(e.target.value)}
             />
           </div>
@@ -82,6 +94,7 @@ function Card({ isFlipped }) {
               type="email"
               required
               value={email}
+              name="email"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -92,6 +105,7 @@ function Card({ isFlipped }) {
               className="card-input"
               type="password"
               required
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
