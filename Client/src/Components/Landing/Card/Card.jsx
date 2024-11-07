@@ -59,14 +59,14 @@ function Card({ isFlipped }) {
 
     try {
       const result = await axios.post("http://localhost:3000/auth/login", {
-        loginEmail,
-        loginPassword,
+        email: loginEmail,
+        password: loginPassword,
       });
 
       console.log(result);
       setMessage(result.data.message);
 
-      if (result.data.message === "Login successful") {
+      if (result.data.message === "Login Successful") {
         navigate("/dashboard");
         setErr(false);
       }

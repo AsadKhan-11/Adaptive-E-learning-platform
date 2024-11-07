@@ -1,11 +1,15 @@
+const jwt = require("jsonwebtoken");
 const userModel = require("../Model/User");
 const bcrypt = require("bcrypt");
 
 const signup = async (req, res) => {
-  const { name, email, password } = req.body;
-
   try {
-    const user = await userModel.findOne({ email: email });
+    const { name, email, password } = req.body;
+
+    const lowerCaseEmail = email.toLowerCase();
+
+    const user = await userModel.findOne({ email: lowerCaseEmail });
+
     if (user) {
       return res
         .status(409)
@@ -14,7 +18,7 @@ const signup = async (req, res) => {
     const newPassword = await bcrypt.hash(password, 10);
     const newModel = new userModel({
       name,
-      email: email.toLowerCase(),
+      email,
       password: newPassword,
     });
     newModel.save();
@@ -30,10 +34,18 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
-    const user = await userModel.findOne({ email: email.toLowerCase() });
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required", success: false });
+    }
+    console.log("Request body:", req.body);
+    const lowercasedEmail = email.toLowerCase();
+
+    const user = await userModel.findOne({ email: lowercasedEmail });
+
     console.log("User found:", user);
 
     if (!user) {
@@ -41,6 +53,7 @@ const login = async (req, res) => {
         .status(403)
         .json({ message: "Email does not exist", success: false });
     }
+
     const isPassEqual = await bcrypt.compare(password, user.password);
 
     if (!isPassEqual) {
@@ -66,6 +79,7 @@ const login = async (req, res) => {
       success: true,
     });
   } catch (err) {
+    console.log(err);
     res
       .status(500)
       .json({ message: "Internal Server Error", error: err, success: false });
