@@ -46,7 +46,7 @@ const login = async (req, res) => {
 
     const user = await userModel.findOne({ email: lowercasedEmail });
 
-    console.log("User found:", user);
+    // console.log("User found:", user);
 
     if (!user) {
       return res
@@ -61,6 +61,8 @@ const login = async (req, res) => {
         .status(403)
         .json({ message: "Wrong Password", success: false });
     }
+
+    console.log(isPassEqual);
 
     const jwtToken = jwt.sign(
       {

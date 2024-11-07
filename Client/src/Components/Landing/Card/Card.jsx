@@ -19,9 +19,9 @@ function Card({ isFlipped }) {
 
     try {
       const result = await axios.post("http://localhost:3000/auth/signup", {
-        signupName,
-        signupEmail,
-        signupPassword,
+        name: signupName,
+        email: signupEmail,
+        password: signupPassword,
       });
 
       console.log(result);
@@ -71,16 +71,17 @@ function Card({ isFlipped }) {
         setErr(false);
       }
     } catch (err) {
-      if (err.response && err.response.data.message === "Wrong Password") {
-        setErr(true);
-        setMessage("Wrong Password");
-      }
-      if (
-        err.response &&
-        err.response.data.message === "Email does not exist"
-      ) {
-        setErr(true);
-        setMessage("Email does not exist");
+      if (err.response) {
+        if (err.response.data.message === "Wrong Password") {
+          setErr(true);
+          setMessage("Wrong Password");
+        } else if (err.response.data.message === "Email does not exist") {
+          setErr(true);
+          setMessage("Email does not exist");
+        } else {
+          console.error("Error:", err);
+          setMessage("An error occurred. Please try again.");
+        }
       } else {
         console.error("Error:", err);
         setMessage("An error occurred. Please try again.");
