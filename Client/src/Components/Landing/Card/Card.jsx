@@ -32,7 +32,6 @@ function Card({ isFlipped }) {
         setTimeout(() => {
           window.location.reload();
         }, 3000);
-        console.log(result.data.message);
       }
     } catch (err) {
       if (
@@ -75,9 +74,37 @@ function Card({ isFlipped }) {
         if (err.response.data.message === "Wrong Password") {
           setErr(true);
           setMessage("Wrong Password");
+          setTimeout(() => {
+            setMessage("");
+            setErr(false);
+          }, 3000);
         } else if (err.response.data.message === "Email does not exist") {
           setErr(true);
           setMessage("Email does not exist");
+          setTimeout(() => {
+            setMessage("");
+            setErr(false);
+          }, 3000);
+        } else if (
+          err.response &&
+          err.response.data.message === "Email is required"
+        ) {
+          setErr(true);
+          setMessage("Email is required");
+          setTimeout(() => {
+            setMessage("");
+            setErr(false);
+          }, 3000);
+        } else if (
+          err.response &&
+          err.response.data.message === "Password is required"
+        ) {
+          setErr(true);
+          setMessage("Password is required");
+          setTimeout(() => {
+            setMessage("");
+            setErr(false);
+          }, 3000);
         } else {
           console.error("Error:", err);
           setMessage("An error occurred. Please try again.");
@@ -105,7 +132,6 @@ function Card({ isFlipped }) {
             <input
               type="email"
               className="card-input"
-              required
               value={loginEmail}
               name="email"
               onChange={(e) => setLoginEmail(e.target.value)}
@@ -117,7 +143,6 @@ function Card({ isFlipped }) {
             <input
               type="password"
               className="card-input"
-              required
               name="password"
               value={loginPassword}
               onChange={(e) => setLoginPassword(e.target.value)}

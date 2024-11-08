@@ -36,17 +36,21 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required", success: false });
+    if (!email) {
+      return res.status(400).json({
+        message: "Email is required",
+        success: false,
+      });
+    } else if (!password) {
+      return res.status(400).json({
+        message: "Password is required",
+        success: false,
+      });
     }
-    console.log("Request body:", req.body);
+
     const lowercasedEmail = email.toLowerCase();
 
     const user = await userModel.findOne({ email: lowercasedEmail });
-
-    // console.log("User found:", user);
 
     if (!user) {
       return res
@@ -61,8 +65,6 @@ const login = async (req, res) => {
         .status(403)
         .json({ message: "Wrong Password", success: false });
     }
-
-    console.log(isPassEqual);
 
     const jwtToken = jwt.sign(
       {
