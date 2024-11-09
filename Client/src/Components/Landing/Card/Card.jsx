@@ -34,22 +34,44 @@ function Card({ isFlipped }) {
         }, 3000);
       }
     } catch (err) {
-      if (
-        err.response &&
-        err.response.data.message === "Already has an account"
-      ) {
-        setErr(true);
-        setMessage("Already has an account");
-        setTimeout(() => {
-          setErr(false);
-        }, 3000);
-      } else {
-        setErr(true);
-        console.error("Error:", err);
-        setMessage("An error occurred. Please try again.");
-        setTimeout(() => {
-          setErr(false);
-        }, 3000);
+      if (err.response) {
+        if (err.response.data.message === "Already has an account") {
+          setErr(true);
+          setMessage("Already has an account");
+          setTimeout(() => {
+            setErr(false);
+            setMessage("");
+          }, 3000);
+        } else if (err.response.data.message === "Name is required") {
+          setErr(true);
+          setMessage("Name is required");
+          setTimeout(() => {
+            setErr(false);
+            setMessage("");
+          }, 3000);
+        } else if (err.response.data.message === "Email is required") {
+          setErr(true);
+          setMessage("Email is required");
+          setTimeout(() => {
+            setErr(false);
+            setMessage("");
+          }, 3000);
+        } else if (err.response.data.message === "Password is required") {
+          setErr(true);
+          setMessage("Password is required");
+          setTimeout(() => {
+            setErr(false);
+            setMessage("");
+          }, 3000);
+        } else {
+          setErr(true);
+          console.error("Error:", err);
+          setMessage("An error occurred. Please try again.");
+          setTimeout(() => {
+            setErr(false);
+            setMessage("");
+          }, 3000);
+        }
       }
     }
   };
@@ -85,29 +107,20 @@ function Card({ isFlipped }) {
             setMessage("");
             setErr(false);
           }, 3000);
-        } else if (
-          err.response &&
-          err.response.data.message === "Email is required"
-        ) {
+        } else if (err.response.data.message === "Email is required") {
           setErr(true);
           setMessage("Email is required");
           setTimeout(() => {
             setMessage("");
             setErr(false);
           }, 3000);
-        } else if (
-          err.response &&
-          err.response.data.message === "Password is required"
-        ) {
+        } else if (err.response.data.message === "Password is required") {
           setErr(true);
           setMessage("Password is required");
           setTimeout(() => {
             setMessage("");
             setErr(false);
           }, 3000);
-        } else {
-          console.error("Error:", err);
-          setMessage("An error occurred. Please try again.");
         }
       } else {
         console.error("Error:", err);
@@ -170,7 +183,6 @@ function Card({ isFlipped }) {
             <input
               className="card-input"
               type="text"
-              required
               value={signupName}
               name="name"
               onChange={(e) => setSignupName(e.target.value)}
@@ -181,7 +193,6 @@ function Card({ isFlipped }) {
             <input
               className="card-input"
               type="email"
-              required
               value={signupEmail}
               name="email"
               onChange={(e) => setSignupEmail(e.target.value)}
@@ -193,7 +204,6 @@ function Card({ isFlipped }) {
             <input
               className="card-input"
               type="password"
-              required
               name="password"
               value={signupPassword}
               onChange={(e) => setSignupPassword(e.target.value)}
