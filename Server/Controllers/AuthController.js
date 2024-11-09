@@ -5,6 +5,22 @@ const bcrypt = require("bcrypt");
 const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    if (!name) {
+      return res.status(400).json({
+        message: "Name is required",
+        success: false,
+      });
+    } else if (!email) {
+      return res.status(400).json({
+        message: "Email is required",
+        success: false,
+      });
+    } else if (!password) {
+      return res.status(400).json({
+        message: "Password is required",
+        success: false,
+      });
+    }
 
     const lowerCaseEmail = email.toLowerCase();
 
