@@ -19,14 +19,24 @@ function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
 
-  const handleNavClick = () => {
-    setIsFlipped(!isFlipped);
-    setNavText(isFlipped ? "Signup" : "Login");
-  };
-
   useEffect(() => {
     const token = localStorage.getItem("token");
+    setNavText(token ? "Logout" : "Signup");
   }, []);
+
+  const handleNavClick = () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      localStorage.removeItem("token");
+      setNavText("Signup");
+      setIsFlipped(false);
+      window.location.href = "/";
+    } else {
+      setIsFlipped(!isFlipped);
+      setNavText(isFlipped ? "Signup" : "Login");
+    }
+  };
 
   return (
     <div className="App">

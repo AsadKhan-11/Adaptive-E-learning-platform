@@ -90,7 +90,7 @@ function Card({ isFlipped }) {
       if (result.data.success) {
         localStorage.setItem("token", result.data.jwtToken);
         setErr(false);
-        navigate("/dashboard");
+        window.location.href = "/dashboard";
       }
     } catch (err) {
       if (err.response) {
