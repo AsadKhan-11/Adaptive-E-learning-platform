@@ -17,7 +17,11 @@ function Navbar({ navText, handleNavClick }) {
       <div className="nav-container">
         <img src={Nexedu} alt="" className="nav-logo" />
 
-        <Link to={"/"} className="nav-sign-btn" onClick={handleNavClick}>
+        <Link
+          to={isLoginPage ? "/" : "/dashboard"}
+          className="nav-sign-btn"
+          onClick={handleNavClick}
+        >
           {navText}
         </Link>
       </div>

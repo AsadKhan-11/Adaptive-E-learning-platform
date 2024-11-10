@@ -11,7 +11,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import Select from "./Components/Course/Level/Select/Select";
 import Videos from "./Components/Course/Level/Select/Videos/Videos";
 import Quiz from "./Components/Course/Level/Select/Quiz/Quiz";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 
@@ -31,7 +31,7 @@ function App() {
       localStorage.removeItem("token");
       setNavText("Signup");
       setIsFlipped(false);
-      window.location.href = "/";
+      Navigate("/");
     } else {
       setIsFlipped(!isFlipped);
       setNavText(isFlipped ? "Signup" : "Login");
