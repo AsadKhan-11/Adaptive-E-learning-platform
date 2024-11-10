@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Card.css";
@@ -13,6 +13,13 @@ function Card({ isFlipped }) {
   const [message, setMessage] = useState("");
   const [err, setErr] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const SubmitSignup = async (e) => {
     e.preventDefault();
