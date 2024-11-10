@@ -87,9 +87,10 @@ function Card({ isFlipped }) {
       console.log(result);
       setMessage(result.data.message);
 
-      if (result.data.message === "Login Successful") {
-        navigate("/dashboard");
+      if (result.data.success) {
+        localStorage.setItem("token", result.data.jwtToken);
         setErr(false);
+        navigate("/dashboard");
       }
     } catch (err) {
       if (err.response) {

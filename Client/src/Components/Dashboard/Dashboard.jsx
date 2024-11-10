@@ -1,6 +1,5 @@
 import React from "react";
 import chart from "../../assets/piechart.png";
-import Sidebar from "../Sidebar/Sidebar";
 import "./Dashboard.css";
 function Dashboard() {
   return (

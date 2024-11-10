@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Login from "./Components/Landing/Login";
 import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
@@ -13,6 +13,7 @@ import Videos from "./Components/Course/Level/Select/Videos/Videos";
 import Quiz from "./Components/Course/Level/Select/Quiz/Quiz";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./Layout/Layout";
+import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -23,6 +24,10 @@ function App() {
     setNavText(isFlipped ? "Signup" : "Login");
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+  }, []);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -32,37 +37,43 @@ function App() {
           <Route
             path="/dashboard"
             element={
-              <Layout>
-                {" "}
-                <Dashboard />{" "}
-              </Layout>
+              <ProtectedRoute>
+                <Layout>
+                  <Dashboard />
+                </Layout>
+              </ProtectedRoute>
             }
           />
           <Route
             path="/course"
             element={
-              <Layout>
-                {" "}
-                <Course />{" "}
-              </Layout>
+              <ProtectedRoute>
+                <Layout>
+                  {" "}
+                  <Course />{" "}
+                </Layout>
+              </ProtectedRoute>
             }
           />
           <Route
             path="/profile"
             element={
-              <Layout>
-                {" "}
-                <Profile />{" "}
-              </Layout>
+              <ProtectedRoute>
+                <Layout>
+                  {" "}
+                  <Profile />{" "}
+                </Layout>
+              </ProtectedRoute>
             }
           />
           <Route
             path="/question"
             element={
-              <Layout>
-                {" "}
-                <Question />{" "}
-              </Layout>
+              <ProtectedRoute>
+                <Layout>
+                  <Question />{" "}
+                </Layout>
+              </ProtectedRoute>
             }
           />
         </Routes>
