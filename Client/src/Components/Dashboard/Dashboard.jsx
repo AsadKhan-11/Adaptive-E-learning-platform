@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import chart from "../../assets/piechart.png";
 import "./Dashboard.css";
+import { useNavigate } from "react-router-dom";
 function Dashboard() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="Dashboard">
       <div className="Dashboard-items">
         <div className="Dashboard-container">
           <h3 className="Dashboard-name">Student</h3>
-          <p className="Dashboard-num">Asad Ahmed Khan</p>
+          <p className="Dashboard-num">{user.name}</p>
         </div>
         <div className="Dashboard-container">
           <h3 className="Dashboard-name">Enrolled Courses</h3>

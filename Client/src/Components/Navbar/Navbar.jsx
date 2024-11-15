@@ -5,7 +5,6 @@ import { Link, useLocation } from "react-router-dom";
 
 function Navbar({ navText, handleNavClick }) {
   const location = useLocation();
-
   const isLoginPage = location.pathname === "/";
 
   return (

@@ -96,6 +96,8 @@ function Card({ isFlipped }) {
 
       if (result.data.success) {
         localStorage.setItem("token", result.data.jwtToken);
+        localStorage.setItem("user", JSON.stringify(result.data));
+
         setErr(false);
         window.location.href = "/dashboard";
       }
