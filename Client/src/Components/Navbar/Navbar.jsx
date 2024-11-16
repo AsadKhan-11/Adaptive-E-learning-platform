@@ -3,7 +3,22 @@ import Nexedu from "../../assets/NEXEDU.png";
 import "./Navbar.css";
 import { Link, useLocation } from "react-router-dom";
 
-function Navbar({ navText, handleNavClick }) {
+function Navbar({ navText, setNavText, setIsFlipped, isFlipped }) {
+  const handleNavClick = () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setNavText("Signup");
+      setIsFlipped(false);
+      Navigate("/");
+    } else {
+      setIsFlipped(!isFlipped);
+      setNavText(isFlipped ? "Signup" : "Login");
+    }
+  };
+
   const location = useLocation();
   const isLoginPage = location.pathname === "/";
 

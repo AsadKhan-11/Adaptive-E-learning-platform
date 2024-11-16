@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Profile.css";
+import { useNavigate } from "react-router-dom";
+
 function Profile() {
   const [formData, setFormData] = useState({
     name: "Asad Ahmed Khan",
@@ -9,6 +11,21 @@ function Profile() {
   });
 
   const [isEditable, setIsEditable] = useState(false);
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +53,7 @@ function Profile() {
             className={isEditable ? "editable" : "disabled"}
             type="text"
             name="name"
-            value={formData.name}
+            value={user.name}
             onChange={handleChange}
             readOnly={!isEditable}
           />{" "}
@@ -53,7 +70,7 @@ function Profile() {
             name="email"
             onChange={handleChange}
             readOnly={!isEditable}
-            value={formData.email}
+            value={user.email}
           />
         </div>
         <div className="profile-info">

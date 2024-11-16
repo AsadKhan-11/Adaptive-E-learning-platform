@@ -23,24 +23,15 @@ function App() {
     setNavText(token ? "Logout" : "Signup");
   }, []);
 
-  const handleNavClick = () => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      localStorage.removeItem("token");
-      setNavText("Signup");
-      setIsFlipped(false);
-      Navigate("/");
-    } else {
-      setIsFlipped(!isFlipped);
-      setNavText(isFlipped ? "Signup" : "Login");
-    }
-  };
-
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar navText={navText} handleNavClick={handleNavClick} />
+        <Navbar
+          navText={navText}
+          setNavText={setNavText}
+          setIsFlipped={setIsFlipped}
+          isFlipped={isFlipped}
+        />
         <Routes>
           <Route path="/" element={<Login isFlipped={isFlipped} />} />
           <Route

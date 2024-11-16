@@ -42,46 +42,19 @@ function Card({ isFlipped }) {
       }
     } catch (err) {
       if (err.response) {
-        if (err.response.data.message === "Already has an account") {
-          setErr(true);
-          setMessage("Already has an account");
-          setTimeout(() => {
-            setErr(false);
-            setMessage("");
-          }, 3000);
-        } else if (err.response.data.message === "Name is required") {
-          setErr(true);
-          setMessage("Name is required");
-          setTimeout(() => {
-            setErr(false);
-            setMessage("");
-          }, 3000);
-        } else if (err.response.data.message === "Email is required") {
-          setErr(true);
-          setMessage("Email is required");
-          setTimeout(() => {
-            setErr(false);
-            setMessage("");
-          }, 3000);
-        } else if (err.response.data.message === "Password is required") {
-          setErr(true);
-          setMessage("Password is required");
-          setTimeout(() => {
-            setErr(false);
-            setMessage("");
-          }, 3000);
-        } else {
-          setErr(true);
-          console.error("Error:", err);
-          setMessage("An error occurred. Please try again.");
-          setTimeout(() => {
-            setErr(false);
-            setMessage("");
-          }, 3000);
-        }
+        setErr(true);
+        setMessage(err.response.data.message);
+      } else {
+        setErr(true);
+        setMessage("An error occurred. Please try again.");
       }
+      setTimeout(() => {
+        setErr(false);
+        setMessage("");
+      }, 3000);
     }
   };
+
   const SubmitLogin = async (e) => {
     e.preventDefault();
 
@@ -91,7 +64,6 @@ function Card({ isFlipped }) {
         password: loginPassword,
       });
 
-      console.log(result);
       setMessage(result.data.message);
 
       if (result.data.success) {
@@ -103,39 +75,16 @@ function Card({ isFlipped }) {
       }
     } catch (err) {
       if (err.response) {
-        if (err.response.data.message === "Wrong Password") {
-          setErr(true);
-          setMessage("Wrong Password");
-          setTimeout(() => {
-            setMessage("");
-            setErr(false);
-          }, 3000);
-        } else if (err.response.data.message === "Email does not exist") {
-          setErr(true);
-          setMessage("Email does not exist");
-          setTimeout(() => {
-            setMessage("");
-            setErr(false);
-          }, 3000);
-        } else if (err.response.data.message === "Email is required") {
-          setErr(true);
-          setMessage("Email is required");
-          setTimeout(() => {
-            setMessage("");
-            setErr(false);
-          }, 3000);
-        } else if (err.response.data.message === "Password is required") {
-          setErr(true);
-          setMessage("Password is required");
-          setTimeout(() => {
-            setMessage("");
-            setErr(false);
-          }, 3000);
-        }
+        setErr(true);
+        setMessage(err.response.data.message);
       } else {
-        console.error("Error:", err);
+        setErr(true);
         setMessage("An error occurred. Please try again.");
       }
+      setTimeout(() => {
+        setMessage("");
+        setErr(false);
+      }, 3000);
     }
   };
 
