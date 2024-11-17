@@ -14,6 +14,7 @@ import Quiz from "./Components/Course/Level/Select/Quiz/Quiz";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import RingLoader from "react-spinners/RingLoader";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
