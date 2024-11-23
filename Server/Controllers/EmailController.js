@@ -1,14 +1,13 @@
 const transporter = require("../Config/nodemailerConfig");
 
 const sendEmail = async (req, res) => {
-  const { to, subject, text, html } = req.body;
+  const { email, message } = req.body;
 
   const mailOptions = {
-    from: '"Your App Name" <your-email@gmail.com>',
-    to,
-    subject,
-    text,
-    html,
+    from: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER,
+    subject: "Message from user",
+    text: `User Email: ${email}\nMessage: ${message}`,
   };
 
   try {

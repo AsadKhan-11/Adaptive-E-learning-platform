@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Question.css";
 function Question() {
+  const [message, setmessage] = useState("");
+
+  const handleSubmit = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      const response = await axios.post("localhost://3000/email/send", {
+        email: user.email,
+        message: message,
+      });
+      alert(response.data.message);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   return (
-    <div className="question">
+    <form className="question" onSubmit={handleSubmit}>
       <h1 className="question-header">Send us a Question</h1>
       <div className="question-container">
         <textarea
@@ -12,13 +28,16 @@ function Question() {
           cols="50"
           placeholder="Enter you questions here..."
           name="question"
+          onChange={(e) => {
+            setmessage(e.target.value);
+          }}
         ></textarea>
 
         <button type="submit" className="nav-sign-btn">
           Send
         </button>
       </div>
-    </div>
+    </form>
   );
 }
 
