@@ -19,6 +19,10 @@
 .nav-logo {
   height: 80px;
   width: 80px;
+  user-select: none;
+  cursor: default;
+  -ms-user-select: none;
+  -moz-user-select: none;
 }
 
 .nav-first {

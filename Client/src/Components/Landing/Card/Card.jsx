@@ -18,6 +18,8 @@ function Card({ isFlipped }) {
     const token = localStorage.getItem("token");
     if (token) {
       navigate("/dashboard");
+    } else {
+      navigate("/");
     }
   }, [navigate]);
 
@@ -100,22 +102,28 @@ function Card({ isFlipped }) {
           <h1 className="card-header">Login</h1>
 
           <div className="card-info">
-            <label htmlFor="card-label">Email</label>
+            <div className="form-icon">
+              <ion-icon name="mail-outline"></ion-icon>
+            </div>
             <input
               type="email"
               className="card-input"
               value={loginEmail}
               name="email"
+              placeholder="Enter email "
               onChange={(e) => setLoginEmail(e.target.value)}
             />
           </div>
 
           <div className="card-info">
-            <label htmlFor="card-label">Password</label>
+            <div className="form-icon">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+            </div>
             <input
               type="password"
               className="card-input"
               name="password"
+              placeholder="Enter password "
               value={loginPassword}
               onChange={(e) => setLoginPassword(e.target.value)}
             />
@@ -138,9 +146,13 @@ function Card({ isFlipped }) {
         >
           <h1 className="card-header">Sign up</h1>
           <div className="card-info">
-            <label htmlFor="card-label">Name</label>
+            <div className="form-icon">
+              {" "}
+              <ion-icon name="person-outline"></ion-icon>
+            </div>
             <input
               className="card-input"
+              placeholder="Enter name"
               type="text"
               value={signupName}
               name="name"
@@ -148,22 +160,30 @@ function Card({ isFlipped }) {
             />
           </div>
           <div className="card-info">
-            <label htmlFor="card-label">Email</label>
+            <div className="form-icon">
+              <ion-icon name="mail-outline"></ion-icon>
+            </div>
+
             <input
               className="card-input"
               type="email"
               value={signupEmail}
               name="email"
+              placeholder="Enter email"
               onChange={(e) => setSignupEmail(e.target.value)}
             />
           </div>
 
           <div className="card-info">
-            <label htmlFor="card-label">Password</label>
+            <div className="form-icon">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+            </div>
+
             <input
               className="card-input"
               type="password"
               name="password"
+              placeholder="Enter password"
               value={signupPassword}
               onChange={(e) => setSignupPassword(e.target.value)}
             />

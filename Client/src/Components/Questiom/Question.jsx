@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import "./Question.css";
+import axios from "axios";
 function Question() {
   const [message, setmessage] = useState("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const user = JSON.parse(localStorage.getItem("user"));
 
-      const response = await axios.post("localhost://3000/email/send", {
+      const response = await axios.post("http://localhost:3000/email/send", {
         email: user.email,
         message: message,
       });
       alert(response.data.message);
+      console.log(response);
     } catch (error) {
       alert(error.message);
+      console.log(error);
     }
   };
 
@@ -28,6 +32,8 @@ function Question() {
           cols="50"
           placeholder="Enter you questions here..."
           name="question"
+          required
+          value={message}
           onChange={(e) => {
             setmessage(e.target.value);
           }}

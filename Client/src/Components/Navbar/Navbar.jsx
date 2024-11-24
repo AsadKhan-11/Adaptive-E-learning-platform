@@ -29,7 +29,7 @@ function Navbar({ navText, setNavText, setIsFlipped, isFlipped }) {
       `}
     >
       <div className="nav-container">
-        <img src={Nexedu} alt="" className="nav-logo" />
+        <img src={Nexedu} alt="Logo" className="nav-logo" />
 
         <Link
           to={isLoginPage ? "/" : "/dashboard"}

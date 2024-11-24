@@ -1,4 +1,5 @@
 const transporter = require("../Config/nodemailerConfig");
+require("dotenv").config();
 
 const sendEmail = async (req, res) => {
   const { email, message } = req.body;
@@ -14,6 +15,7 @@ const sendEmail = async (req, res) => {
     const info = await transporter.sendMail(mailOptions);
     res.status(200).json({ message: "Email sent successfully", info });
   } catch (error) {
+    console.error("Error sending email:", error);
     res
       .status(500)
       .json({ error: "Failed to send email", details: error.message });

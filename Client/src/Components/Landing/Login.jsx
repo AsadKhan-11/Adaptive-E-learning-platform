@@ -408,9 +408,6 @@ function Login({ isFlipped }) {
         <div className="colorBox"></div>
         <div className="colorBox"></div>
       </div>
-      <h1 className="Login-header">
-        Unlock Your Potential with Personalized AI Learning
-      </h1>
 
       <Card isFlipped={isFlipped} />
     </div>
