@@ -7,19 +7,15 @@ function Enroll() {
     <div className="enroll">
       <div className="enroll-container">
         <p className="enroll-desc">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-          maxime dolorum veniam corporis, impedit illum. Minima reiciendis,
-          fugit iure ipsum architecto ullam sapiente praesentium? Consectetur
-          ipsam magni pariatur dignissimos nihil tempora iure perferendis
-          asperiores ad voluptates, nulla distinctio quisquam possimus suscipit,
-          omnis eos enim, rem dicta. Harum exercitationem, dolore at veritatis
-          consequatur voluptatum quidem deserunt officiis inventore qui corrupti
-          beatae laborum iusto unde excepturi nihil nisi dolorem quas saepe
-          reiciendis. Eaque illum et corporis vel, rem fugiat cum dolore sed, ab
-          cumque maxime fuga iusto exercitationem? Ipsam aperiam ex, voluptate,
-          explicabo provident impedit quibusdam quam corporis illum reiciendis
-          error tenetur dolorum, possimus molestiae aliquam ducimus! Quos quam
-          temporibus a est. Expedita, at temporibus.
+          This course is designed to teach you how to create amazing websites
+          from scratch. You will start by learning HTML, the language used to
+          structure content on a webpage. Then, you’ll move on to CSS, which is
+          used to style your websites and make them look beautiful with colors,
+          layouts, and designs. Finally, you’ll dive into JavaScript, the
+          language that adds interactivity to your websites, like buttons that
+          respond when clicked or animations that make your site engaging. By
+          the end of this course, you’ll be able to build your own professional
+          websites!
         </p>
 
         <img src={img} alt="enrollment image" className="enroll-img" />
