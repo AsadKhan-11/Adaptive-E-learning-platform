@@ -2,7 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
+  flex-wrap: wrap;
+  gap: 40px;
+  width: 100%;
 }
 
 .course-container {
@@ -12,8 +14,13 @@
   justify-content: center;
   background-color: #5a9bd3;
   margin-top: 100px;
-  padding: 0 30px;
-  border-radius: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 1s;
+}
+.course-link {
+  text-decoration: none;
+  color: black;
 }
 
 .course-container:hover {
@@ -24,4 +31,8 @@
   height: 200px;
   width: 100%;
   border-radius: 12px;
+}
+
+.course-container:hover {
+  transform: translateY(-10px);
 }

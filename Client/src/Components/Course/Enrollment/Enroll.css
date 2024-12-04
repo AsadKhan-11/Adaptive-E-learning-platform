@@ -1,0 +1,30 @@
+.enroll {
+  width: 100%;
+  padding: 20px;
+}
+
+.enroll-container {
+  display: flex;
+
+  gap: 40px;
+}
+
+.enroll-desc {
+  flex: 1;
+}
+
+.enroll-img {
+  flex: 1;
+  height: 300px;
+  max-width: 100%;
+}
+
+.enroll-btn {
+  width: 200px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  background-color: #0369df;
+  color: white;
+  font-size: 18px;
+}

@@ -88,7 +88,7 @@ const login = async (req, res) => {
         _id: user._id,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "10s" }
+      { expiresIn: "10m" }
     );
 
     res.status(200).json({
