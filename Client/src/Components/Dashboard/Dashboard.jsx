@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import chart from "../../assets/piechart.png";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
-function Dashboard() {
+function Dashboard({ isEnrolled }) {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -27,7 +27,7 @@ function Dashboard() {
         </div>
         <div className="Dashboard-container">
           <h3 className="Dashboard-name">Enrolled Courses</h3>
-          <p className="Dashboard-num">1</p>
+          <p className="Dashboard-num">{isEnrolled ? 1 : 0}</p>
         </div>
         <div className="Dashboard-container">
           <h3 className="Dashboard-name">Time Spent</h3>

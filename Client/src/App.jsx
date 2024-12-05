@@ -19,6 +19,7 @@ import Enroll from "./Components/Course/Enrollment/Enroll";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
+  const [isEnrolled, setIsEnrolled] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,7 +42,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout>
-                  <Dashboard />
+                  <Dashboard isEnrolled={isEnrolled} />
                 </Layout>
               </ProtectedRoute>
             }
@@ -83,7 +84,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout>
-                  <Enroll />
+                  {!isEnrolled ? <Enroll /> : <Navigate to="/course" />}
                 </Layout>
               </ProtectedRoute>
             }
