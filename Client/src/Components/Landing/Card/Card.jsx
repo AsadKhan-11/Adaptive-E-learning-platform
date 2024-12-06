@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Card.css";
 import ReactCardFlip from "react-card-flip";
 
@@ -129,7 +129,9 @@ function Card({ isFlipped }) {
             />
           </div>
 
-          <a className="card-forgot">Forgotten Password?</a>
+          <Link to="/forgot-password" className="card-forgot">
+            Forgotten Password?
+          </Link>
 
           <button type="submit" className="card-btn">
             Login

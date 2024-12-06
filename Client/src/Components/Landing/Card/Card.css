@@ -91,6 +91,7 @@ input:-webkit-autofill {
 .card-forgot {
   cursor: pointer;
   color: white;
+  text-decoration: none;
 }
 
 .card-forgot:hover {

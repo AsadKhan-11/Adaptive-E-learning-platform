@@ -16,6 +16,7 @@ import Layout from "./Layout/Layout";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import RingLoader from "react-spinners/RingLoader";
 import Enroll from "./Components/Course/Enrollment/Enroll";
+import Forgot from "./Components/Forgot/Forgot";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
@@ -37,6 +38,7 @@ function App() {
         />
         <Routes>
           <Route path="/" element={<Login isFlipped={isFlipped} />} />
+          <Route path="/forgot-password" element={<Forgot />} />
           <Route
             path="/dashboard"
             element={
@@ -59,12 +61,22 @@ function App() {
             }
           />
           <Route
-            path="/profile"
+            path="/course"
             element={
               <ProtectedRoute>
                 <Layout>
                   {" "}
-                  <Profile />{" "}
+                  <Course />{" "}
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/quiz"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <Quiz />{" "}
                 </Layout>
               </ProtectedRoute>
             }

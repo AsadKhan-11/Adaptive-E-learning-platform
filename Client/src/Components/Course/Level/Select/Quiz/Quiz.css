@@ -10,7 +10,6 @@
 }
 
 .quiz-header {
-  color: white;
   text-align: center;
   font-size: 40px;
 }
@@ -18,7 +17,7 @@
 .quiz-container {
   display: flex;
   flex-direction: column;
-  background-color: rgb(88, 143, 140);
+  background-color: #5a9bd3;
   width: 400px;
   border-radius: 12px;
   justify-content: start;
@@ -42,14 +41,7 @@
 }
 
 .quiz-btn {
-  height: 40px;
-  width: 100px;
-  background-color: #04d9ff;
-  border: none;
-  border-radius: 12px;
-  color: white;
   position: absolute;
   bottom: 2%;
   right: 5%;
-  font-size: 18px;
 }

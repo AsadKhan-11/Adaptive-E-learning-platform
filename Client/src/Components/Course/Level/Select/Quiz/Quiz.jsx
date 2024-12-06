@@ -25,7 +25,7 @@ function Quiz() {
             <input type="radio" />
             <p className="quiz-answer">To add background images</p>
           </div>
-          <button type="submit" className="quiz-btn">
+          <button type="submit" className="nav-sign-btn quiz-btn">
             Submit
           </button>
         </div>
