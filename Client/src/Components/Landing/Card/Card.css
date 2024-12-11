@@ -104,3 +104,8 @@ input:-webkit-autofill {
 .success {
   color: green;
 }
+.error,
+.success {
+  width: 90%;
+  text-align: center;
+}

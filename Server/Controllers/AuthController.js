@@ -4,6 +4,11 @@ const bcrypt = require("bcrypt");
 
 const signup = async (req, res) => {
   try {
+    const emailPattern = new RegExp(
+      "^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z.-]+.[a-zA-Z]{2,}$"
+    );
+    const passPattern = new RegExp("^.{8,}$");
+
     const { name, email, password } = req.body;
     if (!name) {
       return res.status(400).json({
@@ -15,6 +20,16 @@ const signup = async (req, res) => {
         message: "Email is required",
         success: false,
       });
+    } else if (!emailPattern.test(email)) {
+      return res.status(400).json({
+        message: "Enter correct Email",
+        success: false,
+      });
+    } else if (!passPattern.test(password)) {
+      return res.status(400).json({
+        message: "Password should be atleast 8 characters ",
+        success: false,
+      });
     } else if (!password) {
       return res.status(400).json({
         message: "Password is required",
@@ -23,6 +38,7 @@ const signup = async (req, res) => {
     }
 
     const lowerCaseEmail = email.toLowerCase();
+    const upperCaseName = name.toUpperCase();
 
     const user = await userModel.findOne({ email: lowerCaseEmail });
 
@@ -43,6 +59,7 @@ const signup = async (req, res) => {
       user: newModel,
     });
   } catch (err) {
+    console.log(err);
     res
       .status(500)
       .json({ message: "Internal Server Error", error: err, success: false });
