@@ -21,9 +21,6 @@
   box-shadow: -5px 6px 25px 1px #0369df, 5px 6px 25px 1px #0369df;
 }
 
-.message {
-  margin: 0;
-}
 
 label,
 .card-header {
@@ -74,7 +71,7 @@ input:-webkit-autofill {
   width: 200px;
   height: 40px;
   font-size: 18px;
-
+  
   background-color: #0369df;
   border: none;
   color: white;
@@ -104,8 +101,9 @@ input:-webkit-autofill {
 .success {
   color: green;
 }
-.error,
-.success {
+
+.message {
+  margin: 0;
   width: 90%;
   text-align: center;
 }

@@ -76,7 +76,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout>
-                  <Quiz />{" "}
+                  <Quiz />
                 </Layout>
               </ProtectedRoute>
             }

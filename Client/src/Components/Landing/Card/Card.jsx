@@ -36,10 +36,10 @@ function Card({ isFlipped }) {
       console.log(result);
       setMessage(result.data.message);
 
-      if (result.data.message === "Account created successfully") {
-        setErr(false);
+      if (result.data.message) {
         setTimeout(() => {
           window.location.reload();
+          setMessage("");
         }, 3000);
       }
     } catch (err) {
@@ -194,7 +194,7 @@ function Card({ isFlipped }) {
           <button type="submit" className="card-btn">
             Sign up
           </button>
-          {err && message && (
+          {message && (
             <p className={`message ${err ? "error" : "success"}`}>{message}</p>
           )}
         </form>

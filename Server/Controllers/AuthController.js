@@ -25,14 +25,14 @@ const signup = async (req, res) => {
         message: "Enter correct Email",
         success: false,
       });
-    } else if (!passPattern.test(password)) {
-      return res.status(400).json({
-        message: "Password should be atleast 8 characters ",
-        success: false,
-      });
     } else if (!password) {
       return res.status(400).json({
         message: "Password is required",
+        success: false,
+      });
+    } else if (!passPattern.test(password)) {
+      return res.status(400).json({
+        message: "Password should be atleast 8 characters ",
         success: false,
       });
     }
@@ -40,7 +40,10 @@ const signup = async (req, res) => {
     const lowerCaseEmail = email.toLowerCase();
     const upperCaseName = name.toUpperCase();
 
-    const user = await userModel.findOne({ email: lowerCaseEmail });
+    const user = await userModel.findOne({
+      email: lowerCaseEmail,
+      name: upperCaseName,
+    });
 
     if (user) {
       return res
@@ -54,6 +57,7 @@ const signup = async (req, res) => {
       password: newPassword,
     });
     newModel.save();
+
     res.status(200).json({
       message: "Account created successfully",
       user: newModel,
