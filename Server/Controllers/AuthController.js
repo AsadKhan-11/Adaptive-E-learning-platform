@@ -42,7 +42,6 @@ const signup = async (req, res) => {
 
     const user = await userModel.findOne({
       email: lowerCaseEmail,
-      name: upperCaseName,
     });
 
     if (user) {
@@ -52,7 +51,7 @@ const signup = async (req, res) => {
     }
     const newPassword = await bcrypt.hash(password, 10);
     const newModel = new userModel({
-      name,
+      name: upperCaseName,
       email,
       password: newPassword,
     });
