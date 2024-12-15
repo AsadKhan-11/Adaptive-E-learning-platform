@@ -11,13 +11,12 @@ function Question() {
 
       const response = await axios.post("http://localhost:3000/email/send", {
         email: user.email,
+        user: user.name,
         message: message,
       });
       alert(response.data.message);
-      console.log(response);
     } catch (error) {
       alert(error.message);
-      console.log(error);
     }
   };
 

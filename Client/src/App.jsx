@@ -61,12 +61,12 @@ function App() {
             }
           />
           <Route
-            path="/course"
+            path="/profile"
             element={
               <ProtectedRoute>
                 <Layout>
                   {" "}
-                  <Course />{" "}
+                  <Profile />{" "}
                 </Layout>
               </ProtectedRoute>
             }
