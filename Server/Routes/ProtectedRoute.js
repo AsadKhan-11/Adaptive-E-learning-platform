@@ -17,14 +17,16 @@ router.get("/course", authMiddleware, (req, res) => {
 
 router.put("/profile", authMiddleware, async (req, res) => {
   const { name } = req.body;
+  console.log(name);
+  console.log(req.body);
   try {
     updateUser = await User.findByIdAndUpdate(
       req.user._id,
       { name },
       { new: true }
     );
-
     res.json(updateUser);
+    console.log(updateUser);
   } catch (error) {
     console.error("Error updating user data:", error);
     res.status(500).json({ error: "Failed to update user data" });

@@ -10,13 +10,23 @@ function Profile() {
   const [originalUser, setOriginalUser] = useState({});
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setOriginalUser(JSON.parse(storedUser));
-    } else {
-      navigate("/");
-    }
+    const token = localStorage.getItem("token");
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setUser(response.data);
+        setOriginalUser(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data));
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        navigate("/");
+      }
+    };
+
+    fetchUserData();
   }, [navigate]);
 
   if (!originalUser) {
@@ -34,19 +44,27 @@ function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user.name) {
+      console.error("Name is required");
+      return;
+    }
 
     try {
       const token = localStorage.getItem("token");
+      const payload = { name: user.name };
+
       const response = await axios.put(
         "http://localhost:3000/api/profile",
-        user,
+        payload,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+
       setUser(response.data);
       setOriginalUser(response.data);
       setIsEditable(false);
+      console.log("Error updating user data:", response);
     } catch (error) {
       console.error("Error updating user data:", error);
     }
@@ -70,7 +88,7 @@ function Profile() {
             value={user.name}
             disabled={!isEditable}
             onChange={(e) => {
-              setUser(e.target.value);
+              setUser({ ...user, name: e.target.value });
             }}
           />{" "}
         </div>

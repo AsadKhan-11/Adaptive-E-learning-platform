@@ -108,7 +108,7 @@ const login = async (req, res) => {
         email: user.email,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "10m" }
+      { expiresIn: "10h" }
     );
 
     res.status(200).json({
