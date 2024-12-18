@@ -63,8 +63,13 @@
   font-size: 18px;
 }
 
-.profile-btns {
+/* .profile-btns {
   display: flex;
-  width: 60%;
+  width: 40%;
   justify-content: space-between;
+} */
+
+.btns-container {
+  display: flex;
+  gap: 20px;
 }

@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
-
   if (!token) {
     return res
       .status(401)
@@ -14,6 +13,8 @@ const authMiddleware = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
+    console.error("JWT Verification Error:", error.message);
+
     res.status(403).json({ message: "Invalid token", success: false });
   }
 };

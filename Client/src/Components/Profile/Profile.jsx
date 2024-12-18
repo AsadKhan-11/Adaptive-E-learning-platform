@@ -1,50 +1,64 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Profile() {
-  const [formData, setFormData] = useState({
-    name: "Asad Ahmed Khan",
-    email: "ak4786083@gmail.com",
-    phone: "03104388534",
-    active: "1",
-  });
-
   const [isEditable, setIsEditable] = useState(false);
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({ name: "", email: "", courses: "" });
+  const [originalUser, setOriginalUser] = useState({});
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+      setOriginalUser(JSON.parse(storedUser));
     } else {
       navigate("/");
     }
   }, [navigate]);
 
-  if (!user) {
+  if (!originalUser) {
     return <div>Loading...</div>;
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const handleEdit = () => {
+    setIsEditable(true);
   };
 
-  const toggleEdit = (e) => {
-    e.preventDefault();
-    setIsEditable(!isEditable);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleCancel = () => {
     setIsEditable(false);
+    setUser(originalUser);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        "http://localhost:3000/api/profile",
+        user,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setUser(response.data);
+      setOriginalUser(response.data);
+      setIsEditable(false);
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
   };
 
   return (
     <div className="profile">
-      <form className="profile-form" name="profile-form" onSubmit={toggleEdit}>
+      <form
+        className="profile-form"
+        name="profile-form"
+        onSubmit={handleSubmit}
+      >
         <div className="profile-info">
           <label htmlFor="" className="profile-label">
             Name
@@ -54,8 +68,10 @@ function Profile() {
             type="text"
             name="name"
             value={user.name}
-            onChange={handleChange}
-            readOnly={!isEditable}
+            disabled={!isEditable}
+            onChange={(e) => {
+              setUser(e.target.value);
+            }}
           />{" "}
         </div>
         <div className="profile-info">
@@ -68,51 +84,36 @@ function Profile() {
             disabled
             type="text"
             name="email"
-            onChange={handleChange}
             readOnly={!isEditable}
             value={user.email}
           />
         </div>
-        <div className="profile-info">
-          <label htmlFor="" className="profile-label">
-            Phone
-          </label>
-          <input
-            className="disabled"
-            disabled
-            type="text"
-            name="phone"
-            onChange={handleChange}
-            readOnly={!isEditable}
-            value={formData.phone}
-          />{" "}
-        </div>
+
         <div className="profile-info">
           <label htmlFor="" className="profile-label">
             Courses
           </label>
-          <input
-            className="disabled"
-            disabled
-            type="text"
-            name="active"
-            value={formData.active}
-          />
+          <input className="disabled" disabled type="text" name="active" />
         </div>
 
-        <div className="profile-btns">
-          <button className="profile-change nav-sign-btn" onClick={toggleEdit}>
-            {isEditable ? "Cancel" : "Edit"}
-          </button>{" "}
-          {isEditable && (
+        {!isEditable ? (
+          <button className="profile-change nav-sign-btn" onClick={handleEdit}>
+            Edit
+          </button>
+        ) : (
+          <div className="btns-container">
             <button
-              className="profile-submit nav-sign-btn"
-              onClick={handleSubmit}
+              className="profile-change nav-sign-btn"
+              onClick={handleCancel}
             >
+              Cancel
+            </button>
+
+            <button className="profile-change nav-sign-btn" type="submit">
               Submit
             </button>
-          )}
-        </div>
+          </div>
+        )}
       </form>
     </div>
   );
