@@ -2,16 +2,28 @@ import React, { useEffect, useState } from "react";
 import chart from "../../assets/piechart.png";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function Dashboard({ isEnrolled }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
+
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    } else {
-      navigate("/");
-    }
+    const token = localStorage.getItem("token");
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setUser(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data));
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        navigate("/");
+      }
+    };
+
+    fetchUserData();
   }, [navigate]);
 
   if (!user) {

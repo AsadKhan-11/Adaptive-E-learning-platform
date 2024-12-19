@@ -2,7 +2,6 @@
   width: 100%;
   font-size: 20px;
   background-color: #007bff;
-
   z-index: 2;
   top: 0;
 }
@@ -25,6 +24,7 @@
 
 .nav-first {
   background-color: transparent;
+  position: fixed;
 }
 .nav-sign-btn {
   display: flex;
