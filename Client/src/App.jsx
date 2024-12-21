@@ -71,16 +71,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/quiz"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <Quiz />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
+
           <Route
             path="/question"
             element={
@@ -92,11 +83,21 @@ function App() {
             }
           />
           <Route
-            path="/course/enrollment"
+            path="/course/:courseId/enrollment"
             element={
               <ProtectedRoute>
                 <Layout>
-                  {!isEnrolled ? <Enroll /> : <Navigate to="/course" />}
+                  <Enroll />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/course/:courseId/quiz"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <Quiz />
                 </Layout>
               </ProtectedRoute>
             }
