@@ -9,7 +9,18 @@ import data from "./Data";
 function Course() {
   const handleClick = async (courseId) => {
     const token = localStorage.getItem("token");
-    const response = axios.get(`http://localhost:3000/api/course/${courseId}`);
+    try {
+      const response = axios.get(
+        `http://localhost:3000/api/course/${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const info = await response.json();
+      console.log(info);
+    } catch (err) {}
   };
 
   return (

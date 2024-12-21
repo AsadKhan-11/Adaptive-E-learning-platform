@@ -21,14 +21,29 @@ router.get("/user", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/course", authMiddleware, (req, res) => {
-  res.json({ message: `Welcome to your dashboard, ${req.user.email}!` });
+router.get(`/course/enrollment/:courseId`, authMiddleware, async (req, res) => {
+  const courseId = req.params();
+  const Id = req.user._id;
+
+  try {
+    const enrolled = await User.findOne(courseId, Id);
+    if (!enrolled) {
+      return res
+        .status(200)
+        .json({ message: "User not enrolled", enrolled: false });
+    } else {
+      return res
+        .status(200)
+        .json({ message: "User is enrolled", enrolled: true });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: "Server error" });
+  }
 });
 
 router.put("/profile", authMiddleware, async (req, res) => {
   const { name } = req.body;
-  console.log(name);
-  console.log(req.body);
+
   try {
     updateUser = await User.findByIdAndUpdate(
       req.user._id,
