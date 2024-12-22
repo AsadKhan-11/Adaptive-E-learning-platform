@@ -1,14 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Course.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import data from "./Data";
 function Course() {
   const navigate = useNavigate();
+  const [course, setCourse] = useState([]);
+
+  useEffect(() => {
+    const fetchCourse = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const info = await axios.get(`http://localhost:3000/api/course`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCourse(info.data);
+        console.log(info.data);
+      } catch (err) {}
+    };
+    fetchCourse();
+  }, []);
+
   const handleClick = async (courseId) => {
     const token = localStorage.getItem("token");
     try {
-      const response = axios.get(
+      const response = await axios.get(
         `http://localhost:3000/api/course/enrollment/${courseId}`,
         {
           headers: {
@@ -16,9 +34,9 @@ function Course() {
           },
         }
       );
-      console.log(response);
+      console.log(response.data.enrolled);
 
-      if (response.enrolled) {
+      if (response.data && response.data.enrolled) {
         navigate(`/course/${courseId}/quiz`);
       } else {
         navigate(`/course/${courseId}/enrollment`);
@@ -30,17 +48,16 @@ function Course() {
 
   return (
     <div className="course">
-      {data.map((course) => (
+      {course.map((course) => (
         <div
           className="course-container"
-          key={course.courseId}
-          onClick={() => handleClick(course.courseId)}
+          key={course._id}
+          onClick={() => handleClick(course._id)}
         >
-          <img src={course.courseImg} className="course-image" />
-          <h2 className="course-name">{course.courseTitle}</h2>
-          <p className="course-duration">{course.courseDuration}</p>
+          <img className="course-image" src="" alt="Course-Img" />
+          <h2 className="course-name">{course.title}</h2>
+          <p className="course-duration">{course.duration} months</p>
         </div>
-        // </Link>
       ))}
     </div>
   );

@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Enroll.css";
 import html2 from "../images/html2.jpg";
+import axios from "axios";
 function Enroll() {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+  });
+
   return (
     <div className="enroll">
       <div className="enroll-container">
