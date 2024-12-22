@@ -16,6 +16,7 @@
   border-radius: 12px;
   padding: 30px 0;
   margin-top: 20px;
+  overflow: hidden;
 }
 
 .profile-info {
@@ -34,23 +35,19 @@
 }
 
 .disabled {
-  width: 70%;
   height: 20px;
   font-weight: 400;
   font-size: 18px;
+  display: inline;
+  text-align: left;
+  max-width: 200px;
+  white-space: nowrap;
+  word-wrap: break-word;
   outline: none;
   color: white;
   background-color: #5a9bd3;
   border: none;
-  padding: 5px;
-}
-.read-only {
-  border: none;
-  background: none;
-  color: black;
-  padding: 0;
-  cursor: default;
-  font-size: 1rem;
+  padding: none;
 }
 
 .editable {
@@ -64,11 +61,18 @@
   font-size: 18px;
 }
 
+.courses-container {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  display: inline;
+}
+
 /* .profile-btns {
   display: flex;
   width: 40%;
   justify-content: space-between;
-} */
+  } */
 
 .btns-container {
   display: flex;

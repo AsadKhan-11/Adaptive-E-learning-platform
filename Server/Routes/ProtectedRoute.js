@@ -11,19 +11,28 @@ router.get("/dashboard", authMiddleware, (req, res) => {
 router.get("/send/email", authMiddleware, (req, res) => {
   res.json({ message: `Welcome to your dashboard, ${req.user.email}!` });
 });
+
 router.get("/user", authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select("-password");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.json(user);
+
+    const enrollment = await Enrollment.find({ userId: req.user._id }).populate(
+      "courseId"
+    );
+
+    const courses = enrollment.map((enrollment) => enrollment.courseId);
+
+    return res.status(200).json({ user, courses });
   } catch (error) {
     console.error("Error fetching user data:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
 
+//get courses
 router.get("/course", authMiddleware, async (req, res) => {
   try {
     const courses = await Course.find();
@@ -53,6 +62,7 @@ router.get("/course", authMiddleware, async (req, res) => {
 //   }
 // });
 
+//enrolling in a course
 router.post("/course/enroll", authMiddleware, async (req, res) => {
   const courseId = req.body.courseId;
   const userId = req.user._id;
@@ -74,6 +84,7 @@ router.post("/course/enroll", authMiddleware, async (req, res) => {
   }
 });
 
+//checking if already enrolled
 router.get("/course/enrollment/:courseId", authMiddleware, async (req, res) => {
   const courseId = req.params.courseId;
   const userId = req.user._id;
@@ -90,6 +101,7 @@ router.get("/course/enrollment/:courseId", authMiddleware, async (req, res) => {
   }
 });
 
+// updating profile info
 router.put("/profile", authMiddleware, async (req, res) => {
   const { name } = req.body;
 

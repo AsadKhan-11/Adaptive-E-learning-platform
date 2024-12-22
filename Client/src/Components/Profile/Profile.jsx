@@ -6,7 +6,9 @@ import axios from "axios";
 function Profile() {
   const [isEditable, setIsEditable] = useState(false);
   const navigate = useNavigate();
-  const [user, setUser] = useState({ name: "", email: "", courses: "" });
+  const [user, setUser] = useState({ name: "", email: "" });
+  const [courses, setCourses] = useState({ courses: "" });
+
   const [originalUser, setOriginalUser] = useState({});
 
   useEffect(() => {
@@ -16,9 +18,10 @@ function Profile() {
         const response = await axios.get("http://localhost:3000/api/user", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        setUser(response.data);
-        setOriginalUser(response.data);
+        console.log(response);
+        setUser(response.data.user);
+        setCourses(response.data.courses);
+        setOriginalUser(response.data.user);
         localStorage.setItem("user", JSON.stringify(response.data));
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -97,21 +100,25 @@ function Profile() {
             Email
           </label>
 
-          <input
-            className="disabled"
-            disabled
-            type="text"
-            name="email"
-            readOnly={!isEditable}
-            value={user.email}
-          />
+          <p className="disabled">{user.email}</p>
         </div>
 
         <div className="profile-info">
           <label htmlFor="" className="profile-label">
             Courses
           </label>
-          <input className="disabled" disabled type="text" name="active" />
+          <div className="courses-container">
+            {" "}
+            {Array.isArray(courses) ? (
+              courses.map((courses, index) => (
+                <p className="disabled" key={index}>
+                  {courses.title},dvsdvsd
+                </p>
+              ))
+            ) : (
+              <p className="disabled">No user data available</p>
+            )}
+          </div>
         </div>
 
         {!isEditable ? (

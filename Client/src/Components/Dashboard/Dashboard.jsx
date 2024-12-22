@@ -15,7 +15,7 @@ function Dashboard({ isEnrolled }) {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        setUser(response.data);
+        setUser(response.data.user);
         localStorage.setItem("user", JSON.stringify(response.data));
       } catch (error) {
         console.error("Error fetching user data:", error);
