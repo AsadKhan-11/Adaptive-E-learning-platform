@@ -2,10 +2,36 @@ import React, { useEffect } from "react";
 import "./Enroll.css";
 import html2 from "../images/html2.jpg";
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 function Enroll() {
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-  });
+  const { courseId } = useParams();
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  useEffect(() => {});
+
+  const handleClick = async () => {
+    const response = await axios.post(
+      `http://localhost:3000/api/course/enroll`,
+      { courseId },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(response);
+    try {
+      if (response.data && response.data.success) {
+        alert("You have been enrolled in this course");
+        navigate(`/course/${courseId}/quiz`);
+      }
+    } catch (err) {
+      alert("Error while enrolling try again");
+      console.error("Error checking enrollment status:", err);
+    }
+  };
 
   return (
     <div className="enroll">
@@ -22,7 +48,9 @@ function Enroll() {
 
         <img src={html2} alt="enrollment image" className="enroll-img" />
       </div>
-      <button className="enroll-btn">Enroll</button>
+      <button className="enroll-btn" onClick={handleClick}>
+        Enroll
+      </button>
     </div>
   );
 }

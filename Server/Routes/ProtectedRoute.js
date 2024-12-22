@@ -53,6 +53,27 @@ router.get("/course", authMiddleware, async (req, res) => {
 //   }
 // });
 
+router.post("/course/enroll", authMiddleware, async (req, res) => {
+  const courseId = req.body.courseId;
+  const userId = req.user._id;
+
+  try {
+    const alreadyEnrolled = await Enrollment.exists({ courseId, userId });
+
+    if (alreadyEnrolled) {
+      return res.status(400).json({ error: "Already enrolled in this course" });
+    }
+    const enrollment = new Enrollment({ courseId, userId });
+    await enrollment.save();
+
+    return res
+      .status(201)
+      .json({ message: "Enrollment successful", success: true });
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.get("/course/enrollment/:courseId", authMiddleware, async (req, res) => {
   const courseId = req.params.courseId;
   const userId = req.user._id;
