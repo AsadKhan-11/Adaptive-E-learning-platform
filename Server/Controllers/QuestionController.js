@@ -1,11 +1,12 @@
 const Course = require("../Model/Course");
-const UserPerformance = require("../Model/Enrollment");
-const predictDifficulty = require("../utils/aiModel");
+const Enrollment = require("../Model/Enrollment");
+const predictDifficulty = require("../Utils/AiModel");
 
 const getNextQuestions = async (req, res) => {
-  const { userId, courseId } = req.params;
+  const { courseId } = req.params.courseId;
+  const userId = req.user._id;
 
-  const userPerformance = await UserPerformance.findOne({ userId, courseId });
+  const userPerformance = await Enrollment.findOne({ userId, courseId });
 
   const nextDifficulty = await predictDifficulty(
     userPerformance.currentDifficulty,

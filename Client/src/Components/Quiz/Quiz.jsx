@@ -1,6 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Quiz.css";
+import axios from "axios";
 function Quiz() {
+  const [question, setQuestion] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const fetchNextQuestion = async (courseId) => {
+    try {
+      const response = await axios.get(`/api/quiz/${courseId}`);
+      setQuestion(response.data.questions);
+    } catch (error) {
+      console.error("Error fetching the next question:", error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    fetchNextQuestion();
+  }, []);
+
+  const handleAnswerSubmit = async () => {
+    console.log("Answer submitted:", selectedOption);
+    const nextQuestion = await fetchNextQuestion();
+    setQuestion(nextQuestion?.questions[0]);
+  };
+
   return (
     <div className="quiz">
       <h1 className="quiz-header">Quiz</h1>
@@ -25,7 +48,11 @@ function Quiz() {
             <input type="radio" />
             <p className="quiz-answer">To add background images</p>
           </div>
-          <button type="submit" className="nav-sign-btn quiz-btn">
+          <button
+            type="submit"
+            className="nav-sign-btn quiz-btn"
+            onClick={handleAnswerSubmit}
+          >
             Submit
           </button>
         </div>

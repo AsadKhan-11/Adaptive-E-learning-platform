@@ -4,6 +4,7 @@ const authMiddleware = require("../Middlewares/AuthMiddleware");
 const Enrollment = require("../Model/Enrollment");
 const User = require("../Model/User");
 const Course = require("../Model/Course");
+const { getNextQuestions } = require("../Controllers/QuestionController");
 
 router.get("/dashboard", authMiddleware, (req, res) => {
   res.json({ message: `Welcome to your dashboard, ${req.user.email}!` });
@@ -41,26 +42,6 @@ router.get("/course", authMiddleware, async (req, res) => {
     return res.status(500).json({ error: "Server Error" });
   }
 });
-
-// router.get(`/course/enrollment/:courseId`, authMiddleware, async (req, res) => {
-//   const courseId = req.params.courseId;
-//   const userId = req.user._id;
-
-//   const normalizedCourseId = new mongoose.Types.ObjectId(courseId);
-//   const normalizedUserId = new mongoose.Types.ObjectId(userId);
-
-//   try {
-//     const isEnrolled = await Enrollment.exists({
-//       courseId: normalizedCourseId,
-//       userId: normalizedUserId,
-//     });
-//     console.log(isEnrolled);
-
-//     return res.status(200).json({ enrolled: !!isEnrolled });
-//   } catch (err) {
-//     return res.status(500).json({ error: "Server error" });
-//   }
-// });
 
 //enrolling in a course
 router.post("/course/enroll", authMiddleware, async (req, res) => {
@@ -117,5 +98,7 @@ router.put("/profile", authMiddleware, async (req, res) => {
     res.status(500).json({ error: "Failed to update user data" });
   }
 });
+
+router.get("/quiz/:courseId", getNextQuestions);
 
 module.exports = router;
