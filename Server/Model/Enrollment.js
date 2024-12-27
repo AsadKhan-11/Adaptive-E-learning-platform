@@ -16,12 +16,12 @@ const enrollmentSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    progress: {
-      type: Number,
-      default: 0,
-      min: 0,
-      max: 100,
-    },
+    currentDifficulty: Number,
+
+    totalAttempts: Number,
+
+    totalCorrect: Number,
+
     completed: {
       type: Boolean,
       default: false,
