@@ -13,7 +13,6 @@ function Quiz() {
 
   const token = localStorage.getItem("token");
   const { courseId } = useParams();
-  console.log(courseId);
 
   const fetchNextQuestion = async () => {
     setLoading(true);
@@ -29,7 +28,7 @@ function Quiz() {
         }
       );
       setQuestion(response.data.questions);
-      console.log(response);
+      console.log("here it is ", response);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching the next question:", error);

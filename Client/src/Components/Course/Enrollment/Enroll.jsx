@@ -9,11 +9,10 @@ function Enroll() {
   const navigate = useNavigate();
 
   useEffect(() => {});
-
   const handleClick = async () => {
     const response = await axios.post(
-      `http://localhost:3000/api/course/enroll`,
-      { courseId },
+      `http://localhost:3000/api/course/enroll/${courseId}`,
+      {},
       {
         headers: {
           Authorization: `Bearer ${token}`,

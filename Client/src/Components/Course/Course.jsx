@@ -6,10 +6,10 @@ import data from "./Data";
 function Course() {
   const navigate = useNavigate();
   const [course, setCourse] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchCourse = async () => {
-      const token = localStorage.getItem("token");
       try {
         const info = await axios.get(`http://localhost:3000/api/course`, {
           headers: {
@@ -24,7 +24,6 @@ function Course() {
   }, []);
 
   const handleClick = async (courseId) => {
-    const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
         `http://localhost:3000/api/course/enrollment/${courseId}`,

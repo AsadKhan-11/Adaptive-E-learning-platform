@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Question = require("./Question");
 
 const enrollmentSchema = new mongoose.Schema(
   {
@@ -16,16 +17,26 @@ const enrollmentSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    currentDifficulty: Number,
-
-    totalAttempts: Number,
-
-    totalCorrect: Number,
-
-    currentQuestionId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Question",
+    currentDifficulty: {
+      type: Number,
+      default: 0,
     },
+
+    totalAttempts: {
+      type: Number,
+      default: 0,
+    },
+
+    totalCorrect: {
+      type: Number,
+      default: 0,
+    },
+    // currentQuestionId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Question",
+    //   default: null,
+    //   required: true,
+    // },
 
     completed: {
       type: Boolean,

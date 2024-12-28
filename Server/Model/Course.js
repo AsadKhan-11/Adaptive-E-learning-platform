@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Question = require("./Question");
 
 const courseSchema = new mongoose.Schema(
   {
@@ -19,11 +20,7 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    questionId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Question",
-      required: true,
-    },
+    questions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Question" }],
   },
   { timestamps: true }
 );

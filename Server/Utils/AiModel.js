@@ -2,7 +2,7 @@ const { spawn } = require("child_process");
 
 const predictDifficulty = (currentDifficulty, totalAttempts, totalCorrect) => {
   return new Promise((resolve, reject) => {
-    const pythonProcess = spawn("python3", [
+    const pythonProcess = spawn("python", [
       "../ai/inference.py",
       currentDifficulty,
       totalAttempts,

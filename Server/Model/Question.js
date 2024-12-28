@@ -5,7 +5,6 @@ const questionSchema = new mongoose.Schema({
   options: [{ type: String, required: true }],
   answer: { type: String, required: true },
   difficulty: { type: Number, enum: [1, 2, 3], required: true },
- 
 });
 
 const Question = mongoose.model("Question", questionSchema);

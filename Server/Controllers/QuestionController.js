@@ -1,6 +1,7 @@
 const Course = require("../Model/Course");
 const Enrollment = require("../Model/Enrollment");
 const predictDifficulty = require("../Utils/AiModel");
+const { PythonShell } = require("python-shell");
 
 const getNextQuestions = async (req, res) => {
   const courseId = req.params.courseId;
@@ -8,12 +9,14 @@ const getNextQuestions = async (req, res) => {
 
   try {
     const userPerformance = await Enrollment.findOne({ userId, courseId });
-
+    console.log(userPerformance);
     const nextDifficulty = await predictDifficulty(
       userPerformance.currentDifficulty,
       userPerformance.totalAttempts,
       userPerformance.totalCorrect
     );
+
+    console.log(nextDifficulty);
 
     const nextQuestion = await Course.findOne(
       { _id: courseId, "questions.difficulty": nextDifficulty },
