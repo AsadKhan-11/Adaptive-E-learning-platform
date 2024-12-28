@@ -22,6 +22,11 @@ const enrollmentSchema = new mongoose.Schema(
 
     totalCorrect: Number,
 
+    currentQuestionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Question",
+    },
+
     completed: {
       type: Boolean,
       default: false,

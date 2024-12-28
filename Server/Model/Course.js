@@ -19,6 +19,11 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    questionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Question",
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -10,7 +10,7 @@ import Profile from "./Components/Profile/Profile";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Select from "./Components/Course/Level/Select/Select";
 import Videos from "./Components/Course/Level/Select/Videos/Videos";
-import Quiz from "./Components/Course/Level/Select/Quiz/Quiz";
+import Quiz from "./Components/Quiz/Quiz";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";

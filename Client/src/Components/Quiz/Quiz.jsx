@@ -1,17 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Quiz.css";
 import axios from "axios";
+import Loader from "../Loader/Loader";
+import { useParams } from "react-router-dom";
+
 function Quiz() {
   const [question, setQuestion] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
+  const [isAnswered, setIsAnswered] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isCorrect, setIsCorrect] = useState(null);
 
-  const fetchNextQuestion = async (courseId) => {
+  const token = localStorage.getItem("token");
+  const { courseId } = useParams();
+  console.log(courseId);
+
+  const fetchNextQuestion = async () => {
+    setLoading(true);
+
     try {
-      const response = await axios.get(`/api/quiz/${courseId}`);
+      const response = await axios.get(
+        `http://localhost:3000/api/quiz/${courseId}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setQuestion(response.data.questions);
+      console.log(response);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching the next question:", error);
-      return null;
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -19,44 +41,60 @@ function Quiz() {
   }, []);
 
   const handleAnswerSubmit = async () => {
-    console.log("Answer submitted:", selectedOption);
-    const nextQuestion = await fetchNextQuestion();
-    setQuestion(nextQuestion?.questions[0]);
+    if (!userAnswer) return;
+
+    try {
+      const response = await axios.post(`/api/quiz/submit-answer`, {
+        courseId,
+        questionId: question._id,
+        userAnswer,
+      });
+
+      const isAnswerCorrect = response.data.isCorrect;
+      setIsCorrect(isAnswerCorrect);
+      setIsAnswered(true);
+      fetchNextQuestion();
+    } catch (error) {
+      console.error("Error submitting the answer:", error);
+    }
   };
 
   return (
     <div className="quiz">
-      <h1 className="quiz-header">Quiz</h1>
-      <div className="quiz-wrapper">
-        <div className="quiz-container">
-          <h3 className="quiz-question">What is flexbox used for?</h3>
-          <div className="quiz-detail">
-            <input type="radio" />
-            <p className="quiz-answer">To create 3D animations</p>
+      {loading && <Loader />}
+
+      {!loading && question && (
+        <div>
+          <h1 className="quiz-header">Quiz</h1>
+          <div className="quiz-wrapper">
+            <div className="quiz-container">
+              <h3 className="quiz-question">{question.text}?</h3>
+              <div className="quiz-detail">
+                {question.options.map((options) => (
+                  <button
+                    key={options}
+                    onClick={() => setUserAnswer(options)}
+                    style={{
+                      backgroundColor:
+                        userAnswer === options ? "lightblue" : "white",
+                    }}
+                  >
+                    {options}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                type="submit"
+                className="nav-sign-btn quiz-btn"
+                onClick={handleAnswerSubmit}
+              >
+                Submit
+              </button>
+            </div>
           </div>
-          <div className="quiz-detail">
-            <input type="radio" />
-            <p className="quiz-answer">To style text and fonts</p>
-          </div>
-          <div className="quiz-detail">
-            <input type="radio" />
-            <p className="quiz-answer">
-              To layout and align items in a container
-            </p>
-          </div>
-          <div className="quiz-detail">
-            <input type="radio" />
-            <p className="quiz-answer">To add background images</p>
-          </div>
-          <button
-            type="submit"
-            className="nav-sign-btn quiz-btn"
-            onClick={handleAnswerSubmit}
-          >
-            Submit
-          </button>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -54,7 +54,14 @@ router.post("/course/enroll", authMiddleware, async (req, res) => {
     if (alreadyEnrolled) {
       return res.status(400).json({ error: "Already enrolled in this course" });
     }
-    const enrollment = new Enrollment({ courseId, userId });
+    const enrollment = new Enrollment({
+      courseId,
+      userId,
+      currentDifficulty: "easy",
+      totalAttempts: 0,
+      totalCorrect: 0,
+    });
+
     await enrollment.save();
 
     return res
@@ -99,6 +106,6 @@ router.put("/profile", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/quiz/:courseId", getNextQuestions);
+router.get("/quiz/:courseId", authMiddleware, getNextQuestions);
 
 module.exports = router;
