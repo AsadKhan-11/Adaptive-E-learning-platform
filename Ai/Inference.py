@@ -1,32 +1,35 @@
 import os
 import pickle
-import pandas as pd
 import sys
+import pandas as pd
 
 
-model_path = "model.pkl"
+model_path = "C:/Users/ak478/Desktop/FYP/Adaptive E-learning/Ai/model.pkl"
 
 if not os.path.exists(model_path):
     print("Error: Model file 'model.pkl' does not exist.")
     print("Please train the model first and save it as 'model.pkl'.")
+    sys.exit(1)  
 else:
-    with open('model.pkl', 'rb') as f:
-     model = pickle.load(f)
-
-     current_difficulty = int(sys.argv[1])
-     total_attempts = int(sys.argv[2])
-     total_correct = int(sys.argv[3])
-
+    
     def predict_next_difficulty(current_difficulty, total_attempts, total_correct):
-         features = pd.DataFrame([[current_difficulty, total_attempts, total_correct]], 
-                            columns=["current_difficulty", "total_attempts", "total_correct"])
+        features = pd.DataFrame([{
+        "current_difficulty": current_difficulty,
+        "total_attempts": total_attempts,
+        "total_correct": total_correct,
+    }])
+        with open(model_path, 'rb') as f:
+         model = pickle.load(f)
          return model.predict(features)[0]
 
-current_difficulty = 3
-total_attempts = 10
-total_correct = 3
+    if __name__ == "__main__":
+        current_difficulty = int(sys.argv[1])
+        total_attempts = int(sys.argv[2])
+        total_correct = int(sys.argv[3])
+        
+        next_difficulty = predict_next_difficulty(
+        current_difficulty, total_attempts, total_correct
+           )
+        print(next_difficulty)
 
-next_difficulty = predict_next_difficulty(current_difficulty, total_attempts, total_correct)
-print(f"Predicted next difficulty: {next_difficulty}")
-
-
+      
