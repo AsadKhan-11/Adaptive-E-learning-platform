@@ -27,7 +27,7 @@ function Quiz() {
           },
         }
       );
-      setQuestion(response.data.questions);
+      setQuestion(response.data);
       console.log("here it is ", response);
       setLoading(false);
     } catch (error) {
@@ -73,10 +73,7 @@ function Quiz() {
                   <button
                     key={options}
                     onClick={() => setUserAnswer(options)}
-                    style={{
-                      backgroundColor:
-                        userAnswer === options ? "lightblue" : "white",
-                    }}
+                    style={{}}
                   >
                     {options}
                   </button>
