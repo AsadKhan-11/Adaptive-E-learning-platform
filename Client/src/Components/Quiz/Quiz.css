@@ -5,8 +5,9 @@
 .quiz-wrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 20px;
-  padding-left: 20px;
 }
 
 .quiz-header {
@@ -21,10 +22,11 @@
   width: 400px;
   border-radius: 12px;
   justify-content: start;
-  align-items: start;
+  align-items: center;
+
   padding: 0 10px 50px;
   position: relative;
-  gap: 20px;
+  gap: 10px;
 }
 
 .quiz-container input {
@@ -35,13 +37,29 @@
 
 .quiz-detail {
   display: flex;
+  flex-direction: column;
+  padding: 0;
   gap: 20px;
-  align-items: center;
-  justify-content: center;
+  align-items: start;
+  justify-content: start;
 }
 
 .quiz-btn {
-  position: absolute;
+  /* position: absolute;
   bottom: 2%;
-  right: 5%;
+  right: 5%; */
+}
+
+.quiz-opt {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.quiz-opt:hover {
+  background-color: #197cdf;
 }

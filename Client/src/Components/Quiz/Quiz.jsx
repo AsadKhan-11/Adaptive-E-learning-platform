@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Quiz.css";
 import axios from "axios";
 import Loader from "../Loader/Loader";
@@ -13,10 +13,16 @@ function Quiz() {
 
   const token = localStorage.getItem("token");
   const { courseId } = useParams();
+  const isFetched = useRef(false); // Ref to prevent duplicate calls
 
   const fetchNextQuestion = async () => {
     setLoading(true);
-
+    console.log("fetchNextQuestion called");
+    if (isFetched.current) {
+      console.log("Question already fetched, skipping...");
+      return;
+    }
+    isFetched.current = true;
     try {
       const response = await axios.get(
         `http://localhost:3000/api/quiz/${courseId}`,
@@ -68,17 +74,17 @@ function Quiz() {
           <div className="quiz-wrapper">
             <div className="quiz-container">
               <h3 className="quiz-question">{question.text}?</h3>
-              <div className="quiz-detail">
+              <ul className="quiz-detail">
                 {question.options.map((options) => (
-                  <button
+                  <li
                     key={options}
                     onClick={() => setUserAnswer(options)}
-                    style={{}}
+                    className="quiz-opt"
                   >
                     {options}
-                  </button>
+                  </li>
                 ))}
-              </div>
+              </ul>
 
               <button
                 type="submit"
