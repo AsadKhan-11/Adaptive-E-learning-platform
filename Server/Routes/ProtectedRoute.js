@@ -4,7 +4,10 @@ const authMiddleware = require("../Middlewares/AuthMiddleware");
 const Enrollment = require("../Model/Enrollment");
 const User = require("../Model/User");
 const Course = require("../Model/Course");
-const { getNextQuestions } = require("../Controllers/QuestionController");
+const {
+  getNextQuestions,
+  submitAnswer,
+} = require("../Controllers/QuestionController");
 const Question = require("../Model/Question");
 
 router.get("/dashboard", authMiddleware, (req, res) => {
@@ -112,5 +115,6 @@ router.put("/profile", authMiddleware, async (req, res) => {
 });
 
 router.get("/quiz/:courseId", authMiddleware, getNextQuestions);
+router.post("/quiz/:courseId/submit-answer", authMiddleware, submitAnswer);
 
 module.exports = router;

@@ -34,7 +34,6 @@ function Quiz() {
         }
       );
       setQuestion(response.data);
-      console.log("here it is ", response);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching the next question:", error);
@@ -45,22 +44,41 @@ function Quiz() {
     fetchNextQuestion();
   }, []);
 
-  const handleAnswerSubmit = async () => {
-    if (!userAnswer) return;
-
+  const handleAnswerSubmit = async (selectedAnswer) => {
+    if (!selectedAnswer) return;
+    console.log(courseId);
+    setLoading(true);
     try {
-      const response = await axios.post(`/api/quiz/submit-answer`, {
-        courseId,
-        questionId: question._id,
-        userAnswer,
-      });
+      const response = await axios.post(
+        `http://localhost:3000/api/quiz/${courseId}/submit-answer`,
+        {
+          questionId: question._id,
+          answer: selectedAnswer,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      const isAnswerCorrect = response.data.isCorrect;
-      setIsCorrect(isAnswerCorrect);
-      setIsAnswered(true);
-      fetchNextQuestion();
+      const { isCorrect, nextQuestion } = response.data;
+      console.log(isCorrect, nextQuestion);
+      if (isCorrect) {
+        alert("Correct answer! 🎉");
+      } else {
+        alert("Incorrect answer. Try again! 😔");
+      }
+
+      if (nextQuestion) {
+        setQuestion(nextQuestion);
+      } else {
+        alert("No more questions available!");
+      }
     } catch (error) {
       console.error("Error submitting the answer:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,7 +96,7 @@ function Quiz() {
                 {question.options.map((options) => (
                   <li
                     key={options}
-                    onClick={() => setUserAnswer(options)}
+                    onClick={() => setSelectedOption(options)}
                     className="quiz-opt"
                   >
                     {options}
@@ -89,7 +107,8 @@ function Quiz() {
               <button
                 type="submit"
                 className="nav-sign-btn quiz-btn"
-                onClick={handleAnswerSubmit}
+                onClick={() => handleAnswerSubmit(selectedOption)}
+                disabled={loading}
               >
                 Submit
               </button>

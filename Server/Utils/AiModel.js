@@ -3,13 +3,6 @@ const path = require("path");
 
 const predictDifficulty = (currentDifficulty, totalAttempts, totalCorrect) => {
   return new Promise((resolve, reject) => {
-    console.log(
-      "Sending to Python:",
-      currentDifficulty,
-      totalAttempts,
-      totalCorrect
-    );
-
     if (
       isNaN(currentDifficulty) ||
       isNaN(totalAttempts) ||
@@ -31,13 +24,11 @@ const predictDifficulty = (currentDifficulty, totalAttempts, totalCorrect) => {
 
     pythonProcess.stdout.on("data", (data) => {
       result += data.toString();
-      console.log("Accumulating result:", result); // Log accumulated output
     });
 
     // Collect errors from stderr
     pythonProcess.stderr.on("data", (data) => {
       error += data.toString();
-      console.error("Python Error:", data.toString()); // Add this
     });
 
     // Handle process exit
@@ -48,12 +39,8 @@ const predictDifficulty = (currentDifficulty, totalAttempts, totalCorrect) => {
         return;
       }
 
-      console.log("Raw Python output:", result);
-      console.log("Raw Python error:", error);
-
       // Parse the final output
       const nextDifficulty = Number(result.trim()); // Trim and convert to number
-      console.log("Parsed nextDifficulty:", nextDifficulty);
 
       if (isNaN(nextDifficulty)) {
         reject(new Error("Python script returned NaN or invalid data."));
