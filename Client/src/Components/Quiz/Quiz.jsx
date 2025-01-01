@@ -97,7 +97,9 @@ function Quiz() {
                   <li
                     key={options}
                     onClick={() => setSelectedOption(options)}
-                    className="quiz-opt"
+                    className={`quiz-opt ${
+                      selectedOption === options ? "highlighted" : ""
+                    }`}
                   >
                     {options}
                   </li>

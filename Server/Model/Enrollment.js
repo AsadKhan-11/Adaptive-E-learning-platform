@@ -42,6 +42,9 @@ const enrollmentSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    answeredQuestions: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Question" },
+    ],
   },
   { timestamps: true }
 );

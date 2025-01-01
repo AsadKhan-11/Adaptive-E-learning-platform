@@ -77,6 +77,8 @@ const submitAnswer = async (req, res) => {
       userPerformance.totalCorrect += 1;
     }
 
+    userPerformance.answeredQuestions.push(questionId);
+
     // Update current difficulty based on the result (keep it the same for now)
     const nextDifficulty = await predictDifficulty(
       userPerformance.currentDifficulty,
@@ -102,7 +104,9 @@ const submitAnswer = async (req, res) => {
 
     // Step 5: Filter the questions by the predicted difficulty
     const nextQuestion = course.questions.find(
-      (q) => q.difficulty === nextDifficulty
+      (q) =>
+        q.difficulty === nextDifficulty &&
+        !userPerformance.answeredQuestions.includes(q._id.toString())
     );
 
     console.log(nextQuestion);
