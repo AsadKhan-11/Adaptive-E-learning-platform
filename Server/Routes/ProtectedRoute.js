@@ -4,17 +4,55 @@ const authMiddleware = require("../Middlewares/AuthMiddleware");
 const Enrollment = require("../Model/Enrollment");
 const User = require("../Model/User");
 const Course = require("../Model/Course");
+const Question = require("../Model/Question");
 const {
   getNextQuestions,
   submitAnswer,
 } = require("../Controllers/QuestionController");
-const Question = require("../Model/Question");
 
 router.get("/dashboard", authMiddleware, (req, res) => {
   res.json({ message: `Welcome to your dashboard, ${req.user.email}!` });
 });
 router.get("/send/email", authMiddleware, (req, res) => {
   res.json({ message: `Welcome to your dashboard, ${req.user.email}!` });
+});
+
+router.get("/user/average", authMiddleware, async (req, res) => {
+  const userId = req.user._id;
+  try {
+    const enrollment = await Enrollment.findOne({ userId: userId });
+    console.log("Enrollment Data:", enrollment);
+
+    const result = await Enrollment.aggregate([
+      {
+        $match: { userId: new mongoose.Types.ObjectId(userId) },
+      },
+      {
+        $project: {
+          _id: 0,
+          averageCorrect: {
+            $cond: {
+              if: { $eq: ["$totalAttempts", 0] },
+              then: 0,
+              else: {
+                $multiply: [
+                  {
+                    $divide: ["$totalCorrect", "$totalAttempts"],
+                  },
+                  100,
+                ],
+              },
+            },
+          },
+        },
+      },
+    ]);
+
+    res.json(result[0]);
+  } catch (error) {
+    console.error("Error fetching user average:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 router.get("/user", authMiddleware, async (req, res) => {
@@ -54,17 +92,26 @@ router.post("/course/enroll/:courseId", authMiddleware, async (req, res) => {
 
   try {
     const alreadyEnrolled = await Enrollment.exists({ courseId, userId });
-    console.log("Already Enrolled Check:", alreadyEnrolled);
 
     if (alreadyEnrolled) {
       return res.status(400).json({ error: "Already enrolled in this course" });
     }
+
+    const course = await Course.findById(courseId).populate("questions");
+
+    if (!course || !course.questions || course.questions.length === 0) {
+      throw new Error("No questions available for this course.");
+    }
+
+    const firstQuestion = course.questions[0];
+
     const enrollment = new Enrollment({
       courseId,
       userId,
       currentDifficulty: 0,
       totalAttempts: 0,
       totalCorrect: 0,
+      currentQuestion: firstQuestion._id,
     });
 
     try {

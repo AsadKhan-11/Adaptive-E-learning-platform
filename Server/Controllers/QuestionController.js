@@ -3,38 +3,55 @@ const Enrollment = require("../Model/Enrollment");
 const Question = require("../Model/Question");
 const predictDifficulty = require("../Utils/AiModel");
 
+const getNextQuestionFromCourse = (course, userPerformance, nextDifficulty) => {
+  return course.questions.find(
+    (q) =>
+      q.difficulty === nextDifficulty &&
+      !userPerformance.answeredQuestions.includes(q._id.toString())
+  );
+};
 const getNextQuestions = async (req, res) => {
   const courseId = req.params.courseId;
   const userId = req.user._id;
 
   try {
+    // Fetch user performance
     const userPerformance = await Enrollment.findOne({ userId, courseId });
-
     if (!userPerformance) {
       return res
         .status(404)
         .json({ message: "User performance data not found." });
     }
 
+    // Predict next difficulty
     const nextDifficulty = await predictDifficulty(
       userPerformance.currentDifficulty,
       userPerformance.totalAttempts,
       userPerformance.totalCorrect
     );
 
+    // Fetch course and questions
     const course = await Course.findById(courseId).populate("questions");
+    if (!course || !course.questions.length) {
+      return res
+        .status(404)
+        .json({ message: "No questions available in this course." });
+    }
 
-    const nextQuestion = course.questions.find((question) => {
-      console.log("question difficulty", question.difficulty);
-      return question.difficulty === nextDifficulty;
-    });
+    // Fetch the next question
+    const nextQuestion = getNextQuestionFromCourse(
+      course,
+      userPerformance,
+      nextDifficulty
+    );
 
     if (!nextQuestion) {
       return res
         .status(404)
-        .json({ message: "No questions found for this difficulty." });
+        .json({ message: "No question found for the next difficulty." });
     }
 
+    // Return the next question
     res.json(nextQuestion);
   } catch (error) {
     console.error("Error in getNextQuestions:", error);
@@ -43,43 +60,34 @@ const getNextQuestions = async (req, res) => {
 };
 
 const submitAnswer = async (req, res) => {
-  const { answer, questionId } = req.body; // The answer the user submitted
-
+  const { answer, questionId } = req.body;
   const courseId = req.params.courseId;
   const userId = req.user._id;
 
-  console.log(questionId, answer, courseId);
-
   try {
-    // Step 1: Fetch user performance data
+    // Fetch user performance
     const userPerformance = await Enrollment.findOne({ userId, courseId });
-
     if (!userPerformance) {
       return res
         .status(404)
         .json({ message: "User performance data not found." });
     }
 
-    console.log("User performance before answer submission", userPerformance);
-
-    // Step 2: Fetch the question to check if the answer is correct
+    // Fetch the question
     const question = await Question.findById(questionId);
-
     if (!question) {
       return res.status(404).json({ message: "Question not found." });
     }
 
+    // Check if the answer is correct
     const isCorrect = answer === question.answer;
 
-    // Step 3: Update the user's performance
+    // Update user performance
     userPerformance.totalAttempts += 1;
-    if (isCorrect) {
-      userPerformance.totalCorrect += 1;
-    }
-
+    if (isCorrect) userPerformance.totalCorrect += 1;
     userPerformance.answeredQuestions.push(questionId);
 
-    // Update current difficulty based on the result (keep it the same for now)
+    // Predict next difficulty and update
     const nextDifficulty = await predictDifficulty(
       userPerformance.currentDifficulty,
       userPerformance.totalAttempts,
@@ -87,29 +95,23 @@ const submitAnswer = async (req, res) => {
     );
     userPerformance.currentDifficulty = nextDifficulty;
 
-    // Save the updated performance data
+    // Save updated performance
     await userPerformance.save();
 
-    console.log("User performance after answer submission", userPerformance);
-    console.log("Query Parameters:", { courseId, difficulty: nextDifficulty });
-
+    // Fetch course and questions
     const course = await Course.findById(courseId).populate("questions");
-
-    // Step 4: Fetch the next question based on the predicted difficulty
-    if (!course || !course.questions || course.questions.length === 0) {
+    if (!course || !course.questions.length) {
       return res
         .status(404)
         .json({ message: "No questions available in this course." });
     }
 
-    // Step 5: Filter the questions by the predicted difficulty
-    const nextQuestion = course.questions.find(
-      (q) =>
-        q.difficulty === nextDifficulty &&
-        !userPerformance.answeredQuestions.includes(q._id.toString())
+    // Fetch the next question
+    const nextQuestion = getNextQuestionFromCourse(
+      course,
+      userPerformance,
+      nextDifficulty
     );
-
-    console.log(nextQuestion);
 
     if (!nextQuestion) {
       return res
@@ -117,7 +119,7 @@ const submitAnswer = async (req, res) => {
         .json({ message: "No question found for the next difficulty." });
     }
 
-    // Step 5: Return the updated user performance and the next question
+    // Return the updated performance and next question
     res.json({
       message: isCorrect ? "Correct answer!" : "Wrong answer, try again.",
       isCorrect,
@@ -129,6 +131,7 @@ const submitAnswer = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error." });
   }
 };
+
 module.exports = {
   getNextQuestions,
   submitAnswer,

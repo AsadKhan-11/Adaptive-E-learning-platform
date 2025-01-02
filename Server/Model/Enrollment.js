@@ -45,6 +45,7 @@ const enrollmentSchema = new mongoose.Schema(
     answeredQuestions: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Question" },
     ],
+    currentQuestion: { type: mongoose.Types.ObjectId, ref: "Question" },
   },
   { timestamps: true }
 );
