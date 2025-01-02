@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./Quiz.css";
 import axios from "axios";
 import Loader from "../Loader/Loader";
@@ -15,18 +15,18 @@ function Quiz() {
   const { courseId } = useParams();
   const isFetched = useRef(false); // Ref to prevent duplicate calls
 
-  const fetchNextQuestion = async () => {
-    setLoading(true);
-    console.log("fetchNextQuestion called");
+  const fetchNextQuestion = useCallback(async () => {
     if (isFetched.current) {
       console.log("Question already fetched, skipping...");
       return;
     }
     isFetched.current = true;
+    setLoading(true);
+    console.log("fetchNextQuestion called");
+
     try {
       const response = await axios.get(
         `http://localhost:3000/api/quiz/${courseId}`,
-
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -34,19 +34,18 @@ function Quiz() {
         }
       );
       setQuestion(response.data);
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching the next question:", error);
+    } finally {
       setLoading(false);
     }
-  };
+  });
   useEffect(() => {
     fetchNextQuestion();
   }, []);
 
   const handleAnswerSubmit = async (selectedAnswer) => {
     if (!selectedAnswer) return;
-    console.log(courseId);
     setLoading(true);
     try {
       const response = await axios.post(

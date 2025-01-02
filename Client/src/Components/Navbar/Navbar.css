@@ -2,6 +2,8 @@
   width: 100%;
   font-size: 20px;
   background-color: #007bff;
+  position: sticky;
+
   z-index: 2;
   top: 0;
 }

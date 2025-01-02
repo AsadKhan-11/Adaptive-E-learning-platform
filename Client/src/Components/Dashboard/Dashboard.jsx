@@ -3,8 +3,10 @@ import chart from "../../assets/piechart.png";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-function Dashboard({ isEnrolled }) {
+function Dashboard({}) {
   const [user, setUser] = useState({});
+
+  const [average, setAverage] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,7 +25,23 @@ function Dashboard({ isEnrolled }) {
       }
     };
 
+    const fetchUserAverage = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/user/average",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setAverage(response.data.averageCorrect);
+        console.log(average);
+      } catch (error) {
+        console.error("Error fetching user average:", error);
+      }
+    };
+
     fetchUserData();
+    fetchUserAverage();
   }, [navigate]);
 
   if (!user) {
@@ -38,9 +56,14 @@ function Dashboard({ isEnrolled }) {
           <p className="Dashboard-num">{user.name}</p>
         </div>
         <div className="Dashboard-container">
-          <h3 className="Dashboard-name">Enrolled Courses</h3>
-          <p className="Dashboard-num">{isEnrolled ? 1 : 0}</p>
+          <h3 className="Dashboard-name">Average Correct Answers</h3>
+          {average !== null && !isNaN(average) ? (
+            <p className="Dashboard-num">{average.toFixed(2)}%</p>
+          ) : (
+            <p className="Dashboard-num">Loading your average...</p>
+          )}
         </div>
+
         <div className="Dashboard-container">
           <h3 className="Dashboard-name">Time Spent</h3>
           <p className="Dashboard-num">04:33:28</p>

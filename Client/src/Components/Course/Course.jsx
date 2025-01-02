@@ -48,14 +48,16 @@ function Course() {
   return (
     <div className="course">
       {course.map((course) => (
-        <div
-          className="course-container"
-          key={course._id}
-          onClick={() => handleClick(course._id)}
-        >
-          <img className="course-image" src="" alt="Course-Img" />
-          <h2 className="course-name">{course.title}</h2>
-          <p className="course-duration">{course.duration} months</p>
+        <div>
+          <div
+            className="course-container"
+            key={course._id}
+            onClick={() => handleClick(course._id)}
+          >
+            <img className="course-image" src="" alt="Course-Img" />
+            <h2 className="course-name">{course.title}</h2>
+            <p className="course-duration">{course.duration} months</p>
+          </div>
         </div>
       ))}
     </div>

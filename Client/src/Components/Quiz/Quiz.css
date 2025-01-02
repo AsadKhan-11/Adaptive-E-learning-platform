@@ -44,12 +44,6 @@
   justify-content: start;
 }
 
-.quiz-btn {
-  /* position: absolute;
-  bottom: 2%;
-  right: 5%; */
-}
-
 .quiz-opt {
   display: flex;
   align-items: start;
