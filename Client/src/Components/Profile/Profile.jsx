@@ -112,7 +112,7 @@ function Profile() {
             {Array.isArray(courses) ? (
               courses.map((courses, index) => (
                 <p className="disabled" key={index}>
-                  {courses.title},dvsdvsd
+                  {courses.title}
                 </p>
               ))
             ) : (

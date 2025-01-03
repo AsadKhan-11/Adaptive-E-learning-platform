@@ -3,46 +3,44 @@ import chart from "../../assets/piechart.png";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-function Dashboard({}) {
+import { useLoader } from "../../Context/LoaderContext";
+function Dashboard() {
   const [user, setUser] = useState({});
+  const { setIsLoading } = useLoader();
 
   const [average, setAverage] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const fetchUserData = async () => {
+
+    const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/user", {
+        setIsLoading(true);
+
+        const userResponse = await axios.get("http://localhost:3000/api/user", {
           headers: { Authorization: `Bearer ${token}` },
         });
+        setUser(userResponse.data.user);
+        localStorage.setItem("user", JSON.stringify(userResponse.data));
 
-        setUser(response.data.user);
-        localStorage.setItem("user", JSON.stringify(response.data));
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        navigate("/");
-      }
-    };
-
-    const fetchUserAverage = async () => {
-      try {
-        const response = await axios.get(
+        const averageResponse = await axios.get(
           "http://localhost:3000/api/user/average",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setAverage(response.data.averageCorrect);
-        console.log(average);
+        setAverage(averageResponse.data.averageCorrect);
       } catch (error) {
-        console.error("Error fetching user average:", error);
+        console.error("Error during data fetching:", error);
+        navigate("/");
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchUserData();
-    fetchUserAverage();
-  }, [navigate]);
+    fetchData();
+  }, [navigate, setIsLoading]);
 
   if (!user) {
     return <div>Loading...</div>;
