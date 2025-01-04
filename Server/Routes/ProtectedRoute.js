@@ -148,10 +148,12 @@ router.get("/course/enrollment/:courseId", authMiddleware, async (req, res) => {
 router.put("/profile", authMiddleware, async (req, res) => {
   const { name } = req.body;
 
+  const upperCaseName = name.toUpperCase();
+
   try {
     updateUser = await User.findByIdAndUpdate(
       req.user._id,
-      { name },
+      { name: upperCaseName },
       { new: true }
     );
     res.json(updateUser);

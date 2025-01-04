@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import "./Question.css";
 import axios from "axios";
+import { useLoader } from "../../Context/LoaderContext";
 function Question() {
   const [message, setmessage] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const { setIsLoading } = useLoader();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
-
+      setIsLoading(true);
       const response = await axios.post("http://localhost:3000/email/send", {
-        email: user.email,
-        user: user.name,
+        email: user.user.email,
+        user: user.user.name,
         message: message,
       });
       alert(response.data.message);
       window.location.reload();
     } catch (error) {
       alert(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 

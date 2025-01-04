@@ -33,12 +33,12 @@ function Card({ isFlipped }) {
         password: signupPassword,
       });
 
-      console.log(result);
       setMessage(result.data.message);
 
       if (result.data.message) {
         setTimeout(() => {
-          window.location.reload();
+          navigate("/verify-email", { state: { email: signupEmail } });
+
           setMessage("");
         }, 3000);
       }

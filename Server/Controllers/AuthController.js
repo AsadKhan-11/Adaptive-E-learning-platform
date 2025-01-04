@@ -1,15 +1,18 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../Model/User");
 const bcrypt = require("bcrypt");
+const Verification = require("../Model/Verification");
+const transporter = require("../Config/nodemailerConfig");
+require("dotenv").config();
 
 const signup = async (req, res) => {
+  const { name, email, password } = req.body;
   try {
     const emailPattern = new RegExp(
       "^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z.-]+.[a-zA-Z]{2,}$"
     );
     const passPattern = new RegExp("^.{8,}$");
 
-    const { name, email, password } = req.body;
     if (!name) {
       return res.status(400).json({
         message: "Name is required",
@@ -57,7 +60,20 @@ const signup = async (req, res) => {
     });
     newModel.save();
 
-    res.status(200).json({
+    // Generate and save verification code
+    const code = Math.floor(100000 + Math.random() * 900000);
+    const VerificationCode = new Verification({ email, code });
+    VerificationCode.save();
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Verify Your Email",
+      text: `Your verification code is: ${code}`,
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.status(201).json({
       message: "Account created successfully",
       user: newModel,
     });

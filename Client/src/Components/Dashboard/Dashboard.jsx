@@ -58,7 +58,7 @@ function Dashboard() {
           {average !== null && !isNaN(average) ? (
             <p className="Dashboard-num">{average.toFixed(2)}%</p>
           ) : (
-            <p className="Dashboard-num">Loading your average...</p>
+            <p className="Dashboard-num">0%</p>
           )}
         </div>
 

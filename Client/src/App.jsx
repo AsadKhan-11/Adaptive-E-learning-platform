@@ -22,6 +22,8 @@ import Layout from "./Layout/Layout";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import RingLoader from "react-spinners/RingLoader";
 import Enroll from "./Components/Course/Enrollment/Enroll";
+import Verification from "./Components/Landing/Verification/Verification";
+
 import Forgot from "./Components/Forgot/Forgot";
 import { useLoader } from "./Context/LoaderContext";
 import Loader from "./Components/Loader/Loader";
@@ -30,6 +32,12 @@ function App() {
   const [navText, setNavText] = useState("Signup");
   const { isLoading, setIsLoading } = useLoader();
   const location = useLocation();
+  const { pathname } = useLocation();
+  const isLoaderVisible = !(
+    pathname === "/" ||
+    pathname === "/signup" ||
+    pathname === "/forgot-password"
+  );
 
   useEffect(() => {
     setIsLoading(true);
@@ -45,7 +53,7 @@ function App() {
 
   return (
     <div className="App">
-      {isLoading && (
+      {isLoading && isLoaderVisible && (
         <div className="loader-overlay">
           <Loader />
         </div>
@@ -58,6 +66,7 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Login isFlipped={isFlipped} />} />
+        <Route path="/verify-email" element={<Verification />} />
         <Route path="/forgot-password" element={<Forgot />} />
         <Route
           path="/dashboard"

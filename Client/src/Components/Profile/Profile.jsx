@@ -46,6 +46,8 @@ function Profile() {
   };
 
   const handleSubmit = async (e) => {
+    const token = localStorage.getItem("token");
+    const payload = { name: user.name };
     e.preventDefault();
     if (!user.name) {
       console.error("Name is required");
@@ -53,9 +55,6 @@ function Profile() {
     }
 
     try {
-      const token = localStorage.getItem("token");
-      const payload = { name: user.name };
-
       const response = await axios.put(
         "http://localhost:3000/api/profile",
         payload,

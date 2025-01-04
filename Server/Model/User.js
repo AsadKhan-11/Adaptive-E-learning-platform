@@ -16,10 +16,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    isEnrolled: {
+    isVerified: {
       type: Boolean,
       default: false,
     },
+
     role: {
       type: String,
       default: "student",
