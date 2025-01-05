@@ -2,23 +2,32 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../../Api/AuthApi";
 
-const VerificationPage = () => {
+const VerificationPage = ({ setNavText, setIsFlipped }) => {
   const [code, setCode] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
 
-  const email = location.state?.email; // Get email from navigation state
+  const { email, name, password } = location.state; // Get email from navigation state
 
   const handleVerify = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/verify-email", { email, code });
+      const response = await axios.post("http://localhost:3000/auth/signup", {
+        email,
+        name,
+        password,
+        code,
+      });
       alert(response.data.message);
 
-      // Redirect to the login page on successful verification
-      navigate("/login");
+      setNavText("Signup");
+      setIsFlipped(false);
+      navigate("/");
     } catch (error) {
       alert("Verification failed: " + error.response.data.message);
+      setNavText("Signup");
+      setIsFlipped(false);
+      navigate("/");
     }
   };
 

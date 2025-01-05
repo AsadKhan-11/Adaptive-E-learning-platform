@@ -13,7 +13,6 @@ function Card({ isFlipped }) {
   const [message, setMessage] = useState("");
   const [err, setErr] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -27,22 +26,29 @@ function Card({ isFlipped }) {
     e.preventDefault();
 
     try {
-      const result = await axios.post("http://localhost:3000/auth/signup", {
-        name: signupName,
-        email: signupEmail,
-        password: signupPassword,
-      });
+      const result = await axios.post(
+        "http://localhost:3000/auth/verify-email",
+        {
+          name: signupName,
+          email: signupEmail,
+          password: signupPassword,
+        }
+      );
 
-      setMessage(result.data.message);
+      alert(result.data.message);
 
       if (result.data.message) {
-        setTimeout(() => {
-          navigate("/verify-email", { state: { email: signupEmail } });
-
-          setMessage("");
-        }, 3000);
+        navigate("/verify-email", {
+          state: {
+            email: signupEmail,
+            name: signupName,
+            password: signupPassword,
+          },
+        });
       }
+      setMessage("");
     } catch (err) {
+      console.log(err);
       if (err.response) {
         setErr(true);
         setMessage(err.response.data.message);

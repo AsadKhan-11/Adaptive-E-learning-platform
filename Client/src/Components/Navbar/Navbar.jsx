@@ -1,9 +1,10 @@
 import React from "react";
 import Nexedu from "../../assets/NEXEDU.png";
 import "./Navbar.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 function Navbar({ navText, setNavText, setIsFlipped, isFlipped }) {
+  const navigate = useNavigate();
   const handleNavClick = () => {
     const token = localStorage.getItem("token");
 
@@ -12,10 +13,14 @@ function Navbar({ navText, setNavText, setIsFlipped, isFlipped }) {
       localStorage.removeItem("user");
       setNavText("Signup");
       setIsFlipped(false);
-      Navigate("/");
+      navigate("/");
     } else {
-      setIsFlipped(!isFlipped);
-      setNavText(isFlipped ? "Signup" : "Login");
+      // Toggle Login/Signup state
+      setIsFlipped((prev) => {
+        const newIsFlipped = !prev;
+        setNavText(newIsFlipped ? "Login" : "Signup"); // Update navText based on new state
+        return newIsFlipped;
+      });
     }
   };
 

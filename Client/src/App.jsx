@@ -23,7 +23,6 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import RingLoader from "react-spinners/RingLoader";
 import Enroll from "./Components/Course/Enrollment/Enroll";
 import Verification from "./Components/Landing/Verification/Verification";
-
 import Forgot from "./Components/Forgot/Forgot";
 import { useLoader } from "./Context/LoaderContext";
 import Loader from "./Components/Loader/Loader";
@@ -31,25 +30,26 @@ function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
   const { isLoading, setIsLoading } = useLoader();
-  const location = useLocation();
   const { pathname } = useLocation();
-  const isLoaderVisible = !(
-    pathname === "/" ||
-    pathname === "/signup" ||
-    pathname === "/forgot-password"
-  );
+
+  const isLoaderVisible = ![
+    "/",
+    "/signup",
+    "/forgot-password",
+    "/verify-email",
+  ].includes(pathname);
 
   useEffect(() => {
     setIsLoading(true);
     const token = localStorage.getItem("token");
     setNavText(token ? "Logout" : "Signup");
 
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [location, setIsLoading]);
+    if (isLoaderVisible) {
+      setIsLoading(true);
+      const timer = setTimeout(() => setIsLoading(false), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [pathname, setIsLoading, isLoaderVisible]);
 
   return (
     <div className="App">
@@ -66,8 +66,13 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Login isFlipped={isFlipped} />} />
-        <Route path="/verify-email" element={<Verification />} />
-        <Route path="/forgot-password" element={<Forgot />} />
+        <Route
+          path="/verify-email"
+          element={
+            <Verification setNavText={setNavText} setIsFlipped={setIsFlipped} />
+          }
+        />
+
         <Route
           path="/dashboard"
           element={
