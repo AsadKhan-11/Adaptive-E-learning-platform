@@ -42,8 +42,6 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true);
-    const token = localStorage.getItem("token");
-    setNavText(token ? "Logout" : "Signup");
 
     if (isLoaderVisible) {
       setIsLoading(true);
@@ -79,12 +77,6 @@ function App() {
             />
           }
         />
-        {/* <Route
-          path="/verify-email"
-          element={
-            <Verification setNavText={setNavText} setIsFlipped={setIsFlipped} />
-          }
-        /> */}
 
         <Route
           path="/dashboard"

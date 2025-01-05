@@ -87,7 +87,6 @@ function Quiz() {
 
       {!loading && question && (
         <div>
-          <h1 className="quiz-header">Quiz</h1>
           <div className="quiz-wrapper">
             <div className="quiz-container">
               <h3 className="quiz-question">{question.text}?</h3>

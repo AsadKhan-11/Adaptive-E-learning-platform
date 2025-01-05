@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Nexedu from "../../assets/NEXEDU.png";
 import "./Navbar.css";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
@@ -19,9 +19,9 @@ function Navbar({
       localStorage.removeItem("user");
       setNavText("Signup");
       setIsFlipped(false);
-      navigate("/");
+      console.log("Navigating to /");
+      window.location.href("/");
     } else {
-      // Toggle Login/Signup state
       setIsFlipped((prev) => {
         const newIsFlipped = !prev;
         setNavText(newIsFlipped ? "Login" : "Signup"); // Update navText based on new state
@@ -32,6 +32,11 @@ function Navbar({
 
   const location = useLocation();
   const isLoginPage = location.pathname === "/";
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setNavText(token ? "Logout" : "Signup");
+  }, []);
 
   return (
     <div
