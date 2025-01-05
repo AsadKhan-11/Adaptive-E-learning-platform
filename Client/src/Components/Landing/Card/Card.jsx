@@ -4,12 +4,18 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Card.css";
 import ReactCardFlip from "react-card-flip";
 
-function Card({ isFlipped }) {
-  const [signupName, setSignupName] = useState("");
+function Card({
+  isFlipped,
+  setIsVerification,
+  setSignupEmail,
+  setSignupName,
+  setSignupPassword,
+  signupPassword,
+  signupEmail,
+  signupName,
+}) {
   const [loginEmail, setLoginEmail] = useState("");
-  const [signupEmail, setSignupEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [signupPassword, setSignupPassword] = useState("");
   const [message, setMessage] = useState("");
   const [err, setErr] = useState(false);
   const navigate = useNavigate();
@@ -38,14 +44,13 @@ function Card({ isFlipped }) {
       alert(result.data.message);
 
       if (result.data.message) {
-        navigate("/verify-email", {
-          state: {
-            email: signupEmail,
-            name: signupName,
-            password: signupPassword,
-          },
-        });
+        setSignupEmail(signupEmail),
+          setSignupName(signupName),
+          setSignupPassword(signupPassword);
+
+        setIsVerification(true);
       }
+
       setMessage("");
     } catch (err) {
       console.log(err);

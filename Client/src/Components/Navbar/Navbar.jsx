@@ -3,7 +3,13 @@ import Nexedu from "../../assets/NEXEDU.png";
 import "./Navbar.css";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 
-function Navbar({ navText, setNavText, setIsFlipped, isFlipped }) {
+function Navbar({
+  navText,
+  setNavText,
+  setIsFlipped,
+  isFlipped,
+  isVerification,
+}) {
   const navigate = useNavigate();
   const handleNavClick = () => {
     const token = localStorage.getItem("token");
@@ -36,13 +42,15 @@ function Navbar({ navText, setNavText, setIsFlipped, isFlipped }) {
       <div className="nav-container">
         <img src={Nexedu} alt="Logo" className="nav-logo" />
 
-        <Link
-          to={isLoginPage ? "/" : "/dashboard"}
-          className="nav-sign-btn"
-          onClick={handleNavClick}
-        >
-          {navText}
-        </Link>
+        {isVerification ? null : (
+          <Link
+            to={isLoginPage ? "/" : "/dashboard"}
+            className="nav-sign-btn"
+            onClick={handleNavClick}
+          >
+            {navText}
+          </Link>
+        )}
       </div>
     </div>
   );

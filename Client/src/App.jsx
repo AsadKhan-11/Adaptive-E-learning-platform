@@ -30,6 +30,7 @@ function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
   const { isLoading, setIsLoading } = useLoader();
+  const [isVerification, setIsVerification] = useState(false);
   const { pathname } = useLocation();
 
   const isLoaderVisible = ![
@@ -63,15 +64,27 @@ function App() {
         setNavText={setNavText}
         setIsFlipped={setIsFlipped}
         isFlipped={isFlipped}
+        isVerification={isVerification}
       />
       <Routes>
-        <Route path="/" element={<Login isFlipped={isFlipped} />} />
         <Route
+          path="/"
+          element={
+            <Login
+              isFlipped={isFlipped}
+              setIsFlipped={setIsFlipped}
+              isVerification={isVerification}
+              setIsVerification={setIsVerification}
+              setNavText={setNavText}
+            />
+          }
+        />
+        {/* <Route
           path="/verify-email"
           element={
             <Verification setNavText={setNavText} setIsFlipped={setIsFlipped} />
           }
-        />
+        /> */}
 
         <Route
           path="/dashboard"

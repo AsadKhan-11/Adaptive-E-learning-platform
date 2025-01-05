@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import "./Card/Card";
 import Card from "./Card/Card";
-function Login({ isFlipped }) {
+import Verification from "./Verification/Verification";
+
+function Login({
+  setIsFlipped,
+  isFlipped,
+  setIsVerification,
+  isVerification,
+  setNavText,
+}) {
+  const [signupName, setSignupName] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
+
   return (
     <div className="Login-page">
       <div className={`BgAnimation ${isFlipped ? "Signheight" : "Logheight"}`}>
@@ -408,8 +420,27 @@ function Login({ isFlipped }) {
         <div className="colorBox"></div>
         <div className="colorBox"></div>
       </div>
-
-      <Card isFlipped={isFlipped} />
+      {isVerification ? (
+        <Verification
+          email={signupEmail}
+          name={signupName}
+          password={signupPassword}
+          setNavText={setNavText}
+          setIsFlipped={setIsFlipped}
+          setIsVerification={setIsVerification}
+        />
+      ) : (
+        <Card
+          isFlipped={isFlipped}
+          setIsVerification={setIsVerification}
+          setSignupEmail={setSignupEmail}
+          setSignupName={setSignupName}
+          setSignupPassword={setSignupPassword}
+          signupEmail={signupEmail}
+          signupName={signupName}
+          signupPassword={signupPassword}
+        />
+      )}
     </div>
   );
 }
