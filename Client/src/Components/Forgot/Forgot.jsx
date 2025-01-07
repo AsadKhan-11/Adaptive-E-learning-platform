@@ -1,10 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Forgot.css";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function Forgot() {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Replace with your backend endpoint
+      await axios.post("http://localhost:3000/auth/forgot-password", { email });
+
+      setMessage("A password reset link has been sent to your email.");
+      alert(message);
+      setTimeout(() => navigate("/"), 3000);
+    } catch (err) {
+      setError("There was an error sending the password reset email.");
+
+      alert(error);
+    }
+  };
+
   return (
-    <div className="Forgot">
-      <form id="card-form" name="login-card" className="card">
-        <h1 className="card-header">Login</h1>
+    <div className="forgot">
+      <form
+        id="forgot-form"
+        name="forgot-card"
+        className="forgot-card"
+        onSubmit={handleSubmit}
+      >
+        <h1 className="forgot-header" style={{ margin: "10px" }}>
+          Forgotten Password
+        </h1>
 
         <div className="card-info">
           <div className="form-icon">
@@ -18,22 +49,8 @@ function Forgot() {
           />
         </div>
 
-        <div className="card-info">
-          <div className="form-icon">
-            <ion-icon name="lock-closed-outline"></ion-icon>
-          </div>
-          <input
-            type="password"
-            className="card-input"
-            name="password"
-            placeholder="Enter password "
-          />
-        </div>
-
-        <a className="card-forgot">Forgotten Password?</a>
-
         <button type="submit" className="card-btn">
-          Login
+          Send Reset Link
         </button>
       </form>
     </div>

@@ -76,18 +76,9 @@ function App() {
               setNavText={setNavText}
             />
           }
-        />
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <Dashboard />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
+        >
+          <Route path="forgot-password" element={<Forgot />} />
+        </Route>
         <Route
           path="/course"
           element={

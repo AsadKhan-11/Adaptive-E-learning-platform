@@ -32,6 +32,7 @@ function Navbar({
 
   const location = useLocation();
   const isLoginPage = location.pathname === "/";
+  const isForgotPage = location.pathname === "/forgot-password";
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -40,7 +41,7 @@ function Navbar({
 
   return (
     <div
-      className={`Navbar-sec ${isLoginPage ? "nav-first" : " "}
+      className={`Navbar-sec ${isLoginPage || isForgotPage ? "nav-first" : " "}
           
       `}
     >
@@ -49,7 +50,7 @@ function Navbar({
 
         {isVerification ? null : (
           <Link
-            to={isLoginPage ? "/" : "/dashboard"}
+            to={isLoginPage || isForgotPage ? "/" : "/dashboard"}
             className="nav-sign-btn"
             onClick={handleNavClick}
           >

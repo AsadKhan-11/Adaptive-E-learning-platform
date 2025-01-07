@@ -1,5 +1,5 @@
 .Landing-card {
-  background-color: rgb(12, 12, 12);
+  background-color: rgb(8, 6, 6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +20,6 @@
 
   box-shadow: -5px 6px 25px 1px #0369df, 5px 6px 25px 1px #0369df;
 }
-
 
 label,
 .card-header {
@@ -71,7 +70,7 @@ input:-webkit-autofill {
   width: 200px;
   height: 40px;
   font-size: 18px;
-  
+
   background-color: #0369df;
   border: none;
   color: white;

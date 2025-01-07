@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./Card.css";
 import ReactCardFlip from "react-card-flip";
 
@@ -19,14 +19,19 @@ function Card({
   const [message, setMessage] = useState("");
   const [err, setErr] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/dashboard");
-    } else {
+
+    // Only redirect from "/" to "/dashboard" if token exists
+    if (!token && location.pathname !== "/") {
       navigate("/");
+    } else if (token && location.pathname === "/") {
+      // Redirect to dashboard if token exists and user is on the login page
+      navigate("/dashboard");
     }
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 
   const SubmitSignup = async (e) => {
     e.preventDefault();
@@ -140,7 +145,7 @@ function Card({
             />
           </div>
 
-          <Link to="/forgot-password" className="card-forgot">
+          <Link to="forgot-password" className="card-forgot">
             Forgotten Password?
           </Link>
 

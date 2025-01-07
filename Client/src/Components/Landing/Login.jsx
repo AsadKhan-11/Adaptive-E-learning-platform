@@ -3,6 +3,8 @@ import "./Login.css";
 import "./Card/Card";
 import Card from "./Card/Card";
 import Verification from "./Verification/Verification";
+import Forgot from "../Forgot/Forgot";
+import { Outlet, useLocation } from "react-router-dom";
 
 function Login({
   setIsFlipped,
@@ -14,6 +16,9 @@ function Login({
   const [signupName, setSignupName] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
+
+  const location = useLocation();
+  const isForgot = location.pathname === "/forgot-password";
 
   return (
     <div className="Login-page">
@@ -429,17 +434,22 @@ function Login({
           setIsFlipped={setIsFlipped}
           setIsVerification={setIsVerification}
         />
+      ) : isForgot ? (
+        <Outlet />
       ) : (
-        <Card
-          isFlipped={isFlipped}
-          setIsVerification={setIsVerification}
-          setSignupEmail={setSignupEmail}
-          setSignupName={setSignupName}
-          setSignupPassword={setSignupPassword}
-          signupEmail={signupEmail}
-          signupName={signupName}
-          signupPassword={signupPassword}
-        />
+        <>
+          <Card
+            isFlipped={isFlipped}
+            setIsVerification={setIsVerification}
+            setSignupEmail={setSignupEmail}
+            setSignupName={setSignupName}
+            setSignupPassword={setSignupPassword}
+            signupEmail={signupEmail}
+            signupName={signupName}
+            signupPassword={signupPassword}
+          />
+          <Outlet />
+        </>
       )}
     </div>
   );
