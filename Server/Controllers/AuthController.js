@@ -3,6 +3,7 @@ const userModel = require("../Model/User");
 const bcrypt = require("bcrypt");
 const Verification = require("../Model/Verification");
 const transporter = require("../Config/nodemailerConfig");
+const crypto = require("crypto");
 require("dotenv").config();
 
 const signup = async (req, res) => {
@@ -95,7 +96,68 @@ const login = async (req, res) => {
   }
 };
 
+// Forgot Password
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000;
+    await user.save();
+
+    const resetLink = `http://your-frontend-url/reset-password/${resetToken}`;
+
+    // await sendEmail(email, "Password Reset", `Click here: ${resetLink}`);
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Password Reset",
+      text: `Click here: ${resetLink}`,
+    };
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log(info);
+
+    res.status(200).json({
+      message: "Password Reset Link has been sent to your email!",
+      success: true,
+      info,
+    });
+  } catch (err) {
+    res.status(200).json({
+      message: "Error while sending link",
+      success: false,
+    });
+  }
+};
+
+// Reset Password
+const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+
+  const user = await userModel.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpires: { $gt: Date.now() },
+  });
+
+  if (!user)
+    return res.status(400).json({ message: "Invalid or expired token" });
+
+  user.password = password; // Ensure you hash this password in real scenarios
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpires = undefined;
+  await user.save();
+
+  res.status(200).json({ message: "Password successfully reset" });
+};
+
 module.exports = {
   signup,
   login,
+  forgotPassword,
+  resetPassword,
 };
