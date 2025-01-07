@@ -13,15 +13,15 @@ function Forgot() {
 
     try {
       // Replace with your backend endpoint
-      await axios.post("http://localhost:3000/auth/forgot-password", { email });
+      const response = await axios.post(
+        "http://localhost:3000/auth/forgot-password",
+        { email }
+      );
 
-      setMessage("A password reset link has been sent to your email.");
-      alert(message);
-      setTimeout(() => navigate("/"), 3000);
+      alert(response.data.message);
     } catch (err) {
-      setError("There was an error sending the password reset email.");
-
-      alert(error);
+      console.log(err.response.data.message);
+      alert(err.response.data.message);
     }
   };
 
@@ -46,6 +46,8 @@ function Forgot() {
             className="card-input"
             name="email"
             placeholder="Enter email "
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 

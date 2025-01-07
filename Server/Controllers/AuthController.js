@@ -99,9 +99,9 @@ const login = async (req, res) => {
 // Forgot Password
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
-  console.log(email);
   try {
     const user = await userModel.findOne({ email });
+
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const resetToken = crypto.randomBytes(32).toString("hex");
@@ -120,15 +120,13 @@ const forgotPassword = async (req, res) => {
     };
     const info = await transporter.sendMail(mailOptions);
 
-    console.log(info);
-
     res.status(200).json({
       message: "Password Reset Link has been sent to your email!",
       success: true,
       info,
     });
   } catch (err) {
-    res.status(200).json({
+    res.status(404).json({
       message: "Error while sending link",
       success: false,
     });
@@ -144,10 +142,9 @@ const resetPassword = async (req, res) => {
     resetPasswordExpires: { $gt: Date.now() },
   });
 
-  if (!user)
-    return res.status(400).json({ message: "Invalid or expired token" });
+  if (!user) return res.status(400).json({ message: "The link has expired" });
 
-  user.password = password; // Ensure you hash this password in real scenarios
+  user.password = password;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpires = undefined;
   await user.save();
