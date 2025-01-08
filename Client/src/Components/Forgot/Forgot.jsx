@@ -1,27 +1,37 @@
 import React, { useState } from "react";
 import "./Forgot.css";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useLoader } from "../../Context/LoaderContext";
 function Forgot() {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const [err, setErr] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
+
+  const { setIsLoading } = useLoader();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
       // Replace with your backend endpoint
       const response = await axios.post(
         "http://localhost:3000/auth/forgot-password",
         { email }
       );
 
-      alert(response.data.message);
+      setErr(false);
+      setMessage(response.data.message);
     } catch (err) {
-      console.log(err.response.data.message);
-      alert(err.response.data.message);
+      setErr(true);
+      setMessage(err.response.data.message);
+    } finally {
+      setTimeout(() => {
+        setErr(false);
+        setMessage("");
+      }, 3000);
+      setIsLoading(false);
     }
   };
 
@@ -54,6 +64,9 @@ function Forgot() {
         <button type="submit" className="card-btn">
           Send Reset Link
         </button>
+        {message && (
+          <p className={`message ${err ? "error" : "success"}`}>{message}</p>
+        )}
       </form>
     </div>
   );

@@ -34,12 +34,7 @@ function App() {
   const [isVerification, setIsVerification] = useState(false);
   const { pathname } = useLocation();
 
-  const isLoaderVisible = ![
-    "/",
-    "/signup",
-    "/forgot-password",
-    "/verify-email",
-  ].includes(pathname);
+  const isLoaderVisible = !["/signup", "/verify-email"].includes(pathname);
 
   useEffect(() => {
     setIsLoading(true);
