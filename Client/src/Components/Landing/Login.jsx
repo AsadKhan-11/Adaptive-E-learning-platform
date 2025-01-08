@@ -4,7 +4,8 @@ import "./Card/Card";
 import Card from "./Card/Card";
 import Verification from "./Verification/Verification";
 import Forgot from "../Forgot/Forgot";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
+import Reset from "./Reset/Reset";
 
 function Login({
   setIsFlipped,
@@ -448,7 +449,6 @@ function Login({
             signupName={signupName}
             signupPassword={signupPassword}
           />
-          <Outlet />
         </>
       )}
     </div>

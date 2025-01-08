@@ -109,7 +109,7 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
 
-    const resetLink = `http://your-frontend-url/reset-password/${resetToken}`;
+    const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
 
     // await sendEmail(email, "Password Reset", `Click here: ${resetLink}`);
     const mailOptions = {
@@ -137,19 +137,23 @@ const forgotPassword = async (req, res) => {
 const resetPassword = async (req, res) => {
   const { token, password } = req.body;
 
-  const user = await userModel.findOne({
-    resetPasswordToken: token,
-    resetPasswordExpires: { $gt: Date.now() },
-  });
+  try {
+    const user = await userModel.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
 
-  if (!user) return res.status(400).json({ message: "The link has expired" });
+    if (!user) return res.status(400).json({ message: "The link has expired" });
 
-  user.password = password;
-  user.resetPasswordToken = undefined;
-  user.resetPasswordExpires = undefined;
-  await user.save();
+    user.password = await bcrypt.hash(password, 10);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
 
-  res.status(200).json({ message: "Password successfully reset" });
+    res.status(200).json({ message: "Password reset successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Error resetting password" });
+  }
 };
 
 module.exports = {

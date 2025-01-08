@@ -26,6 +26,7 @@ import Verification from "./Components/Landing/Verification/Verification";
 import Forgot from "./Components/Forgot/Forgot";
 import { useLoader } from "./Context/LoaderContext";
 import Loader from "./Components/Loader/Loader";
+import Reset from "./Components/Landing/Reset/Reset";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
@@ -79,6 +80,18 @@ function App() {
         >
           <Route path="forgot-password" element={<Forgot />} />
         </Route>
+        <Route path="/reset-password/:token" element={<Reset />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                {" "}
+                <Dashboard />{" "}
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/course"
           element={

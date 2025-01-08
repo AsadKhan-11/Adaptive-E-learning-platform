@@ -19,7 +19,6 @@ function Navbar({
       localStorage.removeItem("user");
       setNavText("Signup");
       setIsFlipped(false);
-      console.log("Navigating to /");
       window.location.href("/");
     } else {
       setIsFlipped((prev) => {
@@ -49,11 +48,7 @@ function Navbar({
         <img src={Nexedu} alt="Logo" className="nav-logo" />
 
         {isVerification ? null : (
-          <Link
-            to={isLoginPage || isForgotPage ? "/" : "/dashboard"}
-            className="nav-sign-btn"
-            onClick={handleNavClick}
-          >
+          <Link to={"/"} className="nav-sign-btn" onClick={handleNavClick}>
             {navText}
           </Link>
         )}
