@@ -21,7 +21,6 @@ router.get("/user/average", authMiddleware, async (req, res) => {
   const userId = req.user._id;
   try {
     const enrollment = await Enrollment.findOne({ userId: userId });
-    console.log("Enrollment Data:", enrollment);
 
     const result = await Enrollment.aggregate([
       {
@@ -30,6 +29,8 @@ router.get("/user/average", authMiddleware, async (req, res) => {
       {
         $project: {
           _id: 0,
+          totalCorrect: 1,
+          totalAttempts: 1,
           averageCorrect: {
             $cond: {
               if: { $eq: ["$totalAttempts", 0] },
@@ -48,9 +49,14 @@ router.get("/user/average", authMiddleware, async (req, res) => {
       },
     ]);
 
-    res.json(result[0]);
+    return res
+      .status(200)
+      .json({
+        totalCorrect: result[0]?.totalCorrect || 0,
+        totalAttempts: result[0]?.totalAttempts || 0,
+        averageCorrect: result[0]?.averageCorrect || 0,
+      });
   } catch (error) {
-    console.error("Error fetching user average:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -70,7 +76,6 @@ router.get("/user", authMiddleware, async (req, res) => {
 
     return res.status(200).json({ user, courses });
   } catch (error) {
-    console.error("Error fetching user data:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -114,17 +119,12 @@ router.post("/course/enroll/:courseId", authMiddleware, async (req, res) => {
       currentQuestion: firstQuestion._id,
     });
 
-    try {
-      await enrollment.save();
-    } catch (err) {
-      console.error("Error saving enrollment:", err.message || err);
-      res.status(500).json({ error: "Internal server error during save" });
-    }
+    await enrollment.save();
+
     return res
       .status(201)
       .json({ message: "Enrollment successful", success: true });
   } catch (err) {
-    console.log("error big one");
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -136,10 +136,14 @@ router.get("/course/enrollment/:courseId", authMiddleware, async (req, res) => {
 
   try {
     const alreadyEnrolled = await Enrollment.exists({ courseId, userId });
+    const courses = await Course.findById(courseId);
 
-    return res.status(201).json({ enrolled: !!alreadyEnrolled });
+    if (!courses) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+
+    return res.status(201).json({ enrolled: !!alreadyEnrolled, courses });
   } catch (err) {
-    console.log("error");
     return res.status(500).json({ error: "Server Error" });
   }
 });
@@ -158,7 +162,6 @@ router.put("/profile", authMiddleware, async (req, res) => {
     );
     res.json(updateUser);
   } catch (error) {
-    console.error("Error updating user data:", error);
     res.status(500).json({ error: "Failed to update user data" });
   }
 });

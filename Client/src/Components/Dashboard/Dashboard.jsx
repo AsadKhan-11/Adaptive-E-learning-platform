@@ -4,12 +4,23 @@ import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLoader } from "../../Context/LoaderContext";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 function Dashboard() {
   const [user, setUser] = useState({});
   const { setIsLoading } = useLoader();
 
   const [average, setAverage] = useState();
   const navigate = useNavigate();
+
+  const [userStats, setUserStats] = useState({
+    totalCorrect: 0,
+    totalAttempts: 0,
+    averageCorrect: 0,
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -30,7 +41,11 @@ function Dashboard() {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setAverage(averageResponse.data.averageCorrect);
+        setUserStats({
+          totalCorrect: averageResponse.data.totalCorrect,
+          totalAttempts: averageResponse.data.totalAttempts,
+          averageCorrect: averageResponse.data.averageCorrect,
+        });
       } catch (error) {
         console.error("Error during data fetching:", error);
         navigate("/");
@@ -46,6 +61,33 @@ function Dashboard() {
     return <div>Loading...</div>;
   }
 
+  const pieData = {
+    labels: ["Correct Answers", "Incorrect Answers"], // Labels for each section of the pie
+    datasets: [
+      {
+        data: [
+          userStats.totalCorrect,
+          userStats.totalAttempts - userStats.totalCorrect, // Incorrect answers = totalAttempts - totalCorrect
+        ],
+        backgroundColor: ["#36A2EB", "#FF6384"], // Colors for each section of the pie
+        hoverBackgroundColor: ["#36A2EB", "#FF6384"],
+      },
+    ],
+  };
+
+  const pieOptions = {
+    responsive: true,
+    maintainAspectRatio: false, // Allow resizing without maintaining the aspect ratio
+    plugins: {
+      tooltip: {
+        enabled: true,
+      },
+      legend: {
+        position: "top",
+      },
+    },
+  };
+
   return (
     <div className="Dashboard">
       <div className="Dashboard-items">
@@ -55,8 +97,11 @@ function Dashboard() {
         </div>
         <div className="Dashboard-container">
           <h3 className="Dashboard-name">Average Correct Answers</h3>
-          {average !== null && !isNaN(average) ? (
-            <p className="Dashboard-num">{average.toFixed(2)}%</p>
+          {userStats.averageCorrect !== null &&
+          !isNaN(userStats.averageCorrect) ? (
+            <p className="Dashboard-num">
+              {userStats.averageCorrect.toFixed(2)}%
+            </p>
           ) : (
             <p className="Dashboard-num">0%</p>
           )}
@@ -67,7 +112,7 @@ function Dashboard() {
           <p className="Dashboard-num">04:33:28</p>
         </div>
         <div className="Dashboard-container Dashboard-progress ">
-          <img src={chart} alt="Piechart" className="dashboard-chart" />
+          <Pie data={pieData} height={20} width={20} options={pieOptions} />
         </div>
         <div className="Dashboard-container">
           <h3 className="Dashboard-name">Course Details</h3>

@@ -24,6 +24,7 @@
 
 .Dashboard-progress {
   grid-column: span 2;
+  padding: 10px 0;
 }
 .dashboard-chart {
   height: 250px;
