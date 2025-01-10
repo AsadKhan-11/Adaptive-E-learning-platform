@@ -72,14 +72,6 @@ router.get("/user", authMiddleware, async (req, res) => {
 
     const courses = enrollment.map((enrollment) => enrollment.courseId);
 
-    try {
-      const questions = await Question.find({}, "_id"); // Fetch only the `_id` field
-      console.log("Question IDs:");
-      questions.forEach((question) => console.log(question._id));
-    } catch (error) {
-      console.error("Error fetching questions:", error);
-    }
-
     return res.status(200).json({ user, courses });
   } catch (error) {
     res.status(500).json({ message: "Server error" });

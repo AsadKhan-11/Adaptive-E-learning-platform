@@ -1,4 +1,4 @@
-// Required Modules
+const bodyParser = require("body-parser");
 const AuthRouter = require("./Routes/AuthRoute");
 const ProtectedRoute = require("./Routes/ProtectedRoute");
 const EmailRoute = require("./Routes/EmailRoute");
@@ -7,20 +7,16 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-// Initialize Express app
 const app = express();
-
-// Middleware setup
-app.use(express.json()); 
-app.use(cors()); 
-
-// Define Routes
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(cors());
 app.use("/auth", AuthRouter);
+
 app.use("/api", ProtectedRoute);
+
 app.use("/email", EmailRoute);
 
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log("server start");
 });
