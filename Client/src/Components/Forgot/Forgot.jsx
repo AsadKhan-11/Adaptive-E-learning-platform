@@ -17,7 +17,7 @@ function Forgot() {
       setIsLoading(true);
       // Replace with your backend endpoint
       const response = await axios.post(
-        "http://localhost:3000/auth/forgot-password",
+        "https://adaptive-e-learning-platform-11.onrender.com/auth/forgot-password",
         { email }
       );
 

@@ -19,7 +19,7 @@ function Reset() {
       try {
         setIsLoading(true);
         const response = await axios.post(
-          "http://localhost:3000/auth/reset-token",
+          "https://adaptive-e-learning-platform-11.onrender.com/auth/reset-token",
           {
             token,
           }
@@ -61,7 +61,7 @@ function Reset() {
     try {
       // Make API call to reset the password
       const response = await axios.post(
-        `http://localhost:3000/auth/reset-password`,
+        `https://adaptive-e-learning-platform-11.onrender.com/auth/reset-password`,
         {
           token,
           password,

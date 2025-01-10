@@ -72,7 +72,6 @@ const verifyEmail = async (req, res) => {
       info,
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Verification failed.", error });
   }
 };

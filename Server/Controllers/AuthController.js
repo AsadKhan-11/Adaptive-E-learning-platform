@@ -8,7 +8,6 @@ require("dotenv").config();
 
 const signup = async (req, res) => {
   const { name, email, password, code } = req.body;
-  console.log(req.body);
   try {
     const record = await Verification.findOne({ email, code });
     if (!record) {
@@ -89,7 +88,6 @@ const login = async (req, res) => {
       success: true,
     });
   } catch (err) {
-    console.log(err);
     res
       .status(500)
       .json({ message: "Internal Server Error", error: err, success: false });
@@ -109,7 +107,7 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
 
-    const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetLink = `https://adaptive-e-learning-platform-11.onrender.com/reset-password/${resetToken}`;
 
     // await sendEmail(email, "Password Reset", `Click here: ${resetLink}`);
     const mailOptions = {

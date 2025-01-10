@@ -29,14 +29,17 @@ function Dashboard() {
       try {
         setIsLoading(true);
 
-        const userResponse = await axios.get("http://localhost:3000/api/user", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const userResponse = await axios.get(
+          `https://adaptive-e-learning-platform-11.onrender.com/api/user`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setUser(userResponse.data.user);
         localStorage.setItem("user", JSON.stringify(userResponse.data));
 
         const averageResponse = await axios.get(
-          "http://localhost:3000/api/user/average",
+          `https://adaptive-e-learning-platform-11.onrender.com/api/user/average`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

@@ -16,17 +16,12 @@ function Quiz() {
   const isFetched = useRef(false); // Ref to prevent duplicate calls
 
   const fetchNextQuestion = useCallback(async () => {
-    if (isFetched.current) {
-      console.log("Question already fetched, skipping...");
-      return;
-    }
     isFetched.current = true;
     setLoading(true);
-    console.log("fetchNextQuestion called");
 
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/quiz/${courseId}`,
+        `https://adaptive-e-learning-platform-11.onrender.com/api/quiz/${courseId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -49,7 +44,7 @@ function Quiz() {
     setLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/quiz/${courseId}/submit-answer`,
+        `https://adaptive-e-learning-platform-11.onrender.com/api/quiz/${courseId}/submit-answer`,
         {
           questionId: question._id,
           answer: selectedAnswer,

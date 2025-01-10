@@ -3,22 +3,32 @@ import "./Course.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import data from "./Data";
+import { useLoader } from "../../Context/LoaderContext";
 function Course() {
   const navigate = useNavigate();
   const [course, setCourse] = useState([]);
   const token = localStorage.getItem("token");
 
+  const { setIsLoading } = useLoader();
+
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const info = await axios.get(`http://localhost:3000/api/course`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        setIsLoading(true);
+        const info = await axios.get(
+          `https://adaptive-e-learning-platform-11.onrender.com/api/course`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setCourse(info.data);
-        console.log(info.data);
-      } catch (err) {}
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchCourse();
   }, []);
@@ -26,7 +36,7 @@ function Course() {
   const handleClick = async (courseId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/course/enrollment/${courseId}`,
+        `https://adaptive-e-learning-platform-11.onrender.com/api/course/enrollment/${courseId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,16 +58,14 @@ function Course() {
   return (
     <div className="course">
       {course.map((course) => (
-        <div>
-          <div
-            className="course-container"
-            key={course._id}
-            onClick={() => handleClick(course._id)}
-          >
-            <img className="course-image" src="" alt="Course-Img" />
-            <h2 className="course-name">{course.title}</h2>
-            <p className="course-duration">{course.duration} months</p>
-          </div>
+        <div
+          className="course-container"
+          key={course._id}
+          onClick={() => handleClick(course._id)}
+        >
+          <img className="course-image" src="" alt="Course-Img" />
+          <h2 className="course-name">{course.title}</h2>
+          <p className="course-duration">{course.duration} months</p>
         </div>
       ))}
     </div>
