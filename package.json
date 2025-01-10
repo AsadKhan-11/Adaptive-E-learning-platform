@@ -9,7 +9,7 @@
     "preview:client": "vite preview",
     "dev:server": "nodemon Index.js",
     "start:server": "node Index.js",
-    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""
+    "dev": "echo \"Please run 'npm run dev:client' and 'npm run dev:server' separately\""
   },
   "dependencies": {
     "axios": "^1.7.7",
