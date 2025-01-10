@@ -18,10 +18,14 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 const corsOptions = {
-  origin: "https://adaptive-e-learning-platform.vercel.app", // Frontend URL
+  origin: [
+    "https://adaptive-e-learning-platform.vercel.app",
+    "http://localhost:5173",
+  ], // Frontend URL
   methods: "GET,POST,PUT,DELETE", // Allowed HTTP methods
   allowedHeaders: "Content-Type, Authorization", // Allowed headers
 };
+
 app.use(cors(corsOptions));
 
 // Routes

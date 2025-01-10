@@ -13,7 +13,7 @@ function Dashboard() {
   const [user, setUser] = useState({});
   const { setIsLoading } = useLoader();
 
-  const [average, setAverage] = useState();
+  const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
 
   const [userStats, setUserStats] = useState({
@@ -29,17 +29,14 @@ function Dashboard() {
       try {
         setIsLoading(true);
 
-        const userResponse = await axios.get(
-          `https://adaptive-e-learning-platform-11.onrender.com/api/user`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const userResponse = await axios.get(`http://localhost:3000/api/user`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setUser(userResponse.data.user);
         localStorage.setItem("user", JSON.stringify(userResponse.data));
 
         const averageResponse = await axios.get(
-          `https://adaptive-e-learning-platform-11.onrender.com/api/user/average`,
+          `http://localhost:3000/api/user/average`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -49,9 +46,19 @@ function Dashboard() {
           totalAttempts: averageResponse.data.totalAttempts,
           averageCorrect: averageResponse.data.averageCorrect,
         });
+        try {
+          setIsLoading(true);
+
+          const response = await axios.get("http://localhost:3000/api/user", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          setCourses(response.data.courses);
+        } catch (error) {
+          console.error("Error during data fetching :", error);
+        }
       } catch (error) {
         console.error("Error during data fetching:", error);
-        navigate("/");
       } finally {
         setIsLoading(false);
       }
@@ -117,22 +124,21 @@ function Dashboard() {
         <div className="Dashboard-container Dashboard-progress ">
           <Pie data={pieData} height={20} width={20} options={pieOptions} />
         </div>
-        <div className="Dashboard-container">
-          <h3 className="Dashboard-name">Course Details</h3>
+        <div className="Dashboard-container Course-completion">
           <div className="Dashboard-detail-container">
-            <h4 className="Dashboard-num">Course Name:</h4>
-            <p className="Dashboard-detail">Web Devlopment</p>
+            <h3 className="Dashboard-name">Course </h3>
+            <h3 className="Dashboard-name">Completion </h3>
           </div>
+          {courses.map((courses, index) => (
+            <div key={index}>
+              <div className="Dashboard-detail-container">
+                <h3 className="Dashboard-name">{courses.title} </h3>
+                <p className="Dashboard-name">40% </p>
+              </div>
 
-          <div className="Dashboard-detail-container">
-            <h4 className="Dashboard-num">Course Progress:</h4>
-            <p className="Dashboard-detail">40%</p>
-          </div>
-
-          <div className="Dashboard-detail-container">
-            <h4 className="Dashboard-num">Course Difficulty:</h4>
-            <p className="Dashboard-detail">Intermediate</p>
-          </div>
+              <hr style={{ height: "1px", width: "200px" }} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

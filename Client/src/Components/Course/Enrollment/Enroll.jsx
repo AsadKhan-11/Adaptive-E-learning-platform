@@ -16,7 +16,7 @@ function Enroll() {
 
       try {
         const response = await axios.get(
-          `https://adaptive-e-learning-platform-11.onrender.com/api/course/enrollment/${courseId}`,
+          `http://localhost:3000/api/course/enrollment/${courseId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -36,7 +36,7 @@ function Enroll() {
 
   const handleClick = async () => {
     const response = await axios.post(
-      `https://adaptive-e-learning-platform-11.onrender.com/api/course/enroll/${courseId}`,
+      `http://localhost:3000/api/course/enroll/${courseId}`,
       {},
       {
         headers: {

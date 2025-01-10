@@ -24,7 +24,6 @@ function Profile() {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(response);
         setUser(response.data.user);
         setCourses(response.data.courses);
         setOriginalUser(response.data.user);

@@ -71,7 +71,6 @@ router.get("/user", authMiddleware, async (req, res) => {
     );
 
     const courses = enrollment.map((enrollment) => enrollment.courseId);
-
     return res.status(200).json({ user, courses });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -164,6 +163,7 @@ router.put("/profile", authMiddleware, async (req, res) => {
 });
 
 router.get("/quiz/:courseId", authMiddleware, getNextQuestions);
+
 router.post("/quiz/:courseId/submit-answer", authMiddleware, submitAnswer);
 
 module.exports = router;

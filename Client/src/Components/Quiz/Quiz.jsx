@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./Quiz.css";
 import axios from "axios";
-import Loader from "../Loader/Loader";
 import { useParams } from "react-router-dom";
+import { useLoader } from "../../Context/LoaderContext";
 
 function Quiz() {
   const [question, setQuestion] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
   const [isAnswered, setIsAnswered] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const { setIsLoading } = useLoader();
   const [isCorrect, setIsCorrect] = useState(null);
 
   const token = localStorage.getItem("token");
@@ -17,11 +17,11 @@ function Quiz() {
 
   const fetchNextQuestion = useCallback(async () => {
     isFetched.current = true;
-    setLoading(true);
 
     try {
+      setIsLoading(true);
       const response = await axios.get(
-        `https://adaptive-e-learning-platform-11.onrender.com/api/quiz/${courseId}`,
+        `http://localhost:3000/api/quiz/${courseId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -32,19 +32,19 @@ function Quiz() {
     } catch (error) {
       console.error("Error fetching the next question:", error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   });
   useEffect(() => {
     fetchNextQuestion();
-  }, []);
+  }, [setIsLoading]);
 
   const handleAnswerSubmit = async (selectedAnswer) => {
     if (!selectedAnswer) return;
-    setLoading(true);
+    setIsLoading(true);
     try {
       const response = await axios.post(
-        `https://adaptive-e-learning-platform-11.onrender.com/api/quiz/${courseId}/submit-answer`,
+        `http://localhost:3000/api/quiz/${courseId}/submit-answer`,
         {
           questionId: question._id,
           answer: selectedAnswer,
@@ -57,7 +57,6 @@ function Quiz() {
       );
 
       const { isCorrect, nextQuestion } = response.data;
-      console.log(isCorrect, nextQuestion);
       if (isCorrect) {
         alert("Correct answer! 🎉");
       } else {
@@ -72,15 +71,13 @@ function Quiz() {
     } catch (error) {
       console.error("Error submitting the answer:", error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="quiz">
-      {loading && <Loader />}
-
-      {!loading && question && (
+      {setIsLoading && question && (
         <div>
           <div className="quiz-wrapper">
             <div className="quiz-container">
@@ -103,7 +100,6 @@ function Quiz() {
                 type="submit"
                 className="nav-sign-btn quiz-btn"
                 onClick={() => handleAnswerSubmit(selectedOption)}
-                disabled={loading}
               >
                 Submit
               </button>

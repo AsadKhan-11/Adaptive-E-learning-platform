@@ -22,6 +22,7 @@ const getNextQuestions = async (req, res) => {
         .status(404)
         .json({ message: "User performance data not found." });
     }
+
     // Predict next difficulty
     const nextDifficulty = await predictDifficulty(
       userPerformance.currentDifficulty,
@@ -34,7 +35,7 @@ const getNextQuestions = async (req, res) => {
     if (!course || !course.questions.length) {
       return res
         .status(404)
-        .json({ message: "No questions available in this course." });
+        .json({ message: "No questions available at the moment." });
     }
 
     // Fetch the next question
