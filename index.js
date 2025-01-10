@@ -1,7 +1,7 @@
 // Required Modules
-const AuthRouter = require("./Routes/AuthRoute");
-const ProtectedRoute = require("./Routes/ProtectedRoute");
-const EmailRoute = require("./Routes/EmailRoute");
+const AuthRouter = require("./Routes/AuthRoute.js");
+const ProtectedRoute = require("./Routes/ProtectedRoute.js");
+const EmailRoute = require("./Routes/EmailRoute.js");
 require("./Model/db");
 require("dotenv").config();
 const express = require("express");
