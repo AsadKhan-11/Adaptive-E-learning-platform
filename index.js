@@ -16,7 +16,13 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(cors({ origin: "adaptive-e-learning-platform.vercel.app" }));
+
+const corsOptions = {
+  origin: "https://adaptive-e-learning-platform.vercel.app", // Frontend URL
+  methods: "GET,POST,PUT,DELETE", // Allowed HTTP methods
+  allowedHeaders: "Content-Type, Authorization", // Allowed headers
+};
+app.use(cors(corsOptions));
 
 // Routes
 app.use("/auth", AuthRouter);
