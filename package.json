@@ -7,14 +7,14 @@
     "dev:client": "vite",  
     "build:client": "vite build",
     "preview:client": "vite preview",
-    "dev:server": "nodemon index.js",
-    "start:server": "node index.js",
-    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"" 
+    "dev:server": "nodemon index.js",  // For development (auto-reload with nodemon)
+    "start:server": "node index.js",   // For production (start the server without nodemon)
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"" // Run both frontend and backend in dev mode
   },
   "dependencies": {
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
-    "body-parser": "^1.20.3",
+    "body-parser": "^1.20.3",  // You can remove this if not using it
     "chart.js": "^4.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -36,7 +36,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "concurrently": "^9.1.2",
+    "concurrently": "^9.1.2",  // To run both frontend and backend together in development
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-react-hooks": "^4.6.2",
@@ -44,7 +44,7 @@
     "vite": "^5.3.1"
   },
   "engines": {
-    "node": ">=16.0.0",  // Ensure compatibility with the Node version on Render
-    "bun": ">=1.0.0"     // If you're using Bun, ensure it's specified here
+    "node": ">=16.0.0",  // Ensures compatibility with Render (or similar platforms)
+    "bun": ">=1.0.0"     // If using Bun (optional, can be removed if not)
   }
 }
