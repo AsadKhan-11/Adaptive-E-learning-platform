@@ -17,6 +17,7 @@ app.use("/api", ProtectedRoute);
 
 app.use("/email", EmailRoute);
 
-app.listen(process.env.PORT, () => {
-  console.log("server start");
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server started on port " + (process.env.PORT || 3000));
 });
+
