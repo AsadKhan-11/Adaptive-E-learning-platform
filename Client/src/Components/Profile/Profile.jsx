@@ -133,7 +133,7 @@ function Profile() {
         ) : (
           <div className="btns-container">
             <button
-              className="profile-change nav-sign-btn"
+              className="profile-change nav-sign-btn cancel"
               onClick={handleCancel}
             >
               Cancel

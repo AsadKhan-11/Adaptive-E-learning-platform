@@ -29,14 +29,17 @@ function Dashboard() {
       try {
         setIsLoading(true);
 
-        const userResponse = await axios.get(`http://localhost:3000/api/user`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const userResponse = await axios.get(
+          `https://adaptive-e-learning-platform-11.onrender.com/api/user`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setUser(userResponse.data.user);
         localStorage.setItem("user", JSON.stringify(userResponse.data));
 
         const averageResponse = await axios.get(
-          `http://localhost:3000/api/user/average`,
+          `https://adaptive-e-learning-platform-11.onrender.com/api/user/average`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -75,10 +78,13 @@ function Dashboard() {
     labels: ["Correct Answers", "Incorrect Answers"], // Labels for each section of the pie
     datasets: [
       {
-        data: [
-          userStats.totalCorrect,
-          userStats.totalAttempts - userStats.totalCorrect, // Incorrect answers = totalAttempts - totalCorrect
-        ],
+        data:
+          userStats.totalAttempts > 0
+            ? [
+                userStats.totalCorrect,
+                userStats.totalAttempts - userStats.totalCorrect, // Incorrect answers
+              ]
+            : [1, 0],
         backgroundColor: ["#36A2EB", "#FF6384"], // Colors for each section of the pie
         hoverBackgroundColor: ["#36A2EB", "#FF6384"],
       },
@@ -118,8 +124,18 @@ function Dashboard() {
         </div>
 
         <div className="Dashboard-container">
-          <h3 className="Dashboard-name">Time Spent</h3>
-          <p className="Dashboard-num">04:33:28</p>
+          <h3 className="Dashboard-name">Achievements</h3>
+          {userStats.averageCorrect > 80 ? (
+            <p className="Dashboard-num">Quiz Master</p>
+          ) : userStats.averageCorrect > 60 ? (
+            <p className="Dashboard-num">Well done!</p>
+          ) : userStats.averageCorrect > 60 ? (
+            <p className="Dashboard-num">Keep it going</p>
+          ) : (
+            <p p className="Dashboard-num">
+              No achievements yet.
+            </p>
+          )}
         </div>
         <div className="Dashboard-container Dashboard-progress ">
           <Pie data={pieData} height={20} width={20} options={pieOptions} />
@@ -127,18 +143,28 @@ function Dashboard() {
         <div className="Dashboard-container Course-completion">
           <div className="Dashboard-detail-container">
             <h3 className="Dashboard-name">Course </h3>
-            <h3 className="Dashboard-name">Completion </h3>
+            <h3 className="Dashboard-num">Completion </h3>
           </div>
-          {courses.map((courses, index) => (
-            <div key={index}>
-              <div className="Dashboard-detail-container">
-                <h3 className="Dashboard-name">{courses.title} </h3>
-                <p className="Dashboard-name">40% </p>
+          <hr style={{ height: "1px", width: "200px" }} />
+          {courses.length > 0 ? (
+            courses.map((course, index) => (
+              <div key={index}>
+                <div className="Dashboard-detail-container d1">
+                  <h3 className="Dashboard-name">{course.title}</h3>
+                  <p className="Dashboard-name">40%</p>
+                </div>
+                <hr style={{ height: "1px", width: "200px" }} />
               </div>
-
+            ))
+          ) : (
+            <div className="Dashboard-completion">
+              <div className="Dashboard-detail-container">
+                <h3 className="Dashboard-name">none</h3>
+                <p className="Dashboard-name">none</p>
+              </div>
               <hr style={{ height: "1px", width: "200px" }} />
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

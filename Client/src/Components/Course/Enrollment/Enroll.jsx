@@ -3,20 +3,19 @@ import "./Enroll.css";
 import html2 from "../images/html2.jpg";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { useLoader } from "../../../Context/LoaderContext";
 function Enroll() {
   const { courseId } = useParams();
   const [enroll, setEnroll] = useState([]);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const [loading, setLoading] = useState();
+  const { setLoading } = useLoader();
 
   useEffect(() => {
     const checkEnrollment = async () => {
-      setLoading(true);
-
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/course/enrollment/${courseId}`,
+          `https://adaptive-e-learning-platform-11.onrender.com/api/course/enrollment/${courseId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -28,7 +27,6 @@ function Enroll() {
       } catch (err) {
         console.error("Error checking enrollment status:", err);
       } finally {
-        setLoading(false);
       }
     };
     checkEnrollment();
@@ -36,7 +34,7 @@ function Enroll() {
 
   const handleClick = async () => {
     const response = await axios.post(
-      `http://localhost:3000/api/course/enroll/${courseId}`,
+      `https://adaptive-e-learning-platform-11.onrender.com/api/course/enroll/${courseId}`,
       {},
       {
         headers: {
@@ -63,8 +61,8 @@ function Enroll() {
 
         <img src={html2} alt="enrollment image" className="enroll-img" />
       </div>
-      <button className="enroll-btn" onClick={handleClick} disabled={loading}>
-        {loading ? "Processing" : "Enroll"}
+      <button className="enroll-btn" onClick={handleClick}>
+        {"Enroll"}
       </button>
     </div>
   );
