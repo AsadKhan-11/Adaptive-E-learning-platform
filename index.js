@@ -1,9 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
-import AuthRouter from "./Routes/AuthRoute.js";
-import ProtectedRoute from "./Routes/ProtectedRoute.js";  
-import EmailRoute from "./Routes/EmailRoute.js";
-import "./Model/db.js";  
+import AuthRouter from "./Server/Routes/AuthRoute.js";
+import ProtectedRoute from "./Server/Routes/ProtectedRoute.js";
+import EmailRoute from "./Server/Routes/EmailRoute.js";
+import "./Server/Model/db.js";  
 import dotenv from "dotenv";
 import cors from "cors";
 
