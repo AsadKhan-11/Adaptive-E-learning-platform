@@ -1,26 +1,29 @@
-// Required Modules
-const AuthRouter = require("./Routes/AuthRoute.js");
-const ProtectedRoute = require("./Routes/ProtectedRoute.js");
-const EmailRoute = require("./Routes/EmailRoute.js");
-require("./Model/db");
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import bodyParser from "body-parser";
+import AuthRouter from "./Routes/AuthRoute.js";
+import ProtectedRoute from "./Routes/ProtectedRoute.js";  
+import EmailRoute from "./Routes/EmailRoute.js";
+import "./Model/db.js";  
+import dotenv from "dotenv";
+import cors from "cors";
+
+// Load environment variables
+dotenv.config();
 
 // Initialize Express app
 const app = express();
 
-// Middleware setup
-app.use(express.json()); 
-app.use(cors()); 
+// Middleware
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(cors());
 
-// Define Routes
+// Routes
 app.use("/auth", AuthRouter);
 app.use("/api", ProtectedRoute);
 app.use("/email", EmailRoute);
 
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
+// Start the server
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server started on port " + (process.env.PORT || 3000));
 });
