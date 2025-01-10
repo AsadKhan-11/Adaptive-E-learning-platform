@@ -53,6 +53,7 @@ function App() {
           <Loader />
         </div>
       )}
+
       <Navbar
         navText={navText}
         setNavText={setNavText}

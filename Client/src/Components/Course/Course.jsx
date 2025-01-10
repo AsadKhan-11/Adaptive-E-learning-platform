@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import data from "./Data";
 import { useLoader } from "../../Context/LoaderContext";
+
 function Course() {
   const navigate = useNavigate();
   const [course, setCourse] = useState([]);

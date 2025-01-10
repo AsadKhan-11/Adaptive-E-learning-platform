@@ -52,9 +52,12 @@ function Dashboard() {
         try {
           setIsLoading(true);
 
-          const response = await axios.get("http://localhost:3000/api/user", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          const response = await axios.get(
+            "https://adaptive-e-learning-platform-11.onrender.com/api/user",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
 
           setCourses(response.data.courses);
         } catch (error) {
@@ -129,7 +132,7 @@ function Dashboard() {
             <p className="Dashboard-num">Quiz Master</p>
           ) : userStats.averageCorrect > 60 ? (
             <p className="Dashboard-num">Well done!</p>
-          ) : userStats.averageCorrect > 60 ? (
+          ) : userStats.averageCorrect > 40 ? (
             <p className="Dashboard-num">Keep it going</p>
           ) : (
             <p p className="Dashboard-num">
