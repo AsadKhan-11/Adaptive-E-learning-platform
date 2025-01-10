@@ -49,13 +49,11 @@ router.get("/user/average", authMiddleware, async (req, res) => {
       },
     ]);
 
-    return res
-      .status(200)
-      .json({
-        totalCorrect: result[0]?.totalCorrect || 0,
-        totalAttempts: result[0]?.totalAttempts || 0,
-        averageCorrect: result[0]?.averageCorrect || 0,
-      });
+    return res.status(200).json({
+      totalCorrect: result[0]?.totalCorrect || 0,
+      totalAttempts: result[0]?.totalAttempts || 0,
+      averageCorrect: result[0]?.averageCorrect || 0,
+    });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
@@ -73,6 +71,14 @@ router.get("/user", authMiddleware, async (req, res) => {
     );
 
     const courses = enrollment.map((enrollment) => enrollment.courseId);
+
+    try {
+      const questions = await Question.find({}, "_id"); // Fetch only the `_id` field
+      console.log("Question IDs:");
+      questions.forEach((question) => console.log(question._id));
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    }
 
     return res.status(200).json({ user, courses });
   } catch (error) {
@@ -97,7 +103,6 @@ router.post("/course/enroll/:courseId", authMiddleware, async (req, res) => {
 
   try {
     const alreadyEnrolled = await Enrollment.exists({ courseId, userId });
-
     if (alreadyEnrolled) {
       return res.status(400).json({ error: "Already enrolled in this course" });
     }

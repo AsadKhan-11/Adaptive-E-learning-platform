@@ -22,7 +22,6 @@ const getNextQuestions = async (req, res) => {
         .status(404)
         .json({ message: "User performance data not found." });
     }
-
     // Predict next difficulty
     const nextDifficulty = await predictDifficulty(
       userPerformance.currentDifficulty,
@@ -55,7 +54,7 @@ const getNextQuestions = async (req, res) => {
     res.json(nextQuestion);
   } catch (error) {
     console.error("Error in getNextQuestions:", error);
-    res.status(500).json({ message: "Internal Server Error." });
+    res.status(500).json({ message: "Error in getNextQuestions." });
   }
 };
 

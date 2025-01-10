@@ -38,7 +38,7 @@ function Card({
 
     try {
       const result = await axios.post(
-        "http://localhost:3000/auth/verify-email",
+        `https://adaptive-e-learning-platform-11.onrender.com/auth/verify-email`,
         {
           name: signupName,
           email: signupEmail,
@@ -77,10 +77,13 @@ function Card({
     e.preventDefault();
 
     try {
-      const result = await axios.post("http://localhost:3000/auth/login", {
-        email: loginEmail,
-        password: loginPassword,
-      });
+      const result = await axios.post(
+        `https://adaptive-e-learning-platform-11.onrender.com/auth/login`,
+        {
+          email: loginEmail,
+          password: loginPassword,
+        }
+      );
 
       setMessage(result.data.message);
 

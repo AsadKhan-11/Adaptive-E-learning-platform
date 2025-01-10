@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useLoader } from "../../Context/LoaderContext";
 
 function Profile() {
   const [isEditable, setIsEditable] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState({ name: "", email: "" });
   const [courses, setCourses] = useState({ courses: "" });
+  const { setIsLoading } = useLoader();
 
   const [originalUser, setOriginalUser] = useState({});
 
@@ -15,9 +17,13 @@ function Profile() {
     const token = localStorage.getItem("token");
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/user", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        setIsLoading(true);
+        const response = await axios.get(
+          "https://adaptive-e-learning-platform-11.onrender.com/api/user",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         console.log(response);
         setUser(response.data.user);
         setCourses(response.data.courses);
@@ -26,14 +32,16 @@ function Profile() {
       } catch (error) {
         console.error("Error fetching user data:", error);
         navigate("/");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchUserData();
-  }, [navigate]);
+  }, [navigate, setIsLoading]);
 
   if (!originalUser) {
-    return <div>Loading...</div>;
+    setIsLoading(true);
   }
 
   const handleEdit = () => {
@@ -56,7 +64,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/profile",
+        "https://adaptive-e-learning-platform-11.onrender.com/api/profile",
         payload,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -66,7 +74,6 @@ function Profile() {
       setUser(response.data);
       setOriginalUser(response.data);
       setIsEditable(false);
-      console.log("Error updating user data:", response);
     } catch (error) {
       console.error("Error updating user data:", error);
     }
