@@ -3,14 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev:client": "vite",  
-    "build:client": "vite build",
-    "preview:client": "vite preview",
-    "dev:server": "nodemon Index.js",
-    "start:server": "node Index.js",
-    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"" 
-  },
+"scripts": {
+  "start": "vite preview",       
+  "dev": "echo 'Please run dev:client and dev:server separately.'",
+  "dev:client": "vite",
+  "dev:server": "node server.js"  
+}
+
   "dependencies": {
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
