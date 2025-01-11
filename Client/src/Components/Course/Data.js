@@ -17,13 +17,6 @@ const data = [
     courseImg: img2,
     courseDuration: "2 months",
   },
-  {
-    courseId: "js-pro",
-    courseTitle: "Javascript course",
-    courseDesc: "",
-    courseImg: img3,
-    courseDuration: "4 months",
-  },
 ];
 
 export default data;

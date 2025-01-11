@@ -4,8 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import data from "./Data";
 import { useLoader } from "../../Context/LoaderContext";
+import html from "./images/html.png";
+import css from "./images/css.jpg";
 
 function Course() {
+  const imageMapping = {
+    "67670d9599b56943a89a45fb": html,
+    "6767ccc42cbd1950877526c4": css,
+  };
+
   const navigate = useNavigate();
   const [course, setCourse] = useState([]);
   const token = localStorage.getItem("token");
@@ -16,14 +23,11 @@ function Course() {
     const fetchCourse = async () => {
       try {
         setIsLoading(true);
-        const info = await axios.get(
-          `https://adaptive-e-learning-platform-11.onrender.com/api/course`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const info = await axios.get(`http://localhost:3000/api/course`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setCourse(info.data);
       } catch (err) {
         console.log(err);
@@ -37,7 +41,7 @@ function Course() {
   const handleClick = async (courseId) => {
     try {
       const response = await axios.get(
-        `https://adaptive-e-learning-platform-11.onrender.com/api/course/enrollment/${courseId}`,
+        `http://localhost:3000/api/course/enrollment/${courseId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -63,7 +67,11 @@ function Course() {
           key={course._id}
           onClick={() => handleClick(course._id)}
         >
-          <img className="course-image" src="" alt="Course-Img" />
+          <img
+            className="course-image"
+            src={imageMapping[course._id]} // Default image fallback
+            alt="Course-Img"
+          />
           <h2 className="course-name">{course.title}</h2>
           <p className="course-duration">{course.duration} months</p>
         </div>

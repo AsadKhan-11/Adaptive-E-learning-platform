@@ -51,15 +51,12 @@ const Verification = ({
     const verificateCode = code.join("");
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://adaptive-e-learning-platform-11.onrender.com/auth/signup",
-        {
-          email,
-          name,
-          password,
-          code: verificateCode,
-        }
-      );
+      const response = await axios.post("http://localhost:3000/auth/signup", {
+        email,
+        name,
+        password,
+        code: verificateCode,
+      });
       alert(response.data.message);
 
       setNavText("Signup");

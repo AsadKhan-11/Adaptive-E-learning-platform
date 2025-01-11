@@ -29,17 +29,14 @@ function Dashboard() {
       try {
         setIsLoading(true);
 
-        const userResponse = await axios.get(
-          `https://adaptive-e-learning-platform-11.onrender.com/api/user`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const userResponse = await axios.get(`http://localhost:3000/api/user`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setUser(userResponse.data.user);
         localStorage.setItem("user", JSON.stringify(userResponse.data));
 
         const averageResponse = await axios.get(
-          `https://adaptive-e-learning-platform-11.onrender.com/api/user/average`,
+          `http://localhost:3000/api/user/average`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -52,12 +49,9 @@ function Dashboard() {
         try {
           setIsLoading(true);
 
-          const response = await axios.get(
-            "https://adaptive-e-learning-platform-11.onrender.com/api/user",
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
+          const response = await axios.get("http://localhost:3000/api/user", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
 
           setCourses(response.data.courses);
         } catch (error) {
@@ -154,7 +148,7 @@ function Dashboard() {
               <div key={index}>
                 <div className="Dashboard-detail-container d1">
                   <h3 className="Dashboard-name">{course.title}</h3>
-                  <p className="Dashboard-name">40%</p>
+                  <p className="Dashboard-name">0%</p>
                 </div>
                 <hr style={{ height: "1px", width: "200px" }} />
               </div>

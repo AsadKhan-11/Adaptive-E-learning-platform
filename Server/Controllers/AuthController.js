@@ -107,7 +107,7 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
 
-    const resetLink = `https://adaptive-e-learning-platform-11.onrender.com/reset-password/${resetToken}`;
+    const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
 
     // await sendEmail(email, "Password Reset", `Click here: ${resetLink}`);
     const mailOptions = {

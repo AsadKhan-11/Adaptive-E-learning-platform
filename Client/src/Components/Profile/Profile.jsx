@@ -18,12 +18,9 @@ function Profile() {
     const fetchUserData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(
-          "https://adaptive-e-learning-platform-11.onrender.com/api/user",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const response = await axios.get("http://localhost:3000/api/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setUser(response.data.user);
         setCourses(response.data.courses);
         setOriginalUser(response.data.user);
@@ -63,7 +60,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        "https://adaptive-e-learning-platform-11.onrender.com/api/profile",
+        "http://localhost:3000/api/profile",
         payload,
         {
           headers: { Authorization: `Bearer ${token}` },

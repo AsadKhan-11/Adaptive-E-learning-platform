@@ -125,6 +125,7 @@ const submitAnswer = async (req, res) => {
       isCorrect,
       nextQuestion,
       updatedPerformance: userPerformance,
+      correctAnswer: question.answer,
     });
   } catch (error) {
     console.error("Error in submitAnswer:", error);
