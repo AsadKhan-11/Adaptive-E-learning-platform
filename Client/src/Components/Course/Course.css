@@ -1,7 +1,9 @@
 .course {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
   flex-wrap: wrap;
   gap: 40px;
   width: 100%;

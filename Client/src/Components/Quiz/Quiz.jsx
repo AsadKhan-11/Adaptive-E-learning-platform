@@ -19,7 +19,6 @@ function Quiz() {
   const navigate = useNavigate();
   const fetchNextQuestion = useCallback(async () => {
     isFetched.current = true;
-
     try {
       setIsLoading(true);
       const response = await axios.get(
@@ -39,6 +38,18 @@ function Quiz() {
       setIsLoading(false);
     }
   });
+
+  const handleSubmit = () => {
+    if (selectedOption) {
+      setErr(false);
+      setMessage("Answer submitted successfully!");
+      handleAnswerSubmit(selectedOption);
+    } else {
+      setErr(true);
+      setMessage("Please select an option before submitting.");
+    }
+  };
+
   useEffect(() => {
     fetchNextQuestion();
   }, [setIsLoading]);
@@ -60,10 +71,9 @@ function Quiz() {
       );
 
       const { isCorrect, nextQuestion, correctAnswer } = response.data;
-      console.log(isCorrect);
       if (isCorrect) {
         setErr(false);
-        setMessage("Correct Answer  🎉");
+        setMessage("Correct Answer 🎉");
       } else {
         setErr(true);
         setMessage(`The correct answer is ${correctAnswer}`);
@@ -94,9 +104,9 @@ function Quiz() {
             <div className="quiz-container">
               <h3 className="quiz-question">{question.text}?</h3>
               <ul className="quiz-detail">
-                {question.options.map((options) => (
+                {question.options.map((options, index) => (
                   <li
-                    key={options}
+                    key={index}
                     onClick={() => setSelectedOption(options)}
                     className={`quiz-opt ${
                       selectedOption === options ? "highlighted" : ""
@@ -110,7 +120,8 @@ function Quiz() {
               <button
                 type="submit"
                 className="nav-sign-btn quiz-btn"
-                onClick={() => handleAnswerSubmit(selectedOption)}
+                onClick={handleSubmit}
+                disabled={!selectedOption}
               >
                 Submit
               </button>

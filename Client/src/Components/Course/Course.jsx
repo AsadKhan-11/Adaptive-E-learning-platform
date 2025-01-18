@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./Course.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -19,24 +19,25 @@ function Course() {
 
   const { setIsLoading } = useLoader();
 
-  useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        setIsLoading(true);
-        const info = await axios.get(`http://localhost:3000/api/course`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCourse(info.data);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchCourse();
+  const fetchCourse = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const info = await axios.get(`http://localhost:3000/api/course`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCourse(info.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchCourse();
+  }, [fetchCourse]);
 
   const handleClick = async (courseId) => {
     try {

@@ -28,7 +28,6 @@ function Dashboard() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-
         const userResponse = await axios.get(`http://localhost:3000/api/user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -46,17 +45,12 @@ function Dashboard() {
           totalAttempts: averageResponse.data.totalAttempts,
           averageCorrect: averageResponse.data.averageCorrect,
         });
-        try {
-          setIsLoading(true);
 
-          const response = await axios.get("http://localhost:3000/api/user", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+        const response = await axios.get("http://localhost:3000/api/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-          setCourses(response.data.courses);
-        } catch (error) {
-          console.error("Error during data fetching :", error);
-        }
+        setCourses(response.data.courses);
       } catch (error) {
         console.error("Error during data fetching:", error);
       } finally {
@@ -155,7 +149,7 @@ function Dashboard() {
             ))
           ) : (
             <div className="Dashboard-completion">
-              <div className="Dashboard-detail-container">
+              <div className="Dashboard-detail-container d1">
                 <h3 className="Dashboard-name">none</h3>
                 <p className="Dashboard-name">none</p>
               </div>

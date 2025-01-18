@@ -3,10 +3,11 @@
   color: white;
   background-color: #5a9bd3;
   padding: 50px 0 0;
+  width: 200px;
+  position: fixed;
 }
 
 .sidebar-list {
-  width: 200px;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;

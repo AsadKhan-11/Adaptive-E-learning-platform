@@ -25,6 +25,7 @@ function Profile() {
         setCourses(response.data.courses);
         setOriginalUser(response.data.user);
         localStorage.setItem("user", JSON.stringify(response.data));
+        console.log(courses);
       } catch (error) {
         console.error("Error fetching user data:", error);
         navigate("/");
@@ -90,6 +91,7 @@ function Profile() {
             className={isEditable ? "editable" : "disabled"}
             type="text"
             name="name"
+            required
             value={user.name}
             disabled={!isEditable}
             onChange={(e) => {
@@ -116,9 +118,10 @@ function Profile() {
                 <p className="disabled">No courses</p>
               ) : (
                 courses.map((course, index) => (
-                  <p className="disabled" key={index}>
+                  <span className="disabled" key={index}>
                     {course.title}
-                  </p>
+                    {index < courses.length - 1 ? ", " : ""}
+                  </span>
                 ))
               )
             ) : (
