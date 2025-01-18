@@ -16,27 +16,30 @@ const getNextQuestions = async (req, res) => {
 
   try {
     // Fetch user performance
-    const userPerformance = await Enrollment.findOne({ userId, courseId });
+    const userPerformance = await Enrollment.findOne({
+      userId,
+      courseId,
+    });
+    // Fetch course and questions
+    const course = await Course.findById(courseId).populate("questions").lean();
+
     if (!userPerformance) {
       return res
         .status(404)
         .json({ message: "User performance data not found." });
     }
 
+    if (!course || !course.questions.length) {
+      return res
+        .status(404)
+        .json({ message: "No questions available at the moment." });
+    }
     // Predict next difficulty
     const nextDifficulty = await predictDifficulty(
       userPerformance.currentDifficulty,
       userPerformance.totalAttempts,
       userPerformance.totalCorrect
     );
-
-    // Fetch course and questions
-    const course = await Course.findById(courseId).populate("questions");
-    if (!course || !course.questions.length) {
-      return res
-        .status(404)
-        .json({ message: "No questions available at the moment." });
-    }
 
     // Fetch the next question
     const nextQuestion = getNextQuestionFromCourse(
