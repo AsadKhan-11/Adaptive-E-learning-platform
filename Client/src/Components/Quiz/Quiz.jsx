@@ -19,6 +19,7 @@ function Quiz() {
   const navigate = useNavigate();
   const fetchNextQuestion = useCallback(async () => {
     isFetched.current = true;
+    setIsAnswered(true);
     try {
       setIsLoading(true);
       const response = await axios.get(
@@ -36,17 +37,21 @@ function Quiz() {
       console.error("Error fetching the next question:", error);
     } finally {
       setIsLoading(false);
+      setIsAnswered(false);
     }
   });
 
   const handleSubmit = () => {
     if (selectedOption) {
-      setErr(false);
-      setMessage("Answer submitted successfully!");
       handleAnswerSubmit(selectedOption);
     } else {
       setErr(true);
       setMessage("Please select an option before submitting.");
+      setTimeout(() => {
+        setMessage("");
+        setIsCorrect(null);
+        setErr(false);
+      }, 3000);
     }
   };
 
@@ -55,7 +60,6 @@ function Quiz() {
   }, [setIsLoading]);
 
   const handleAnswerSubmit = async (selectedAnswer) => {
-    if (!selectedAnswer) return;
     try {
       const response = await axios.post(
         `http://localhost:3000/api/quiz/${courseId}/submit-answer`,
@@ -121,7 +125,7 @@ function Quiz() {
                 type="submit"
                 className="nav-sign-btn quiz-btn"
                 onClick={handleSubmit}
-                disabled={!selectedOption}
+                disabled={isAnswered}
               >
                 Submit
               </button>

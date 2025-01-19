@@ -87,6 +87,13 @@ function Dashboard() {
       },
       legend: {
         position: "top",
+        labels: {
+          color: "#000", // Set the label text color
+          font: {
+            size: 12, // Set the font size for labels
+            weigh: "bold", // Set the font family for labels
+          },
+        },
       },
     },
   };
