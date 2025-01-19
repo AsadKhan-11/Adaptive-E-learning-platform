@@ -19,7 +19,6 @@ function Quiz() {
   const navigate = useNavigate();
   const fetchNextQuestion = useCallback(async () => {
     isFetched.current = true;
-    setIsAnswered(true);
     try {
       setIsLoading(true);
       const response = await axios.get(
@@ -37,24 +36,30 @@ function Quiz() {
       console.error("Error fetching the next question:", error);
     } finally {
       setIsLoading(false);
-      setIsAnswered(false);
     }
   });
 
-  const handleSubmit = () => {
-    if (selectedOption) {
-      handleAnswerSubmit(selectedOption);
-    } else {
+  const handleSubmit = async () => {
+    if (!selectedOption) {
       setErr(true);
       setMessage("Please select an option before submitting.");
       setTimeout(() => {
         setMessage("");
-        setIsCorrect(null);
         setErr(false);
       }, 3000);
+      return;
+    }
+
+    setIsAnswered(true);
+
+    try {
+      await handleAnswerSubmit(selectedOption);
+    } catch (error) {
+      console.error("Error during submission:", error);
+    } finally {
+      setIsAnswered(false);
     }
   };
-
   useEffect(() => {
     fetchNextQuestion();
   }, [setIsLoading]);
@@ -97,6 +102,8 @@ function Quiz() {
       navigate("/dashboard");
 
       console.error("Error submitting the answer:", error);
+    } finally {
+      setSelectedOption(null);
     }
   };
 
@@ -123,7 +130,9 @@ function Quiz() {
 
               <button
                 type="submit"
-                className="nav-sign-btn quiz-btn"
+                className={`nav-sign-btn quiz-btn ${
+                  isAnswered ? "disabled-btn" : ""
+                }`}
                 onClick={handleSubmit}
                 disabled={isAnswered}
               >

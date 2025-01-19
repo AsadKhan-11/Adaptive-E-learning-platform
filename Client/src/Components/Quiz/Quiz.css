@@ -66,3 +66,9 @@
 .highlighted {
   background-color: #197cdf;
 }
+
+.disabled-btn {
+  cursor: not-allowed;
+  color: #666;
+  background-color: #ccc;
+}
