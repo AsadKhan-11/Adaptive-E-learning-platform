@@ -32,6 +32,7 @@ function Dashboard() {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(userResponse.data.user);
+        setCourses(userResponse.data.courses);
         localStorage.setItem("user", JSON.stringify(userResponse.data));
 
         const averageResponse = await axios.get(
@@ -40,17 +41,12 @@ function Dashboard() {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
+
         setUserStats({
-          totalCorrect: averageResponse.data.totalCorrect,
-          totalAttempts: averageResponse.data.totalAttempts,
+          totalCorrect: userResponse.data.user.totalCorrect,
+          totalAttempts: userResponse.data.user.totalAttempts,
           averageCorrect: averageResponse.data.averageCorrect,
         });
-
-        const response = await axios.get("http://localhost:3000/api/user", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        setCourses(response.data.courses);
       } catch (error) {
         console.error("Error during data fetching:", error);
       } finally {
@@ -141,7 +137,7 @@ function Dashboard() {
             courses.map((course, index) => (
               <div key={index}>
                 <div className="Dashboard-detail-container d1">
-                  <h3 className="Dashboard-name">{course.title}</h3>
+                  <h3 className="Dashboard-name">{course}</h3>
                   <p className="Dashboard-name">0%</p>
                 </div>
                 <hr style={{ height: "1px", width: "200px" }} />

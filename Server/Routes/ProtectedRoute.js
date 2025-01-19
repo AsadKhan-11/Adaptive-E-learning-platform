@@ -9,6 +9,7 @@ const {
   getNextQuestions,
   submitAnswer,
 } = require("../Controllers/QuestionController");
+const userModel = require("../Model/User");
 
 router.get("/dashboard", authMiddleware, (req, res) => {
   res.json({ message: `Welcome to your dashboard, ${req.user.email}!` });
@@ -20,11 +21,9 @@ router.get("/send/email", authMiddleware, (req, res) => {
 router.get("/user/average", authMiddleware, async (req, res) => {
   const userId = req.user._id;
   try {
-    const enrollment = await Enrollment.findOne({ userId: userId });
-
-    const result = await Enrollment.aggregate([
+    const result = await userModel.aggregate([
       {
-        $match: { userId: new mongoose.Types.ObjectId(userId) },
+        $match: { _id: new mongoose.Types.ObjectId(userId) },
       },
       {
         $project: {
@@ -70,7 +69,7 @@ router.get("/user", authMiddleware, async (req, res) => {
       "courseId"
     );
 
-    const courses = enrollment.map((enrollment) => enrollment.courseId);
+    const courses = enrollment.map((enrollment) => enrollment.courseId.title);
     return res.status(200).json({ user, courses });
   } catch (error) {
     res.status(500).json({ message: "Server error" });

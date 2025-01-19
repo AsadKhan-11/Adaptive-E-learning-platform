@@ -31,12 +31,6 @@ const enrollmentSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    // currentQuestionId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Question",
-    //   default: null,
-    //   required: true,
-    // },
 
     completed: {
       type: Boolean,

@@ -33,6 +33,15 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    totalAttempts: {
+      type: Number,
+      default: 0,
+    },
+
+    totalCorrect: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

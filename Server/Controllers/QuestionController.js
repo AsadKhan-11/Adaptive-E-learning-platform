@@ -1,6 +1,7 @@
 const Course = require("../Model/Course");
 const Enrollment = require("../Model/Enrollment");
 const Question = require("../Model/Question");
+const userModel = require("../Model/User");
 const predictDifficulty = require("../Utils/AiModel");
 
 const getNextQuestionFromCourse = (course, userPerformance, nextDifficulty) => {
@@ -70,6 +71,8 @@ const submitAnswer = async (req, res) => {
   try {
     // Fetch user performance
     const userPerformance = await Enrollment.findOne({ userId, courseId });
+    const user = await userModel.findById(userId);
+
     if (!userPerformance) {
       return res
         .status(404)
@@ -79,15 +82,21 @@ const submitAnswer = async (req, res) => {
     // Fetch the question
     const question = await Question.findById(questionId);
     if (!question) {
-      return res.status(404).json({ message: "Question not found." });
+      return res
+        .status(404)
+        .json({ message: "No further questions at the moment" });
     }
 
     // Check if the answer is correct
     const isCorrect = answer === question.answer;
 
     // Update user performance
+    user.totalAttempts += 1;
     userPerformance.totalAttempts += 1;
-    if (isCorrect) userPerformance.totalCorrect += 1;
+    if (isCorrect) {
+      user.totalCorrect += 1;
+      userPerformance.totalCorrect += 1;
+    }
     userPerformance.answeredQuestions.push(questionId);
 
     // Predict next difficulty and update
@@ -99,7 +108,7 @@ const submitAnswer = async (req, res) => {
     userPerformance.currentDifficulty = nextDifficulty;
 
     // Save updated performance
-    await userPerformance.save();
+    await Promise.all([userPerformance.save(), user.save()]);
 
     // Fetch course and questions
     const course = await Course.findById(courseId).populate("questions");
@@ -123,11 +132,15 @@ const submitAnswer = async (req, res) => {
     }
 
     // Return the updated performance and next question
+
     res.json({
       message: isCorrect ? "Correct answer!" : "Wrong answer, try again.",
       isCorrect,
       nextQuestion,
-      updatedPerformance: userPerformance,
+      updatedPerformance: {
+        totalCorrect: user.totalCorrect,
+        totalAttempts: user.totalAttempts,
+      },
       correctAnswer: question.answer,
     });
   } catch (error) {

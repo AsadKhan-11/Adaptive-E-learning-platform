@@ -8,7 +8,7 @@ function Profile() {
   const [isEditable, setIsEditable] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState({ name: "", email: "" });
-  const [courses, setCourses] = useState({ courses: "" });
+  const [courses, setCourses] = useState([]);
   const { setIsLoading } = useLoader();
 
   const [originalUser, setOriginalUser] = useState({});
@@ -25,7 +25,6 @@ function Profile() {
         setCourses(response.data.courses);
         setOriginalUser(response.data.user);
         localStorage.setItem("user", JSON.stringify(response.data));
-        console.log(courses);
       } catch (error) {
         console.error("Error fetching user data:", error);
         navigate("/");
@@ -75,6 +74,7 @@ function Profile() {
       console.error("Error updating user data:", error);
     }
   };
+  console.log(courses);
 
   return (
     <div className="profile">
@@ -119,8 +119,7 @@ function Profile() {
               ) : (
                 courses.map((course, index) => (
                   <span className="disabled" key={index}>
-                    {course.title}
-                    {index < courses.length - 1 ? ", " : ""}
+                    {course} {index < courses.length - 1 ? ", " : ""}
                   </span>
                 ))
               )
