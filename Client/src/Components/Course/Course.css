@@ -1,7 +1,7 @@
 .course {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   padding-left: 20px;
   padding-right: 20px;
   flex-wrap: wrap;
@@ -15,11 +15,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #5a9bd3;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d6d6d6;
   margin-top: 100px;
   padding: 10px;
   border-radius: 8px;
   transition: all 1s;
+  cursor: pointer;
 }
 .course-link {
   text-decoration: none;
@@ -27,7 +30,7 @@
 }
 
 .course-container:hover {
-  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .course-image {
@@ -38,4 +41,8 @@
 
 .course-container:hover {
   transform: translateY(-10px);
+}
+
+.course-name {
+  color: #1a237e;
 }

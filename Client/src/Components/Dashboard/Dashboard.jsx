@@ -88,7 +88,7 @@ function Dashboard() {
       legend: {
         position: "top",
         labels: {
-          color: "#000", // Set the label text color
+          color: "#212121", // Set the label text color
           font: {
             size: 12, // Set the font size for labels
             weigh: "bold", // Set the font family for labels
@@ -137,7 +137,7 @@ function Dashboard() {
         <div className="Dashboard-container Course-completion">
           <div className="Dashboard-detail-container">
             <h3 className="Dashboard-name">Course </h3>
-            <h3 className="Dashboard-num">Completion </h3>
+            <h3 className="Dashboard-name">Completion </h3>
           </div>
           <hr style={{ height: "1px", width: "200px" }} />
           {courses.length > 0 ? (
@@ -145,7 +145,7 @@ function Dashboard() {
               <div key={index}>
                 <div className="Dashboard-detail-container d1">
                   <h3 className="Dashboard-name">{course}</h3>
-                  <p className="Dashboard-name">0%</p>
+                  <p className="Dashboard-num">0%</p>
                 </div>
                 <hr style={{ height: "1px", width: "200px" }} />
               </div>
@@ -153,8 +153,8 @@ function Dashboard() {
           ) : (
             <div className="Dashboard-completion">
               <div className="Dashboard-detail-container d1">
-                <h3 className="Dashboard-name">none</h3>
-                <p className="Dashboard-name">none</p>
+                <h3 className="Dashboard-num">none</h3>
+                <p className="Dashboard-num">none</p>
               </div>
               <hr style={{ height: "1px", width: "200px" }} />
             </div>

@@ -67,6 +67,10 @@ input:-webkit-autofill {
   overflow: hidden;
 }
 
+.card-info ion-icon {
+  color: white;
+}
+
 .form-icon {
   position: absolute;
   top: 50%;

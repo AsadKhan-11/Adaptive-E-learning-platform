@@ -1,9 +1,9 @@
 .Navbar-sec {
   width: 100%;
   font-size: 20px;
-  background-color: #007bff;
+  background-color: #0d47a1;
   position: sticky;
-
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
   z-index: 2;
   top: 0;
 }
@@ -33,7 +33,7 @@
   align-items: center;
   justify-content: center;
   color: white;
-  background-color: #1e90ff;
+  background-color: #1976d2;
   height: 45px;
   width: 100px;
   border: none;
@@ -46,5 +46,5 @@
 }
 
 .nav-sign-btn:hover {
-  background-color: #187bcd;
+  background-color: #1565c0;
 }
