@@ -42,14 +42,29 @@ label,
   padding: 0 10px 0 35px;
   font-size: 16px;
 }
+
+.eye-icon {
+  height: 90%;
+  width: 90%;
+  z-index: 33;
+
+  cursor: pointer;
+}
+
+.eye-icon:hover {
+  color: grey;
+}
+
 input:focus,
 input:-webkit-autofill {
   background-color: rgb(54, 54, 54);
 }
 
 .card-info {
-  display: flex;
   position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
 .form-icon {
@@ -59,6 +74,16 @@ input:-webkit-autofill {
   left: 3%;
   height: 20px;
   width: 20px;
+}
+.form-icon-2 {
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  border-radius: 12px;
+  transform: translateY(-50%);
+  right: 3%;
+  height: 25px;
+  width: 25px;
 }
 
 .form-icon ion-icon {

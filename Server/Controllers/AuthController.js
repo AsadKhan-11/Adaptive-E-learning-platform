@@ -8,6 +8,7 @@ require("dotenv").config();
 
 const signup = async (req, res) => {
   const { name, email, password, code } = req.body;
+
   try {
     const record = await Verification.findOne({ email, code });
     if (!record) {
@@ -134,6 +135,7 @@ const forgotPassword = async (req, res) => {
 // Reset Password
 const resetPassword = async (req, res) => {
   const { token, password } = req.body;
+  const passPattern = new RegExp("^.{8,}$");
 
   try {
     const user = await userModel.findOne({
@@ -142,6 +144,17 @@ const resetPassword = async (req, res) => {
     });
 
     if (!user) return res.status(400).json({ message: "The link has expired" });
+    else if (!password) {
+      return res.status(400).json({
+        message: "Password is required",
+        success: false,
+      });
+    } else if (!passPattern.test(password)) {
+      return res.status(400).json({
+        message: "Password should be atleast 8 characters ",
+        success: false,
+      });
+    }
 
     user.password = await bcrypt.hash(password, 10);
     user.resetPasswordToken = undefined;

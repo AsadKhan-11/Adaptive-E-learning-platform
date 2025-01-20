@@ -16,6 +16,7 @@ function Card({
 }) {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [err, setErr] = useState(false);
   const navigate = useNavigate();
@@ -32,6 +33,10 @@ function Card({
       navigate("/dashboard");
     }
   }, [navigate, location.pathname]);
+
+  const togglePassword = () => {
+    setShowPassword((prevPassword) => !prevPassword);
+  };
 
   const SubmitSignup = async (e) => {
     e.preventDefault();
@@ -129,6 +134,7 @@ function Card({
               placeholder="Enter email "
               onChange={(e) => setLoginEmail(e.target.value)}
             />
+            <div className="form-icon"></div>
           </div>
 
           <div className="card-info">
@@ -136,13 +142,19 @@ function Card({
               <ion-icon name="lock-closed-outline"></ion-icon>
             </div>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="card-input"
               name="password"
               placeholder="Enter password "
               value={loginPassword}
               onChange={(e) => setLoginPassword(e.target.value)}
             />
+            <div className="form-icon-2" onClick={togglePassword}>
+              <ion-icon
+                name={showPassword ? "eye-off-outline" : "eye-outline"}
+                class="eye-icon"
+              ></ion-icon>{" "}
+            </div>
           </div>
 
           <Link to="forgot-password" className="card-forgot">
