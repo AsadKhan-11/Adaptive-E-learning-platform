@@ -74,7 +74,7 @@ function Course() {
             alt="Course-Img"
           />
           <h2 className="course-name">{course.title}</h2>
-          <p className="course-duration">{course.duration} months</p>
+          {/* <p className="course-duration">{course.duration} months</p> */}
         </div>
       ))}
     </div>

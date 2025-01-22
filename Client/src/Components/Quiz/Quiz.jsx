@@ -12,13 +12,14 @@ function Quiz() {
   const { setIsLoading } = useLoader();
   const [isCorrect, setIsCorrect] = useState(null);
   const [err, setErr] = useState(null);
-
+  const [showModal, setShowModal] = useState(false);
   const token = localStorage.getItem("token");
   const { courseId } = useParams();
   const isFetched = useRef(false); // Ref to prevent duplicate calls
   const navigate = useNavigate();
   const fetchNextQuestion = useCallback(async () => {
     isFetched.current = true;
+    console.log(question);
     try {
       setIsLoading(true);
       const response = await axios.get(
@@ -107,6 +108,10 @@ function Quiz() {
     }
   };
 
+  const toggleHelpModal = () => {
+    setShowModal(!showModal);
+  };
+
   return (
     <div className="quiz">
       {question && (
@@ -141,8 +146,39 @@ function Quiz() {
               <p className={`message ${err ? "error" : "success"}`}>
                 {message}
               </p>
+              <p className="help-btn" onClick={toggleHelpModal}>
+                Need Help?
+              </p>
             </div>
           </div>
+          {showModal && (
+            <div className="modal">
+              <div className="modal-content">
+                <h4>Need Help?</h4>
+                {question.videos && question.videos.length > 0 ? (
+                  <>
+                    <p>Here are some videos for your help:</p>
+                    {question.videos.map((video, index) => (
+                      <div key={index}>
+                        <h4 className="videos-label">Link {index + 1}</h4>
+                        <a
+                          href={video}
+                          target="_blank"
+                          className="quiz-videos"
+                          rel="noopener noreferrer"
+                        >
+                          {video}
+                        </a>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <p>No videos available at the moment.</p>
+                )}
+                <button onClick={toggleHelpModal}>Close</button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

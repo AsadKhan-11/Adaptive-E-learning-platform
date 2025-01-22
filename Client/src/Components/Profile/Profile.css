@@ -33,6 +33,7 @@
 .profile-info label {
   color: #1a237e;
   font-weight: 600;
+  width: 70px;
 }
 
 .disabled {
