@@ -58,6 +58,52 @@ router.get("/user/average", authMiddleware, async (req, res) => {
   }
 });
 
+router.get("/course/average/:courseId", authMiddleware, async (req, res) => {
+  const userId = req.user._id;
+  const courseId = req.params.courseId;
+
+  try {
+    const enrollment = await Enrollment.findOne({ userId: userId });
+    const result = await Enrollment.aggregate([
+      {
+        $match: {
+          userId: new mongoose.Types.ObjectId(userId),
+          courseId: new mongoose.Types.ObjectId(courseId),
+        },
+
+        $project: {
+          _id: 0,
+          totalCorrect: 1,
+          totalAttempts: 1,
+          averageCorrect: {
+            $cond: {
+              if: { $eq: ["$totalAttempts", 0] },
+              then: 0,
+              else: {
+                $multiply: [
+                  {
+                    $divide: ["$totalCorrect", "$totalAttempts"],
+                  },
+                  100,
+                ],
+              },
+            },
+          },
+        },
+      },
+    ]);
+
+    console.log(result);
+    return res.status(200).json({
+      totalCorrect: result[0]?.totalCorrect || 0,
+      totalAttempts: result[0]?.totalAttempts || 0,
+      averageCorrect: result[0]?.averageCorrect || 0,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 router.get("/user", authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select("-password");
@@ -69,7 +115,8 @@ router.get("/user", authMiddleware, async (req, res) => {
       "courseId"
     );
 
-    const courses = enrollment.map((enrollment) => enrollment.courseId.title);
+    const courses = enrollment.map((enrollment) => enrollment.courseId);
+
     return res.status(200).json({ user, courses });
   } catch (error) {
     res.status(500).json({ message: "Server error" });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import chart from "../../assets/piechart.png";
 import "./Dashboard.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useLoader } from "../../Context/LoaderContext";
 import { Pie } from "react-chartjs-2";
@@ -10,11 +10,17 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function Dashboard() {
+  const { courseId } = useParams();
   const [user, setUser] = useState({});
   const { setIsLoading } = useLoader();
 
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
+
+  const [courseStats, setCourseStats] = useState({
+    totalCorrect: 0,
+    totalAttempts: 0,
+  });
 
   const [userStats, setUserStats] = useState({
     totalCorrect: 0,
@@ -24,7 +30,6 @@ function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -33,6 +38,7 @@ function Dashboard() {
         });
         setUser(userResponse.data.user);
         setCourses(userResponse.data.courses);
+
         localStorage.setItem("user", JSON.stringify(userResponse.data));
 
         const averageResponse = await axios.get(
@@ -47,6 +53,17 @@ function Dashboard() {
           totalAttempts: userResponse.data.user.totalAttempts,
           averageCorrect: averageResponse.data.averageCorrect,
         });
+        // const courseAverage = await axios.get(
+        //   `http://localhost:3000/api/course/average/${courseId}`,
+        //   {
+        //     headers: { Authorization: `Bearer ${token}` },
+        //   }
+        // );
+        // console.log(courseAverage);
+        // setCourseStats({
+        //   totalCorrect: courseAverage.data.user.totalCorrect,
+        //   totalAttempts: courseAverage.data.user.totalAttempts,
+        // });
       } catch (error) {
         console.error("Error during data fetching:", error);
       } finally {
@@ -137,14 +154,19 @@ function Dashboard() {
         <div className="Dashboard-container Course-completion">
           <div className="Dashboard-detail-container">
             <h3 className="Dashboard-name">Course </h3>
-            <h3 className="Dashboard-name">Completion </h3>
+            <h3 className="Dashboard-name">Progress </h3>
           </div>
           <hr style={{ height: "1px", width: "200px" }} />
-          {courses.length > 0 ? (
+          {courses && courses.length > 0 ? (
             courses.map((course, index) => (
               <div key={index}>
-                <div className="Dashboard-detail-container d1">
-                  <h3 className="Dashboard-name">{course}</h3>
+                <div
+                  className="Dashboard-detail-container d1"
+                  onClick={() => {
+                    window.location.href = `/course/${course._id}/answers`;
+                  }}
+                >
+                  <h3 className="Dashboard-name">{course.title}</h3>
                   <p className="Dashboard-num">0%</p>
                 </div>
                 <hr style={{ height: "1px", width: "200px" }} />

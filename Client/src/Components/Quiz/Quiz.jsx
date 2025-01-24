@@ -19,7 +19,6 @@ function Quiz() {
   const navigate = useNavigate();
   const fetchNextQuestion = useCallback(async () => {
     isFetched.current = true;
-    console.log(question);
     try {
       setIsLoading(true);
       const response = await axios.get(

@@ -98,6 +98,15 @@ function App() {
           }
         />
         <Route
+          path="/course/:courseId/answers"
+          element={
+            <ProtectedRoute>
+              <Layout>{/* <CourseProgress /> */}</Layout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/course"
           element={
             <ProtectedRoute>

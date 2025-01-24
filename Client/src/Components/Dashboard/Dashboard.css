@@ -80,4 +80,9 @@
   display: flex;
   gap: 100px;
   padding: 0 20px;
+  cursor: pointer;
+}
+
+.d1:hover {
+  background-color: rgb(222, 226, 247);
 }
