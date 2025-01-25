@@ -14,18 +14,14 @@ function Dashboard() {
   const [user, setUser] = useState({});
   const { setIsLoading } = useLoader();
 
-  const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
 
-  const [courseStats, setCourseStats] = useState({
-    totalCorrect: 0,
-    totalAttempts: 0,
-  });
+  const [courseStats, setCourseStats] = useState([]);
 
   const [userStats, setUserStats] = useState({
     totalCorrect: 0,
     totalAttempts: 0,
-    averageCorrect: 0,
+    overallAverage: 0,
   });
 
   useEffect(() => {
@@ -37,7 +33,6 @@ function Dashboard() {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(userResponse.data.user);
-        setCourses(userResponse.data.courses);
 
         localStorage.setItem("user", JSON.stringify(userResponse.data));
 
@@ -47,23 +42,12 @@ function Dashboard() {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-
+        setCourseStats(averageResponse.data.results);
         setUserStats({
-          totalCorrect: userResponse.data.user.totalCorrect,
-          totalAttempts: userResponse.data.user.totalAttempts,
-          averageCorrect: averageResponse.data.averageCorrect,
+          totalCorrect: averageResponse.data.overallStats.totalCorrect,
+          totalAttempts: averageResponse.data.overallStats.totalAttempts,
+          overallAverage: averageResponse.data.overallStats.overallAverage,
         });
-        // const courseAverage = await axios.get(
-        //   `http://localhost:3000/api/course/average/${courseId}`,
-        //   {
-        //     headers: { Authorization: `Bearer ${token}` },
-        //   }
-        // );
-        // console.log(courseAverage);
-        // setCourseStats({
-        //   totalCorrect: courseAverage.data.user.totalCorrect,
-        //   totalAttempts: courseAverage.data.user.totalAttempts,
-        // });
       } catch (error) {
         console.error("Error during data fetching:", error);
       } finally {
@@ -77,7 +61,6 @@ function Dashboard() {
   if (!user) {
     setIsLoading(true);
   }
-
   const pieData = {
     labels: ["Correct Answers", "Incorrect Answers"], // Labels for each section of the pie
     datasets: [
@@ -124,10 +107,10 @@ function Dashboard() {
         </div>
         <div className="Dashboard-container">
           <h3 className="Dashboard-name">Average Correct Answers</h3>
-          {userStats.averageCorrect !== null &&
-          !isNaN(userStats.averageCorrect) ? (
+          {userStats.overallAverage !== null &&
+          !isNaN(userStats.overallAverage) ? (
             <p className="Dashboard-num">
-              {userStats.averageCorrect.toFixed(2)}%
+              {userStats.overallAverage.toFixed(2)}%
             </p>
           ) : (
             <p className="Dashboard-num">0%</p>
@@ -136,11 +119,11 @@ function Dashboard() {
 
         <div className="Dashboard-container">
           <h3 className="Dashboard-name">Achievements</h3>
-          {userStats.averageCorrect > 80 ? (
+          {userStats.overallAverage > 80 ? (
             <p className="Dashboard-num">Quiz Master</p>
-          ) : userStats.averageCorrect > 60 ? (
+          ) : userStats.overallAverage > 60 ? (
             <p className="Dashboard-num">Well done!</p>
-          ) : userStats.averageCorrect > 40 ? (
+          ) : userStats.overallAverage > 40 ? (
             <p className="Dashboard-num">Keep it going</p>
           ) : (
             <p p className="Dashboard-num">
@@ -157,8 +140,8 @@ function Dashboard() {
             <h3 className="Dashboard-name">Progress </h3>
           </div>
           <hr style={{ height: "1px", width: "200px" }} />
-          {courses && courses.length > 0 ? (
-            courses.map((course, index) => (
+          {courseStats && courseStats.length > 0 ? (
+            courseStats.map((course, index) => (
               <div key={index}>
                 <div
                   className="Dashboard-detail-container d1"
@@ -166,8 +149,10 @@ function Dashboard() {
                     window.location.href = `/course/${course._id}/answers`;
                   }}
                 >
-                  <h3 className="Dashboard-name">{course.title}</h3>
-                  <p className="Dashboard-num">0%</p>
+                  <h3 className="Dashboard-name">{course.courseName}</h3>
+                  <p className="Dashboard-num">
+                    {course.averageCorrect.toFixed(2)}%
+                  </p>
                 </div>
                 <hr style={{ height: "1px", width: "200px" }} />
               </div>

@@ -27,6 +27,7 @@ import Forgot from "./Components/Forgot/Forgot";
 import { useLoader } from "./Context/LoaderContext";
 import Loader from "./Components/Loader/Loader";
 import Reset from "./Components/Landing/Reset/Reset";
+import CourseProgress from "./Components/Dashboard/CourseProgress/CourseProgress";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
@@ -101,7 +102,7 @@ function App() {
           path="/course/:courseId/answers"
           element={
             <ProtectedRoute>
-              <Layout>{/* <CourseProgress /> */}</Layout>
+              <Layout>{<CourseProgress />}</Layout>
             </ProtectedRoute>
           }
         />

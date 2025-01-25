@@ -20,59 +20,28 @@ router.get("/send/email", authMiddleware, (req, res) => {
 
 router.get("/user/average", authMiddleware, async (req, res) => {
   const userId = req.user._id;
-  try {
-    const result = await userModel.aggregate([
-      {
-        $match: { _id: new mongoose.Types.ObjectId(userId) },
-      },
-      {
-        $project: {
-          _id: 0,
-          totalCorrect: 1,
-          totalAttempts: 1,
-          averageCorrect: {
-            $cond: {
-              if: { $eq: ["$totalAttempts", 0] },
-              then: 0,
-              else: {
-                $multiply: [
-                  {
-                    $divide: ["$totalCorrect", "$totalAttempts"],
-                  },
-                  100,
-                ],
-              },
-            },
-          },
-        },
-      },
-    ]);
-
-    return res.status(200).json({
-      totalCorrect: result[0]?.totalCorrect || 0,
-      totalAttempts: result[0]?.totalAttempts || 0,
-      averageCorrect: result[0]?.averageCorrect || 0,
-    });
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
-
-router.get("/course/average/:courseId", authMiddleware, async (req, res) => {
-  const userId = req.user._id;
-  const courseId = req.params.courseId;
 
   try {
-    const enrollment = await Enrollment.findOne({ userId: userId });
-    const result = await Enrollment.aggregate([
+    const results = await Enrollment.aggregate([
       {
         $match: {
           userId: new mongoose.Types.ObjectId(userId),
-          courseId: new mongoose.Types.ObjectId(courseId),
         },
-
+      },
+      {
+        $lookup: {
+          from: "courses", // Adjust to match your course collection name
+          localField: "courseId",
+          foreignField: "_id",
+          as: "courseDetails",
+        },
+      },
+      {
+        $unwind: "$courseDetails", // Unwind course details
+      },
+      {
         $project: {
-          _id: 0,
+          courseName: "$courseDetails.title",
           totalCorrect: 1,
           totalAttempts: 1,
           averageCorrect: {
@@ -93,13 +62,35 @@ router.get("/course/average/:courseId", authMiddleware, async (req, res) => {
       },
     ]);
 
-    console.log(result);
+    const overallStats = results.reduce(
+      (acc, course) => {
+        acc.totalCorrect += course.totalCorrect || 0;
+        acc.totalAttempts += course.totalAttempts || 0;
+        return acc;
+      },
+      { totalCorrect: 0, totalAttempts: 0 }
+    );
+
+    const overallAverage =
+      overallStats.totalAttempts === 0
+        ? 0
+        : (overallStats.totalCorrect / overallStats.totalAttempts) * 100;
+
+    if (results.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No enrolled courses found for the user." });
+    }
     return res.status(200).json({
-      totalCorrect: result[0]?.totalCorrect || 0,
-      totalAttempts: result[0]?.totalAttempts || 0,
-      averageCorrect: result[0]?.averageCorrect || 0,
+      results,
+      overallStats: {
+        totalCorrect: overallStats.totalCorrect,
+        totalAttempts: overallStats.totalAttempts,
+        overallAverage,
+      },
     });
   } catch (error) {
+    console.error("Error fetching user course averages:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
