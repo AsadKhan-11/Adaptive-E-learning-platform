@@ -76,15 +76,18 @@ const login = async (req, res) => {
       {
         _id: user._id,
         email: user.email,
+        role: user.role,
       },
       process.env.JWT_SECRET,
       { expiresIn: "10h" }
     );
+    console.log(jwtToken);
 
     res.status(200).json({
       message: "Login Successful",
       name: user.name,
       jwtToken,
+      role: user.role,
       email,
       success: true,
     });

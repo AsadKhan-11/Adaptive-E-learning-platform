@@ -28,13 +28,14 @@ import { useLoader } from "./Context/LoaderContext";
 import Loader from "./Components/Loader/Loader";
 import Reset from "./Components/Landing/Reset/Reset";
 import CourseProgress from "./Components/Dashboard/CourseProgress/CourseProgress";
+import CourseAdmin from "./Components/Admin/CourseAdmin/CourseAdmin";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
   const { isLoading, setIsLoading } = useLoader();
   const [isVerification, setIsVerification] = useState(false);
   const { pathname } = useLocation();
-
+  const [userRole, setUserRole] = useState();
   const isLoaderVisible = !["/signup", "/verify-email"].includes(pathname);
 
   useEffect(() => {
@@ -111,10 +112,7 @@ function App() {
           path="/course"
           element={
             <ProtectedRoute>
-              <Layout>
-                {" "}
-                <Course />{" "}
-              </Layout>
+              <Layout> {<Course />}</Layout>
             </ProtectedRoute>
           }
         />
@@ -156,6 +154,16 @@ function App() {
             <ProtectedRoute>
               <Layout>
                 <Quiz />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-courses"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <CourseAdmin />
               </Layout>
             </ProtectedRoute>
           }

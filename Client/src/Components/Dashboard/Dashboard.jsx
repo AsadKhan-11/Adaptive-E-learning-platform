@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import chart from "../../assets/piechart.png";
 import "./Dashboard.css";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useLoader } from "../../Context/LoaderContext";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { UserContext, UserProvider } from "../../Context/UserContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function Dashboard() {
+  const userRole = UserProvider(UserContext);
+
   const { courseId } = useParams();
   const [user, setUser] = useState({});
   const { setIsLoading } = useLoader();
@@ -26,6 +28,7 @@ function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -126,9 +129,7 @@ function Dashboard() {
           ) : userStats.overallAverage > 40 ? (
             <p className="Dashboard-num">Keep it going</p>
           ) : (
-            <p p className="Dashboard-num">
-              No achievements yet.
-            </p>
+            <p className="Dashboard-num">No achievements yet.</p>
           )}
         </div>
         <div className="Dashboard-container Dashboard-progress ">

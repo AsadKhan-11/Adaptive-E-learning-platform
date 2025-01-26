@@ -1,13 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import "./Course.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useLoader } from "../../../Context/LoaderContext";
 import axios from "axios";
-import data from "./Data";
-import { useLoader } from "../../Context/LoaderContext";
-import html from "./images/html.png";
-import css from "./images/css.jpg";
 
-function Course() {
+const CourseAdmin = () => {
   const imageMapping = {
     "67670d9599b56943a89a45fb": html,
     "6767ccc42cbd1950877526c4": css,
@@ -39,29 +35,8 @@ function Course() {
     fetchCourse();
   }, [fetchCourse]);
 
-  const handleClick = async (courseId) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/course/enrollment/${courseId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.data && response.data.enrolled) {
-        navigate(`/course/${courseId}/quiz`);
-      } else {
-        navigate(`/course/${courseId}/enrollment`);
-      }
-    } catch (err) {
-      console.error("Error checking enrollment status:", err);
-    }
-  };
-
   return (
-    <div className="course">
+    <div className="course-admin">
       {course.map((course) => (
         <div
           className="course-container"
@@ -78,6 +53,6 @@ function Course() {
       ))}
     </div>
   );
-}
+};
 
-export default Course;
+export default CourseAdmin;

@@ -25,6 +25,7 @@ function Profile() {
         setCourses(response.data.courses);
         setOriginalUser(response.data.user);
         localStorage.setItem("user", JSON.stringify(response.data));
+        console.log(response.data.courses);
       } catch (error) {
         console.error("Error fetching user data:", error);
         navigate("/");
@@ -74,7 +75,6 @@ function Profile() {
       console.error("Error updating user data:", error);
     }
   };
-  console.log(courses);
 
   return (
     <div className="profile">
@@ -113,13 +113,13 @@ function Profile() {
           </label>
           <div className="courses-container">
             {" "}
-            {Array.isArray(courses) && courses.length > 0 ? (
-              courses.some((course) => course.title === 0) ? (
+            {courses.length > 0 ? (
+              courses.some((course) => !course.title) ? (
                 <p className="disabled">No courses</p>
               ) : (
                 courses.map((course, index) => (
                   <span className="disabled" key={index}>
-                    {course} {index < courses.length - 1 ? ", " : ""}
+                    {course.title} {index < courses.length - 1 ? ", " : ""}
                   </span>
                 ))
               )
