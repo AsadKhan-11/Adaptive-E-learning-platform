@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Login from "./Components/Landing/Login";
 import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
@@ -29,6 +29,7 @@ import Loader from "./Components/Loader/Loader";
 import Reset from "./Components/Landing/Reset/Reset";
 import CourseProgress from "./Components/Dashboard/CourseProgress/CourseProgress";
 import CourseAdmin from "./Components/Admin/CourseAdmin/CourseAdmin";
+import { UserContext } from "./Context/UserContext";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
@@ -37,6 +38,7 @@ function App() {
   const { pathname } = useLocation();
   const [userRole, setUserRole] = useState();
   const isLoaderVisible = !["/signup", "/verify-email"].includes(pathname);
+  const user = useContext(UserContext);
 
   useEffect(() => {
     // setIsLoading(true);
@@ -56,6 +58,10 @@ function App() {
   // const Dashboard = React.lazy(() =>
   //   import("./Components/Dashboard/Dashboard")
   // );
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="App">
@@ -158,16 +164,23 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/admin-courses"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <CourseAdmin />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
+        {/* Admin Routes */}
+        {user.role === "admin" && (
+          <>
+            {/* <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/admin-users" element={<ManageUsers />} /> */}
+            <Route
+              path="/admin-courses"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <CourseAdmin />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+          </>
+        )}
       </Routes>
     </div>
   );

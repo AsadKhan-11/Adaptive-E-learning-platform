@@ -81,7 +81,6 @@ const login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "10h" }
     );
-    console.log(jwtToken);
 
     res.status(200).json({
       message: "Login Successful",

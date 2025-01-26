@@ -203,4 +203,25 @@ router.get("/quiz/:courseId", authMiddleware, getNextQuestions);
 
 router.post("/quiz/:courseId/submit-answer", authMiddleware, submitAnswer);
 
+router.post("/addcourse", async (req, res) => {
+  const { title, description } = req.body;
+
+  console.log(title, description);
+  if (!title || !description) {
+    return res
+      .status(400)
+      .json({ message: "Title and description are required" });
+  }
+
+  try {
+    const newCourse = new Course({ title, description });
+    console.log(newCourse);
+    await newCourse.save();
+    res.status(201).json(newCourse);
+  } catch (error) {
+    console.error("Error saving course:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 module.exports = router;

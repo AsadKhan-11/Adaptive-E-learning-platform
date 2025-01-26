@@ -16,7 +16,7 @@ function Layout({ children }) {
   console.log(user.role);
   return (
     <div className="Layout">
-      {user === "admin" ? <SidebarAdmin /> : <Sidebar />}
+      {user.role === "admin" ? <SidebarAdmin /> : <Sidebar />}
       <div className="main-content"> {children}</div>
     </div>
   );
