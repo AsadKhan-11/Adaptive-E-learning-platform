@@ -224,4 +224,17 @@ router.post("/addcourse", async (req, res) => {
   }
 });
 
+router.delete("/deletecourse/:courseId", async (req, res) => {
+  const id = req.params.courseId;
+
+  try {
+    const course = await Course.findByIdAndDelete(id);
+    res.status(200).send({ success: true, message: "Course has been deleted" });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ success: false, message: "Error deleting the course" });
+  }
+});
+
 module.exports = router;
