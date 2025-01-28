@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./Card.css";
 import ReactCardFlip from "react-card-flip";
+import { UserContext } from "../../../Context/UserContext";
 
 function Card({
   isFlipped,
@@ -21,10 +22,10 @@ function Card({
   const [err, setErr] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
 
     if (!token && location.pathname !== "/") {
       navigate("/", { replace: true });
@@ -68,7 +69,6 @@ function Card({
 
       setMessage("");
     } catch (err) {
-      console.log(err);
       if (err.response) {
         setErr(true);
         setMessage(err.response.data.message);
@@ -96,7 +96,6 @@ function Card({
 
       if (result.data.success) {
         const user = result.data;
-        console.log(result.data);
         localStorage.setItem("token", result.data.jwtToken);
         localStorage.setItem("user", JSON.stringify(result.data));
 
@@ -113,7 +112,6 @@ function Card({
       } else {
         setErr(true);
         setMessage("An error occurred. Please try again.");
-        console.log(err);
       }
       setTimeout(() => {
         setMessage("");

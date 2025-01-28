@@ -1,16 +1,16 @@
 import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
 import { useLoader } from "./LoaderContext";
+import { useNavigate } from "react-router-dom";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const { setIsLoading } = useLoader();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchUser = async () => {
-      setIsLoading(true);
-
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
@@ -20,9 +20,7 @@ export const UserProvider = ({ children }) => {
         setUser(response.data.user);
       } catch (error) {
         setUser(null);
-        console.error("Error fetching user data:", error);
       } finally {
-        setIsLoading(false);
       }
     };
     fetchUser();
@@ -32,6 +30,7 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     setUser(null);
+    navigate("/");
   };
 
   return (

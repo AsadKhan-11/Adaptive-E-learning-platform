@@ -31,6 +31,7 @@ import CourseProgress from "./Components/Dashboard/CourseProgress/CourseProgress
 import CourseAdmin from "./Components/Admin/CourseAdmin/CourseAdmin";
 import { UserContext } from "./Context/UserContext";
 import DashboardAdmin from "./Components/Admin/DashboardAdmin/DashboardAdmin";
+import ProfileAdmin from "./Components/Admin/ProfileAdmin/ProfileAdmin";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
@@ -48,9 +49,9 @@ function App() {
     //   const timer = setTimeout(() => setIsLoading(false), 500);
     //   return () => clearTimeout(timer);
     // }
-    if (user === null) {
-      setIsLoading(true);
-    }
+    // if (user === null) {
+    //   setIsLoading(true);
+    // }
   }, [user, pathname, setIsLoading, isLoaderVisible]);
 
   // const Login = React.lazy(() => import("./Components/Landing/Login"));
@@ -191,6 +192,16 @@ function App() {
                 <ProtectedRoute>
                   <Layout>
                     <CourseAdmin />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-profile"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <ProfileAdmin />
                   </Layout>
                 </ProtectedRoute>
               }
