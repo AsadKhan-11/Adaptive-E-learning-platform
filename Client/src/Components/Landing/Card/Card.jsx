@@ -24,13 +24,18 @@ function Card({
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    // Only redirect from "/" to "/dashboard" if token exists
     if (!token && location.pathname !== "/") {
-      navigate("/");
-    } else if (token && location.pathname === "/") {
-      // Redirect to dashboard if token exists and user is on the login page
-      navigate("/dashboard");
+      navigate("/", { replace: true });
+    }
+    if (token && location.pathname === "/") {
+      if (user?.role === "admin") {
+        navigate("/admin-dashboard", { replace: true });
+      }
+      if (user?.role === "student") {
+        navigate("/dashboard", { replace: true });
+      }
     }
   }, [navigate, location.pathname]);
 
@@ -90,11 +95,16 @@ function Card({
       setMessage(result.data.message);
 
       if (result.data.success) {
+        const user = result.data;
+        console.log(result.data);
         localStorage.setItem("token", result.data.jwtToken);
         localStorage.setItem("user", JSON.stringify(result.data));
 
         setErr(false);
-        window.location.href = "/dashboard";
+        if (user?.role === "student") window.location.href = "/dashboard";
+        else {
+          window.location.href = "/admin-dashboard";
+        }
       }
     } catch (err) {
       if (err.response) {
@@ -103,6 +113,7 @@ function Card({
       } else {
         setErr(true);
         setMessage("An error occurred. Please try again.");
+        console.log(err);
       }
       setTimeout(() => {
         setMessage("");

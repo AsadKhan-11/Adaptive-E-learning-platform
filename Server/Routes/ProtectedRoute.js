@@ -206,7 +206,6 @@ router.post("/quiz/:courseId/submit-answer", authMiddleware, submitAnswer);
 router.post("/addcourse", async (req, res) => {
   const { title, description } = req.body;
 
-  console.log(title, description);
   if (!title || !description) {
     return res
       .status(400)
@@ -215,7 +214,6 @@ router.post("/addcourse", async (req, res) => {
 
   try {
     const newCourse = new Course({ title, description });
-    console.log(newCourse);
     await newCourse.save();
     res.status(201).json(newCourse);
   } catch (error) {

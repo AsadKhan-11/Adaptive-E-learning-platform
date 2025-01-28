@@ -61,7 +61,6 @@ const CourseAdmin = () => {
       fetchCourse();
 
       setToggleCourse(false);
-      console.log(response);
     } catch (error) {
       console.log(error);
     }

@@ -30,6 +30,7 @@ import Reset from "./Components/Landing/Reset/Reset";
 import CourseProgress from "./Components/Dashboard/CourseProgress/CourseProgress";
 import CourseAdmin from "./Components/Admin/CourseAdmin/CourseAdmin";
 import { UserContext } from "./Context/UserContext";
+import DashboardAdmin from "./Components/Admin/DashboardAdmin/DashboardAdmin";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
@@ -38,7 +39,7 @@ function App() {
   const { pathname } = useLocation();
   const [userRole, setUserRole] = useState();
   const isLoaderVisible = !["/signup", "/verify-email"].includes(pathname);
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     // setIsLoading(true);
@@ -47,7 +48,10 @@ function App() {
     //   const timer = setTimeout(() => setIsLoading(false), 500);
     //   return () => clearTimeout(timer);
     // }
-  }, [pathname, setIsLoading, isLoaderVisible]);
+    if (user === null) {
+      setIsLoading(true);
+    }
+  }, [user, pathname, setIsLoading, isLoaderVisible]);
 
   // const Login = React.lazy(() => import("./Components/Landing/Login"));
   // const Forgot = React.lazy(() => import("./Components/Forgot/Forgot"));
@@ -58,10 +62,6 @@ function App() {
   // const Dashboard = React.lazy(() =>
   //   import("./Components/Dashboard/Dashboard")
   // );
-
-  if (!user) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="App">
@@ -94,81 +94,97 @@ function App() {
           <Route path="forgot-password" element={<Forgot />} />
         </Route>
         <Route path="/reset-password/:token" element={<Reset />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                {" "}
-                <Dashboard />{" "}
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/course/:courseId/answers"
-          element={
-            <ProtectedRoute>
-              <Layout>{<CourseProgress />}</Layout>
-            </ProtectedRoute>
-          }
-        />
 
-        <Route
-          path="/course"
-          element={
-            <ProtectedRoute>
-              <Layout> {<Course />}</Layout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                {" "}
-                <Profile />{" "}
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
+        {user && user.role === "student" && (
+          <>
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    {" "}
+                    <Dashboard />{" "}
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/course/:courseId/answers"
+              element={
+                <ProtectedRoute>
+                  <Layout>{<CourseProgress />}</Layout>
+                </ProtectedRoute>
+              }
+            />
 
-        <Route
-          path="/question"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <Question />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/course/:courseId/enrollment"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <Enroll />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/course/:courseId/quiz"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <Quiz />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
+            <Route
+              path="/course"
+              element={
+                <ProtectedRoute>
+                  <Layout> {<Course />}</Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    {" "}
+                    <Profile />{" "}
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/question"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Question />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/course/:courseId/enrollment"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Enroll />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/course/:courseId/quiz"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Quiz />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+          </>
+        )}
+
         {/* Admin Routes */}
-        {user.role === "admin" && (
+        {user && user.role === "admin" && (
           <>
             {/* <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/admin-users" element={<ManageUsers />} /> */}
+            <Route
+              path="/admin-dashboard"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <DashboardAdmin />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/admin-courses"
               element={

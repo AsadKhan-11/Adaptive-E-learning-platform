@@ -7,13 +7,12 @@ import SidebarAdmin from "../Components/Admin/SidebarAdmin/SidebarAdmin";
 import { UserContext, UserProvider } from "../Context/UserContext";
 
 function Layout({ children }) {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   if (!user) {
     return <div>Loading...</div>;
   }
 
-  console.log(user.role);
   return (
     <div className="Layout">
       {user.role === "admin" ? <SidebarAdmin /> : <Sidebar />}

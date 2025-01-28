@@ -25,7 +25,6 @@ function Profile() {
         setCourses(response.data.courses);
         setOriginalUser(response.data.user);
         localStorage.setItem("user", JSON.stringify(response.data));
-        console.log(response.data.courses);
       } catch (error) {
         console.error("Error fetching user data:", error);
         navigate("/");

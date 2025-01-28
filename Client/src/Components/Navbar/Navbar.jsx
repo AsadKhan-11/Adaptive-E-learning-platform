@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Nexedu from "../../assets/NEXEDU.png";
 import "./Navbar.css";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { UserContext } from "../../Context/UserContext";
 
 function Navbar({
   navText,
@@ -10,13 +11,13 @@ function Navbar({
   isFlipped,
   isVerification,
 }) {
+  const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
   const handleNavClick = () => {
     const token = localStorage.getItem("token");
 
     if (token) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      logout();
       setNavText("Signup");
       setIsFlipped(false);
       window.location.href("/");
