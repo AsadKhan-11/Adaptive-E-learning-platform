@@ -82,12 +82,16 @@ const login = async (req, res) => {
       { expiresIn: "10h" }
     );
 
+    user.lastLogin = new Date();
+    await user.save();
+
     res.status(200).json({
       message: "Login Successful",
       name: user.name,
       jwtToken,
       role: user.role,
-      email,
+      email: user.email,
+      lastLogin: user.lastLogin,
       success: true,
     });
   } catch (err) {

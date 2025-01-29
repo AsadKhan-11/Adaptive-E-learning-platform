@@ -112,14 +112,18 @@ function Profile() {
           </label>
           <div className="courses-container">
             {" "}
-            {courses.some((course) => !course.title) ? (
-              <p className="disabled">No courses</p>
+            {courses.length > 0 ? (
+              courses.some((course) => !course.title) ? (
+                <p className="disabled">No courses</p>
+              ) : (
+                courses.map((course, index) => (
+                  <span className="disabled" key={index}>
+                    {course.title} {index < courses.length - 1 ? ", " : ""}
+                  </span>
+                ))
+              )
             ) : (
-              courses.map((course, index) => (
-                <span className="disabled" key={index}>
-                  {course.title} {index < courses.length - 1 ? ", " : ""}
-                </span>
-              ))
+              <p className="disabled">No courses enrolled</p>
             )}
           </div>
         </div>

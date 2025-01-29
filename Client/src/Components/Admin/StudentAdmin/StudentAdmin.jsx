@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./StudentAdmin.css";
 import axios from "axios";
+import moment from "moment";
+import { useLoader } from "../../../Context/LoaderContext";
 
 const StudentAdmin = () => {
   const [students, setStudents] = useState([]);
   const token = localStorage.getItem("token");
+  const { setIsLoading } = useLoader();
 
   useEffect(() => {
     const getStudents = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get(`http://localhost:3000/api/students`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -16,12 +20,13 @@ const StudentAdmin = () => {
         setStudents(response.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setIsLoading(false);
       }
     };
     getStudents();
   }, []);
 
-  console.log(students);
   return (
     <div className="students">
       <h2>All Students</h2>
@@ -30,7 +35,7 @@ const StudentAdmin = () => {
           <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Enrolled Courses</th>
+            <th>Last Login</th>
           </tr>
         </thead>
         <tbody>
@@ -38,7 +43,12 @@ const StudentAdmin = () => {
             <tr key={student._id}>
               <td>{student.name}</td>
               <td>{student.email}</td>
-              <td>{student.enrolledCourses?.length || 0}</td>
+              <td>
+                {" "}
+                {student.lastLogin
+                  ? moment(student.lastLogin).format("YYYY-MM-DD HH:mm:ss")
+                  : "Never Logged in"}
+              </td>
             </tr>
           ))}
         </tbody>

@@ -5,18 +5,26 @@ import { useLoader } from "../../Context/LoaderContext";
 
 const ProtectedRoute = ({ role, children }) => {
   const { setIsLoading } = useLoader();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const token = localStorage.getItem("token");
 
-  if (!user) {
-    return <Navigate to="/" replace />;
-  }
+  useEffect(() => {
+    setIsLoading(true);
 
-  if (role && user.role !== role) {
-    return <Navigate to="/" replace />;
+    if (token) {
+      const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      setUser(decodedToken);
+    } else {
+      setUser(null);
+    }
+
+    setIsLoading(false);
+  }, [token, setIsLoading, setUser]);
+
+  if (!token) {
+    return <Navigate to="/" />;
   }
 
   return children;
 };
-
 export default ProtectedRoute;

@@ -41,8 +41,8 @@ function App() {
   const { pathname } = useLocation();
   const [userRole, setUserRole] = useState();
   const isLoaderVisible = !["/signup", "/verify-email"].includes(pathname);
-
   const { user, setUser } = useContext(UserContext);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
