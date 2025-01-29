@@ -22,7 +22,7 @@ function Card({
   const [err, setErr] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -95,14 +95,16 @@ function Card({
       setMessage(result.data.message);
 
       if (result.data.success) {
-        const user = result.data;
-        localStorage.setItem("token", result.data.jwtToken);
-        localStorage.setItem("user", JSON.stringify(result.data));
+        const token = result.data.jwtToken;
 
-        setErr(false);
-        if (user?.role === "student") window.location.href = "/dashboard";
-        else {
-          window.location.href = "/admin-dashboard";
+        localStorage.setItem("token", token);
+        const decodedToken = JSON.parse(atob(token.split(".")[1]));
+        setUser({ ...decodedToken });
+
+        if (decodedToken.role === "admin") {
+          navigate("/admin-dashboard");
+        } else if (decodedToken.role === "student") {
+          navigate("/dashboard");
         }
       }
     } catch (err) {
@@ -112,6 +114,7 @@ function Card({
       } else {
         setErr(true);
         setMessage("An error occurred. Please try again.");
+        console.log(err);
       }
       setTimeout(() => {
         setMessage("");

@@ -7,23 +7,13 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const { setIsLoading } = useLoader();
   const navigate = useNavigate();
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-        const response = await axios.get("http://localhost:3000/api/user", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUser(response.data.user);
-      } catch (error) {
-        setUser(null);
-      } finally {
-      }
-    };
-    fetchUser();
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      setUser(decodedToken);
+    }
   }, []);
 
   const logout = () => {
@@ -34,7 +24,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, logout }}>
+    <UserContext.Provider value={{ user, logout, setUser }}>
       {children}
     </UserContext.Provider>
   );

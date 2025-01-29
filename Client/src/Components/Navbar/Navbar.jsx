@@ -33,11 +33,11 @@ function Navbar({
   const location = useLocation();
   const isLoginPage = location.pathname === "/";
   const isForgotPage = location.pathname === "/forgot-password";
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     setNavText(token ? "Logout" : "Signup");
-  }, []);
+  }, [token]);
 
   return (
     <div

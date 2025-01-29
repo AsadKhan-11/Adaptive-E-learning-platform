@@ -40,9 +40,11 @@ function App() {
   const { pathname } = useLocation();
   const [userRole, setUserRole] = useState();
   const isLoaderVisible = !["/signup", "/verify-email"].includes(pathname);
-  const { user } = useContext(UserContext);
 
+  const { user, setUser } = useContext(UserContext);
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
     // setIsLoading(true);
     // if (isLoaderVisible) {
     //   setIsLoading(true);
@@ -52,7 +54,7 @@ function App() {
     // if (user === null) {
     //   setIsLoading(true);
     // }
-  }, [user, pathname, setIsLoading, isLoaderVisible]);
+  }, [pathname, setIsLoading, isLoaderVisible]);
 
   // const Login = React.lazy(() => import("./Components/Landing/Login"));
   // const Forgot = React.lazy(() => import("./Components/Forgot/Forgot"));
@@ -79,6 +81,7 @@ function App() {
         isFlipped={isFlipped}
         isVerification={isVerification}
       />
+
       <Routes>
         <Route
           path="/"
@@ -96,118 +99,111 @@ function App() {
         </Route>
         <Route path="/reset-password/:token" element={<Reset />} />
 
-        {user && user.role === "student" && (
-          <>
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    {" "}
-                    <Dashboard />{" "}
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/course/:courseId/answers"
-              element={
-                <ProtectedRoute>
-                  <Layout>{<CourseProgress />}</Layout>
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute role="student">
+              <Layout>
+                {" "}
+                <Dashboard />{" "}
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/course/:courseId/answers"
+          element={
+            <ProtectedRoute role="student">
+              <Layout>{<CourseProgress />}</Layout>
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/course"
-              element={
-                <ProtectedRoute>
-                  <Layout> {<Course />}</Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    {" "}
-                    <Profile />{" "}
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/course"
+          element={
+            <ProtectedRoute role="student">
+              <Layout> {<Course />}</Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute role="student">
+              <Layout>
+                {" "}
+                <Profile />{" "}
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/question"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Question />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/course/:courseId/enrollment"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Enroll />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/course/:courseId/quiz"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Quiz />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-          </>
-        )}
+        <Route
+          path="/question"
+          element={
+            <ProtectedRoute role="student">
+              <Layout>
+                <Question />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/course/:courseId/enrollment"
+          element={
+            <ProtectedRoute role="student">
+              <Layout>
+                <Enroll />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/course/:courseId/quiz"
+          element={
+            <ProtectedRoute role="student">
+              <Layout>
+                <Quiz />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Admin Routes */}
-        {user && user.role === "admin" && (
-          <>
-            {/* <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        {/* <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/admin-users" element={<ManageUsers />} /> */}
-            <Route
-              path="/admin-dashboard"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <DashboardAdmin />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin-courses"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <CourseAdmin />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin-profile"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <ProfileAdmin />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-          </>
-        )}
+        <Route
+          path="/admin-dashboard"
+          element={
+            <ProtectedRoute role="admin">
+              <Layout>
+                <DashboardAdmin />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-courses"
+          element={
+            <ProtectedRoute role="admin">
+              <Layout>
+                <CourseAdmin />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-profile"
+          element={
+            <ProtectedRoute role="admin">
+              <Layout>
+                <ProfileAdmin />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* <Route path="*" element={} /> */}
       </Routes>
     </div>
   );
