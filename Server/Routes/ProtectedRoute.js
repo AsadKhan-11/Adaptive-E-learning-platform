@@ -10,6 +10,7 @@ const {
   submitAnswer,
 } = require("../Controllers/QuestionController");
 const userModel = require("../Model/User");
+const LoginActivity = require("../Model/LoginActivity");
 
 router.get("/dashboard", authMiddleware, (req, res) => {
   res.json({ message: `Welcome to your dashboard, ${req.user.email}!` });
@@ -243,6 +244,30 @@ router.get("/students", async (req, res) => {
     res.status(200).json(students);
   } catch (error) {
     res.status(500).json({ message: "Error fetching students" });
+  }
+});
+
+router.get("/logins-per-day", async (req, res) => {
+  try {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const logins = await LoginActivity.aggregate([
+      {
+        $match: {
+          timestamp: { $gte: thirtyDaysAgo },
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$timestamp" } },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+    res.json(logins);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch login data" });
   }
 });
 

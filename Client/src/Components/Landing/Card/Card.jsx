@@ -107,6 +107,7 @@ function Card({
       if (err.response) {
         setErr(true);
         setMessage(err.response.data.message);
+        console.log(err);
       } else {
         setErr(true);
         setMessage("An error occurred. Please try again.");

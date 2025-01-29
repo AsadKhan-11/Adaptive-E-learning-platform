@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const Verification = require("../Model/Verification");
 const transporter = require("../Config/nodemailerConfig");
 const crypto = require("crypto");
+const LoginActivity = require("../Model/LoginActivity");
 require("dotenv").config();
 
 const signup = async (req, res) => {
@@ -85,6 +86,15 @@ const login = async (req, res) => {
     user.lastLogin = new Date();
     await user.save();
 
+    await Promise.all([
+      user.save(),
+      LoginActivity.create({
+        userId: user._id,
+        role: user.role,
+        timestamp: new Date(),
+      }),
+    ]);
+
     res.status(200).json({
       message: "Login Successful",
       name: user.name,
@@ -95,6 +105,8 @@ const login = async (req, res) => {
       success: true,
     });
   } catch (err) {
+    console.error("Error during login:", err);
+
     res
       .status(500)
       .json({ message: "Internal Server Error", error: err, success: false });
