@@ -1,0 +1,50 @@
+import React, { useEffect, useState } from "react";
+import "./StudentAdmin.css";
+import axios from "axios";
+
+const StudentAdmin = () => {
+  const [students, setStudents] = useState([]);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const getStudents = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/students`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setStudents(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getStudents();
+  }, []);
+
+  console.log(students);
+  return (
+    <div className="students">
+      <h2>All Students</h2>
+      <table className="students-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Enrolled Courses</th>
+          </tr>
+        </thead>
+        <tbody>
+          {students.map((student) => (
+            <tr key={student._id}>
+              <td>{student.name}</td>
+              <td>{student.email}</td>
+              <td>{student.enrolledCourses?.length || 0}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default StudentAdmin;

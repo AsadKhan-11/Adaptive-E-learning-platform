@@ -32,6 +32,8 @@ function Dashboard() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
+
+        // Fetch user data
         const userResponse = await axios.get(`http://localhost:3000/api/user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -39,20 +41,34 @@ function Dashboard() {
 
         localStorage.setItem("user", JSON.stringify(userResponse.data));
 
-        const averageResponse = await axios.get(
-          `http://localhost:3000/api/user/average`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setCourseStats(averageResponse.data.results);
-        setUserStats({
-          totalCorrect: averageResponse.data.overallStats.totalCorrect,
-          totalAttempts: averageResponse.data.overallStats.totalAttempts,
-          overallAverage: averageResponse.data.overallStats.overallAverage,
-        });
+        // Fetch average stats, but handle possible errors
+        try {
+          const averageResponse = await axios.get(
+            `http://localhost:3000/api/user/average`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          setCourseStats(averageResponse.data.results || []);
+          setUserStats({
+            totalCorrect: averageResponse.data.overallStats?.totalCorrect || 0,
+            totalAttempts:
+              averageResponse.data.overallStats?.totalAttempts || 0,
+            overallAverage:
+              averageResponse.data.overallStats?.overallAverage || 0,
+          });
+        } catch (avgError) {
+          console.warn("No average stats found. Setting default values.");
+          setCourseStats([]);
+          setUserStats({
+            totalCorrect: 0,
+            totalAttempts: 0,
+            overallAverage: 0,
+          });
+        }
       } catch (error) {
-        console.error("Error during data fetching:", error);
+        console.error("Error fetching user data:", error);
       } finally {
         setIsLoading(false);
       }

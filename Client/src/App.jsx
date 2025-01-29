@@ -32,6 +32,7 @@ import CourseAdmin from "./Components/Admin/CourseAdmin/CourseAdmin";
 import { UserContext } from "./Context/UserContext";
 import DashboardAdmin from "./Components/Admin/DashboardAdmin/DashboardAdmin";
 import ProfileAdmin from "./Components/Admin/ProfileAdmin/ProfileAdmin";
+import StudentAdmin from "./Components/Admin/StudentAdmin/StudentAdmin";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
@@ -188,6 +189,16 @@ function App() {
             <ProtectedRoute role="admin">
               <Layout>
                 <CourseAdmin />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-students"
+          element={
+            <ProtectedRoute role="admin">
+              <Layout>
+                <StudentAdmin />
               </Layout>
             </ProtectedRoute>
           }

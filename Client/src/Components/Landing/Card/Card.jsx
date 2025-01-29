@@ -24,22 +24,6 @@ function Card({
   const location = useLocation();
   const { user, setUser } = useContext(UserContext);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token && location.pathname !== "/") {
-      navigate("/", { replace: true });
-    }
-    if (token && location.pathname === "/") {
-      if (user?.role === "admin") {
-        navigate("/admin-dashboard", { replace: true });
-      }
-      if (user?.role === "student") {
-        navigate("/dashboard", { replace: true });
-      }
-    }
-  }, [navigate, location.pathname]);
-
   const togglePassword = () => {
     setShowPassword((prevPassword) => !prevPassword);
   };
@@ -99,6 +83,7 @@ function Card({
 
         localStorage.setItem("token", token);
         const decodedToken = JSON.parse(atob(token.split(".")[1]));
+        console.log(decodedToken);
         setUser({ ...decodedToken });
 
         if (decodedToken.role === "admin") {

@@ -235,4 +235,15 @@ router.delete("/deletecourse/:courseId", async (req, res) => {
   }
 });
 
+router.get("/students", async (req, res) => {
+  try {
+    const students = await User.find({ role: "student" }).select(
+      "name email lastLogin"
+    );
+    res.status(200).json(students);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching students" });
+  }
+});
+
 module.exports = router;

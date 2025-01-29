@@ -25,7 +25,7 @@ const Sidebar = () => {
           className={`icon-tag ${activeLink === "course" ? "active" : ""}`}
           onClick={() => highlightLink("course")}
         >
-          <Link to="/students" className="links">
+          <Link to="/admin-students" className="links">
             <ion-icon name="school-outline" className="side-icon"></ion-icon>{" "}
             Students{" "}
           </Link>
