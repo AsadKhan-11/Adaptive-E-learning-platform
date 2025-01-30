@@ -23,11 +23,14 @@ const CourseAdmin = () => {
   const fetchCourse = useCallback(async () => {
     try {
       setIsLoading(true);
-      const info = await axios.get(`http://localhost:3000/api/course`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const info = await axios.get(
+        `https://complex-giant-need.glitch.me/api/course`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setCourse(info.data);
     } catch (err) {
       console.log(err);
@@ -40,7 +43,7 @@ const CourseAdmin = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/addcourse",
+        "https://complex-giant-need.glitch.me/api/addcourse",
         {
           title,
           description: desc,
@@ -66,7 +69,7 @@ const CourseAdmin = () => {
   const handleDelete = async (courseId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/deletecourse/${courseId}`
+        `https://complex-giant-need.glitch.me/api/deletecourse/${courseId}`
       );
       console.log(response);
       fetchCourse();

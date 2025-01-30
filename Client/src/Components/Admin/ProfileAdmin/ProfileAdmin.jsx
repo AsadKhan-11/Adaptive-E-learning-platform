@@ -17,9 +17,12 @@ function ProfileAdmin() {
     const fetchUserData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get("http://localhost:3000/api/user", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          "https://complex-giant-need.glitch.me/api/user",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setUser(response.data.user);
         setCourses(response.data.courses);
         setOriginalUser(response.data.user);
@@ -59,7 +62,7 @@ function ProfileAdmin() {
 
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/profile",
+        "https://complex-giant-need.glitch.me/api/profile",
         payload,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -103,6 +106,13 @@ function ProfileAdmin() {
           </label>
 
           <p className="disabled">{user.email}</p>
+        </div>
+        <div className="profile-info">
+          <label htmlFor="" className="profile-label">
+            Role
+          </label>
+
+          <p className="disabled">{user.role}</p>
         </div>
 
         {!isEditable ? (

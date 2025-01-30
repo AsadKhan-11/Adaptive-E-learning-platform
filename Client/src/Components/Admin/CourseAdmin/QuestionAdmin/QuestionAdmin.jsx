@@ -48,7 +48,7 @@ const QuestionAdmin = () => {
 
       // Send question data to backend
       const response = await axios.post(
-        `http://localhost:3000/api/add-questions/${courseId}`,
+        `https://complex-giant-need.glitch.me/api/add-questions/${courseId}`,
         {
           text: formData.title,
           answer: formData.answer,
@@ -71,7 +71,7 @@ const QuestionAdmin = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:3000/api/${courseId}/getQuestions`,
+          `https://complex-giant-need.glitch.me/api/${courseId}/getQuestions`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -99,7 +99,7 @@ const QuestionAdmin = () => {
       <div className="admin-wrapper">
         {questions.length > 0 ? (
           questions.map((q, index) => (
-            <div key={q._id} className="question-container ">
+            <div key={q._id} className="questions-container ">
               <div className="question-card ">
                 <div className="question-text">
                   <strong>{`Q${index + 1}:`}</strong> {q.text}

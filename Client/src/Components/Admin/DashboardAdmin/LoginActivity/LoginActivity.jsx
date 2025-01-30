@@ -34,7 +34,7 @@ const LoginGraph = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:3000/api/logins-per-day"
+          "https://complex-giant-need.glitch.me/api/logins-per-day"
         );
         setData(response.data);
       } catch (error) {

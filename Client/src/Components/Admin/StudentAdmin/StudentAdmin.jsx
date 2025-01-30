@@ -13,9 +13,12 @@ const StudentAdmin = () => {
     const getStudents = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`http://localhost:3000/api/students`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `https://complex-giant-need.glitch.me/api/students`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
         setStudents(response.data);
       } catch (err) {
