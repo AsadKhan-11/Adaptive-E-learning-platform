@@ -10,7 +10,13 @@ const cors = require("cors");
 const app = express();
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: ["https://nexedu.netlify.app'", "http://localhost:5173"], // Frontend URL
+  methods: "GET,POST,PUT,DELETE", // Allowed HTTP methods
+  allowedHeaders: "Content-Type, Authorization", // Allowed headers
+};
+
+app.use(cors(corsOptions));
 app.use("/auth", AuthRouter);
 
 app.use("/api", ProtectedRoute);
