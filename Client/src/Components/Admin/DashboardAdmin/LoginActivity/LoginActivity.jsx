@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
+import "./LoginActivity.css";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -55,7 +56,7 @@ const LoginGraph = () => {
         label: "Logins per Day",
         data: data.map((entry) => entry.count), // Extracting the login count
         fill: false,
-        borderColor: "rgba(75, 192, 192, 1)", // Line color
+        borderColor: "#0d47a1", // Line color
         tension: 0.1, // Curvy line
       },
     ],
@@ -63,16 +64,25 @@ const LoginGraph = () => {
 
   const chartOptions = {
     responsive: true,
-    plugins: {
-      title: {
-        display: true,
-        text: "Login Activity Over Time",
+    plugins: {},
+    scales: {
+      x: {
+        ticks: {
+          autoSkip: false, // Ensure ticks are always shown
+          maxRotation: 45, // Prevent labels from overlapping
+          minRotation: 45,
+        },
+      },
+      y: {
+        beginAtZero: true,
+        suggestedMin: 0, // Ensures empty graphs still have a scale
+        suggestedMax: Math.max(...data.map((entry) => entry.count), 10), // Prevents too small Y-axis
       },
     },
   };
 
   return (
-    <div>
+    <div className="login-activity">
       <Line data={chartData} options={chartOptions} />
     </div>
   );
