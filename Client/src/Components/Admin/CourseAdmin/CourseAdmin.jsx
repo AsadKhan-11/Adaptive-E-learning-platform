@@ -71,7 +71,6 @@ const CourseAdmin = () => {
       const response = await axios.delete(
         `https://complex-giant-need.glitch.me/api/deletecourse/${courseId}`
       );
-      console.log(response);
       fetchCourse();
     } catch (error) {
       console.error("Error deleting course:", error);
@@ -96,7 +95,10 @@ const CourseAdmin = () => {
         >
           <button
             className="remove-button"
-            onClick={() => handleDelete(course._id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(course._id);
+            }}
           >
             x
           </button>

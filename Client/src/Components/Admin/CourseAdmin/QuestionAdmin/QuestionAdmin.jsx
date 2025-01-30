@@ -59,6 +59,8 @@ const QuestionAdmin = () => {
       );
 
       console.log("Question added:", response.data);
+      setShowModal(false);
+      window.location.reload();
     } catch (error) {
       console.error("Error adding question:", error);
     } finally {
@@ -122,9 +124,13 @@ const QuestionAdmin = () => {
 
       {showModal && (
         <div className="modal-overlay">
-          <div className="modal-content">
+          <div className="question-modal-content">
             <h2>Add New Question</h2>
-            <form onSubmit={handleSubmit}>
+            <form
+              onSubmit={handleSubmit}
+              className="question-modal-form"
+              name="myForm"
+            >
               {/* Question Title */}
               <div className="form-group">
                 <label>Question Title</label>
@@ -192,11 +198,11 @@ const QuestionAdmin = () => {
                   <option value="3">Hard (3)</option>
                 </select>
               </div>
-              <button type="submit">Submit</button>
               <button className="remove-button" onClick={toggle}>
                 x
               </button>
             </form>
+            <button type="submit">Submit</button>
           </div>
         </div>
       )}
