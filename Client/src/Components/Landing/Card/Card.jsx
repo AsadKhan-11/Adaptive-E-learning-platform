@@ -45,7 +45,7 @@ function Card({
 
     try {
       const result = await axios.post(
-        `http://localhost:3000/auth/verify-email`,
+        `https://complex-giant-need.glitch.me/auth/verify-email`,
         {
           name: signupName,
           email: signupEmail,
@@ -83,10 +83,13 @@ function Card({
     e.preventDefault();
 
     try {
-      const result = await axios.post(`http://localhost:3000/auth/login`, {
-        email: loginEmail,
-        password: loginPassword,
-      });
+      const result = await axios.post(
+        `https://complex-giant-need.glitch.me/auth/login`,
+        {
+          email: loginEmail,
+          password: loginPassword,
+        }
+      );
 
       setMessage(result.data.message);
 

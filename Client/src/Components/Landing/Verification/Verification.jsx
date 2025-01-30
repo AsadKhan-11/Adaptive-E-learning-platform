@@ -51,12 +51,15 @@ const Verification = ({
     const verificateCode = code.join("");
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/auth/signup", {
-        email,
-        name,
-        password,
-        code: verificateCode,
-      });
+      const response = await axios.post(
+        "https://complex-giant-need.glitch.me/auth/signup",
+        {
+          email,
+          name,
+          password,
+          code: verificateCode,
+        }
+      );
       alert(response.data.message);
 
       setNavText("Signup");

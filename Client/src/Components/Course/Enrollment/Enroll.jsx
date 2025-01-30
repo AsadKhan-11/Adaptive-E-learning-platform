@@ -15,7 +15,7 @@ function Enroll() {
     const checkEnrollment = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/course/enrollment/${courseId}`,
+          `https://complex-giant-need.glitch.me/api/course/enrollment/${courseId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ function Enroll() {
 
   const handleClick = async () => {
     const response = await axios.post(
-      `http://localhost:3000/api/course/enroll/${courseId}`,
+      `https://complex-giant-need.glitch.me/api/course/enroll/${courseId}`,
       {},
       {
         headers: {

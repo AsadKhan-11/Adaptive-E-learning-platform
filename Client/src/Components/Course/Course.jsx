@@ -22,11 +22,14 @@ function Course() {
   const fetchCourse = useCallback(async () => {
     try {
       setIsLoading(true);
-      const info = await axios.get(`http://localhost:3000/api/course`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const info = await axios.get(
+        `https://complex-giant-need.glitch.me/api/course`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setCourse(info.data);
     } catch (err) {
       console.log(err);
@@ -42,7 +45,7 @@ function Course() {
   const handleClick = async (courseId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/course/enrollment/${courseId}`,
+        `https://complex-giant-need.glitch.me/api/course/enrollment/${courseId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

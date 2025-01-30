@@ -22,7 +22,7 @@ function Quiz() {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `http://localhost:3000/api/quiz/${courseId}`,
+        `https://complex-giant-need.glitch.me/api/quiz/${courseId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ function Quiz() {
   const handleAnswerSubmit = async (selectedAnswer) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/quiz/${courseId}/submit-answer`,
+        `https://complex-giant-need.glitch.me/api/quiz/${courseId}/submit-answer`,
         {
           questionId: question._id,
           answer: selectedAnswer,

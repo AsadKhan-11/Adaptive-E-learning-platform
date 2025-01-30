@@ -11,11 +11,14 @@ function Question() {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const response = await axios.post("http://localhost:3000/email/send", {
-        email: user.user.email,
-        user: user.user.name,
-        message: message,
-      });
+      const response = await axios.post(
+        "https://complex-giant-need.glitch.me/email/send",
+        {
+          email: user.user.email,
+          user: user.user.name,
+          message: message,
+        }
+      );
       alert(response.data.message);
       window.location.reload();
     } catch (error) {

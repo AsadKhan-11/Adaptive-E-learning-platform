@@ -17,7 +17,7 @@ function Forgot() {
       setIsLoading(true);
       // Replace with your backend endpoint
       const response = await axios.post(
-        "http://localhost:3000/auth/forgot-password",
+        "https://complex-giant-need.glitch.me/auth/forgot-password",
         { email }
       );
 

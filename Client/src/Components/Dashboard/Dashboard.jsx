@@ -34,9 +34,12 @@ function Dashboard() {
         setIsLoading(true);
 
         // Fetch user data
-        const userResponse = await axios.get(`http://localhost:3000/api/user`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const userResponse = await axios.get(
+          `https://complex-giant-need.glitch.me/api/user`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setUser(userResponse.data.user);
 
         localStorage.setItem("user", JSON.stringify(userResponse.data));
@@ -44,7 +47,7 @@ function Dashboard() {
         // Fetch average stats, but handle possible errors
         try {
           const averageResponse = await axios.get(
-            `http://localhost:3000/api/user/average`,
+            `https://complex-giant-need.glitch.me/api/user/average`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
