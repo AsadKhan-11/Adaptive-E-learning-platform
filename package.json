@@ -8,7 +8,7 @@
     "build:client": "vite build",
     "preview:client": "vite preview",
     "dev:server": "nodemon index.js",
-    "start:server": "node index.js",
+    "start": "node index.js",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""
   },
   "dependencies": {
