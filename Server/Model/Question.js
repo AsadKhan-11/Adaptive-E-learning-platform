@@ -6,7 +6,7 @@ const questionSchema = new mongoose.Schema({
   answer: { type: String, required: true },
   difficulty: { type: Number, enum: [1, 2, 3], required: true },
   helpVideo: {
-    type: String,
+    type: [String],
     required: false,
   },
 });

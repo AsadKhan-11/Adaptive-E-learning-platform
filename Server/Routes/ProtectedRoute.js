@@ -285,5 +285,34 @@ router.get("/logins-per-day", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch login data" });
   }
 });
+router.post("/add-questions/:courseId", async (req, res) => {
+  try {
+    const { courseId } = req.params;
+    const { text, answer, options, helpVideo, difficulty } = req.body;
+
+    // Create a new question
+    const newQuestion = new Question({
+      text,
+      answer,
+      options,
+      helpVideo: helpVideo.filter((link) => link.trim() !== ""),
+      difficulty,
+    });
+    const savedQuestion = await newQuestion.save();
+
+    // Update the course by adding the new question's ID
+    await Course.findByIdAndUpdate(courseId, {
+      $push: { questions: savedQuestion._id },
+    });
+
+    res.status(201).json({
+      message: "Question added successfully!",
+      question: savedQuestion,
+    });
+  } catch (error) {
+    console.error("Error adding question:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 module.exports = router;

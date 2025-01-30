@@ -154,10 +154,10 @@ function Quiz() {
             <div className="modal">
               <div className="modal-content">
                 <h4>Need Help?</h4>
-                {question.videos && question.videos.length > 0 ? (
+                {question.helpVideo && question.helpVideo.length > 0 ? (
                   <>
                     <p>Here are some videos for your help:</p>
-                    {question.videos.map((video, index) => (
+                    {question.helpVideo.map((video, index) => (
                       <div key={index}>
                         <h4 className="videos-label">Link {index + 1}</h4>
                         <a
@@ -172,7 +172,10 @@ function Quiz() {
                     ))}
                   </>
                 ) : (
-                  <p>No videos available at the moment.</p>
+                  <>
+                    {console.log(question)}
+                    <p>No videos available at the moment.</p>
+                  </>
                 )}
                 <button onClick={toggleHelpModal}>Close</button>
               </div>

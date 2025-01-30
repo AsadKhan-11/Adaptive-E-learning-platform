@@ -4,7 +4,7 @@
   background-color: #0d47a1;
   position: sticky;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
-  z-index: 2;
+  z-index: 1000;
   top: 0;
 }
 
