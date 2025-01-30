@@ -11,7 +11,7 @@ const CourseAdmin = () => {
     "67670d9599b56943a89a45fb": html,
     "6767ccc42cbd1950877526c4": css,
   };
-
+  const navigate = useNavigate();
   const [toggleCourse, setToggleCourse] = useState(false);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -36,8 +36,6 @@ const CourseAdmin = () => {
     }
   }, []);
 
-  const handleClick = async (courseId) => {};
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -53,7 +51,6 @@ const CourseAdmin = () => {
           },
         }
       );
-      console.log("Course added successfully:", response.data);
 
       setTitle("");
       setDesc("");
@@ -92,7 +89,7 @@ const CourseAdmin = () => {
         <div
           className="course-container"
           key={course._id}
-          onClick={() => handleClick(course._id)}
+          onClick={() => navigate(`/admin-course/${course._id}/questions`)}
         >
           <button
             className="remove-button"

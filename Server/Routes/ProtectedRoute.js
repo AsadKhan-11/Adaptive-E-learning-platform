@@ -236,6 +236,21 @@ router.delete("/deletecourse/:courseId", async (req, res) => {
   }
 });
 
+router.get("/:courseId/getQuestions", async (req, res) => {
+  const courseId = req.params.courseId;
+  try {
+    const course = await Course.findById(courseId).populate("questions");
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    res.status(200).send(course.questions);
+  } catch (error) {
+    console.error("Error fetching course questions:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 router.get("/students", async (req, res) => {
   try {
     const students = await User.find({ role: "student" }).select(

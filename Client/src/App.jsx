@@ -33,6 +33,7 @@ import { UserContext } from "./Context/UserContext";
 import DashboardAdmin from "./Components/Admin/DashboardAdmin/DashboardAdmin";
 import ProfileAdmin from "./Components/Admin/ProfileAdmin/ProfileAdmin";
 import StudentAdmin from "./Components/Admin/StudentAdmin/StudentAdmin";
+import QuestionAdmin from "./Components/Admin/CourseAdmin/QuestionAdmin/QuestionAdmin";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
@@ -99,7 +100,6 @@ function App() {
           <Route path="forgot-password" element={<Forgot />} />
         </Route>
         <Route path="/reset-password/:token" element={<Reset />} />
-
         <Route
           path="/dashboard"
           element={
@@ -119,7 +119,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/course"
           element={
@@ -139,7 +138,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/question"
           element={
@@ -170,7 +168,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         {/* <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/admin-users" element={<ManageUsers />} /> */}
         <Route
@@ -213,7 +210,17 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/admin-course/:courseId/questions"
+          element={
+            <ProtectedRoute role="admin">
+              <Layout>
+                <QuestionAdmin />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />{" "}
+        {/* Show questions for a selected course */}
         {/* <Route path="*" element={} /> */}
       </Routes>
     </div>

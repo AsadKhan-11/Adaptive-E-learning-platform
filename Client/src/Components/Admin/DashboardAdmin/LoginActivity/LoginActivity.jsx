@@ -68,12 +68,16 @@ const LoginGraph = () => {
     scales: {
       x: {
         ticks: {
+          color: "#222",
           autoSkip: false, // Ensure ticks are always shown
           maxRotation: 45, // Prevent labels from overlapping
           minRotation: 45,
         },
       },
       y: {
+        ticks: {
+          color: "#222",
+        },
         beginAtZero: true,
         suggestedMin: 0, // Ensures empty graphs still have a scale
         suggestedMax: Math.max(...data.map((entry) => entry.count), 10), // Prevents too small Y-axis
