@@ -111,17 +111,21 @@ function Profile() {
           <label htmlFor="" className="profile-label">
             Courses
           </label>
+
           <div className="courses-container">
-            {" "}
-            {courses.length > 0 ? (
-              courses.some((course) => !course.title) ? (
-                <p className="disabled">No courses</p>
+            {courses && courses.length > 0 ? (
+              // Filter out invalid or null courses
+              courses.filter((course) => course && course.title).length > 0 ? (
+                courses
+                  .filter((course) => course && course.title)
+                  .map((course, index) => (
+                    <span className="disabled" key={index}>
+                      {course.title}
+                      {index < courses.length - 1 ? ", " : ""}
+                    </span>
+                  ))
               ) : (
-                courses.map((course, index) => (
-                  <span className="disabled" key={index}>
-                    {course.title} {index < courses.length - 1 ? ", " : ""}
-                  </span>
-                ))
+                <p className="disabled">No valid courses</p>
               )
             ) : (
               <p className="disabled">No courses enrolled</p>

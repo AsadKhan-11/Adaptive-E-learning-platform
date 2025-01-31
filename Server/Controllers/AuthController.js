@@ -160,7 +160,6 @@ const resetPassword = async (req, res) => {
       resetPasswordToken: token,
       resetPasswordExpires: { $gt: Date.now() },
     });
-    console.log(user);
 
     if (!user) return res.status(400).json({ message: "The link has expired" });
     else if (!password) {
@@ -188,7 +187,6 @@ const resetPassword = async (req, res) => {
 
 const validateResetToken = async (req, res) => {
   const { token } = req.body;
-  console.log(token);
   try {
     const user = await userModel.findOne({
       resetPasswordToken: token,

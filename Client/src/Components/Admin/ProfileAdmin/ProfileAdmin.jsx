@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLoader } from "../../../Context/LoaderContext";
 import Config from "../../../Config/Config";
+import "./ProfileAdmin.css";
 
 function ProfileAdmin() {
   const [isEditable, setIsEditable] = useState(false);

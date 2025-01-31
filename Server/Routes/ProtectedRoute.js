@@ -105,9 +105,7 @@ router.get("/user", authMiddleware, async (req, res) => {
       "courseId"
     );
 
-    const validCourses = enrollment
-      .map((enroll) => enroll.courseId)
-      .filter((course) => !course.deleted);
+    const validCourses = enrollment.map((enroll) => enroll.courseId);
 
     return res.status(200).json({ user, courses: validCourses });
   } catch (error) {

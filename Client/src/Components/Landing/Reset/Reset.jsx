@@ -39,7 +39,6 @@ function Reset() {
           setErr(false);
           setMessage("");
         }, 3000);
-        navigate("/");
         setIsLoading(false);
       }
     };

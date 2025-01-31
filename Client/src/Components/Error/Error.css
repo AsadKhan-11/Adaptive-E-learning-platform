@@ -1,0 +1,27 @@
+.error-container {
+  text-align: center;
+  padding: 50px;
+  background-color: #f4f4f4;
+  height: 100vh;
+}
+
+.error-title {
+  font-size: 120px;
+  color: #ff4d4f;
+}
+
+.error-message {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.error-link {
+  font-size: 18px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.error-link:hover {
+  text-decoration: underline;
+}

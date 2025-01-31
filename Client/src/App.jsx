@@ -34,6 +34,7 @@ import DashboardAdmin from "./Components/Admin/DashboardAdmin/DashboardAdmin";
 import ProfileAdmin from "./Components/Admin/ProfileAdmin/ProfileAdmin";
 import StudentAdmin from "./Components/Admin/StudentAdmin/StudentAdmin";
 import QuestionAdmin from "./Components/Admin/CourseAdmin/QuestionAdmin/QuestionAdmin";
+import Error404 from "./Components/Error/Error";
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [navText, setNavText] = useState("Signup");
@@ -200,8 +201,7 @@ function App() {
             </ProtectedRoute>
           }
         />{" "}
-        {/* Show questions for a selected course */}
-        {/* <Route path="*" element={} /> */}
+        <Route path="*" element={<Error404 />} />
       </Routes>
     </div>
   );
