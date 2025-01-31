@@ -20,6 +20,12 @@
   cursor: pointer;
 }
 
+.part-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .remove-button {
   position: absolute;
   top: 8px;

@@ -16,7 +16,7 @@ const courseSchema = new mongoose.Schema(
 
     imageUrl: {
       type: String,
-      required: true,
+      required: false,
     },
 
     questions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Question" }],

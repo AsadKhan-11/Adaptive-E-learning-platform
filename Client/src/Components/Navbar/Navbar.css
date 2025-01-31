@@ -5,7 +5,7 @@
   position: sticky;
   top: 0;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  z-index: 2000;
 }
 
 .nav-container {
@@ -33,8 +33,8 @@
   justify-content: center;
   color: white;
   background-color: #1e88e5;
-  height: 45px;
-  width: 100px;
+  height: 40px;
+  width: 90px;
   border: none;
   border-radius: 35px;
   font-size: 20px;
@@ -49,11 +49,12 @@
 
 @media (max-width: 768px) {
   .nav-logo {
-    height: 60px;
+    height: 50px;
   }
 
   .nav-sign-btn {
-    width: 80px;
-    font-size: 18px;
+    width: 50px;
+    height: 20px;
+    font-size: 16px;
   }
 }

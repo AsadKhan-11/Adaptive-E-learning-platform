@@ -2,16 +2,14 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLoader } from "../../../Context/LoaderContext";
 import axios from "axios";
-import html from "../../Course/images/html.png";
-import css from "../../Course/images/css.jpg";
 import "./CourseAdmin.css";
 import Config from "../../../Config/Config";
+import html from "../../Course/images/html.png";
+import css from "../../Course/images/css.jpg";
+import js from "../../Course/images/js.jpg";
 
 const CourseAdmin = () => {
-  const imageMapping = {
-    "67670d9599b56943a89a45fb": html,
-    "6767ccc42cbd1950877526c4": css,
-  };
+  const imageMapping = [html, css, js];
   const navigate = useNavigate();
   const [toggleCourse, setToggleCourse] = useState(false);
   const [title, setTitle] = useState("");
@@ -30,6 +28,7 @@ const CourseAdmin = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(info.data);
       setCourse(info.data);
     } catch (err) {
       console.log(err);
@@ -39,31 +38,21 @@ const CourseAdmin = () => {
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (!image) {
-        console.error("No image selected");
-        return;
-      }
 
+    try {
       const response = await axios.post(
         `${Config.API_URL}/api/addcourse`,
-        {
-          title: title,
-          description: desc,
-          imageUrl: imageUrl,
-        },
+        { title, desc },
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
           },
         }
       );
 
-      // Handle successful response
+      console.log("Course added successfully:", response.data);
       setTitle("");
       setDesc("");
-      setImage(null);
 
       fetchCourse();
       setToggleCourse(false);
@@ -98,7 +87,7 @@ const CourseAdmin = () => {
 
   return (
     <div className="course-admin">
-      {course.map((course) => (
+      {course.map((course, index) => (
         <div
           className="course-container"
           key={course._id}
@@ -113,11 +102,7 @@ const CourseAdmin = () => {
           >
             x
           </button>
-          <img
-            className="course-image"
-            src={imageMapping[course._id]} // Default image fallback
-            alt="Course-Img"
-          />
+          <img className="course-image" src={imageMapping[index]} alt="image" />
           <h2 className="course-name">{course.title}</h2>
         </div>
       ))}
@@ -130,34 +115,31 @@ const CourseAdmin = () => {
           <div className="modal-content">
             <form className="course-add" onSubmit={handleSubmit}>
               {" "}
-              <h4 className="course-title">Course Title</h4>
-              <input
-                type="text"
-                className="course-input"
-                name="title"
-                required
-                onChange={(e) => setTitle(e.target.value)}
-                value={title}
-              />
-              <h4 className="course-title">Course Description</h4>
-              <textarea
-                type="textarea"
-                className="course-input course-txt"
-                rows="4"
-                placeholder="Enter course description..."
-                name="description"
-                cols="50"
-                required
-                onChange={(e) => setDesc(e.target.value)}
-                value={desc}
-              ></textarea>
-              <h4 className="course-title">Course Image</h4>
-              <input
-                type="file"
-                className="course-input"
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files[0])}
-              />
+              <div className="part-container">
+                <h4 className="course-title">Course Title</h4>
+                <input
+                  type="text"
+                  className="course-input"
+                  name="title"
+                  required
+                  onChange={(e) => setTitle(e.target.value)}
+                  value={title}
+                />
+              </div>
+              <div className="part-container">
+                <h4 className="course-title">Course Description</h4>
+                <textarea
+                  type="textarea"
+                  className="course-input course-txt"
+                  rows="4"
+                  placeholder="Enter course description..."
+                  name="description"
+                  cols="50"
+                  required
+                  onChange={(e) => setDesc(e.target.value)}
+                  value={desc}
+                ></textarea>
+              </div>
               <button type="submit">Submit</button>
             </form>
             <button className="remove-button" onClick={showModal}>

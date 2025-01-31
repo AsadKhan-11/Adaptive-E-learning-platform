@@ -5,6 +5,8 @@ const Enrollment = require("../Model/Enrollment");
 const User = require("../Model/User");
 const Course = require("../Model/Course");
 const Question = require("../Model/Question");
+const express = require("express");
+const path = require("path");
 const {
   getNextQuestions,
   submitAnswer,
@@ -12,6 +14,7 @@ const {
 const userModel = require("../Model/User");
 const LoginActivity = require("../Model/LoginActivity");
 const multer = require("multer");
+const { Router } = require("express");
 
 router.get("/dashboard", authMiddleware, (req, res) => {
   res.json({ message: `Welcome to your dashboard, ${req.user.email}!` });
@@ -211,31 +214,22 @@ router.get("/quiz/:courseId", authMiddleware, getNextQuestions);
 
 router.post("/quiz/:courseId/submit-answer", authMiddleware, submitAnswer);
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // save files in 'uploads' folder (local storage, if needed)
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-const upload = multer({ storage });
-
 router.post("/addcourse", async (req, res) => {
-  const { title, description, imageUrl } = req.body;
-
-  if (!title || !description || !imageUrl) {
+  const { title, desc } = req.body;
+  console.log(req.body);
+  if (!title || !desc)
     return res.status(400).json({ message: "All fields are required" });
-  }
 
   try {
     const newCourse = new Course({
       title,
-      description,
-      imageUrl,
+      description: desc,
     });
     await newCourse.save();
-    res.status(201).json(newCourse);
+    return res.status(201).json({
+      message: "Course created successfully",
+      course: newCourse,
+    });
   } catch (error) {
     console.error("Error saving course:", error);
     res.status(500).json({ message: "Internal server error" });

@@ -9,21 +9,21 @@ const ProtectedRoute = ({ role, children }) => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    setIsLoading(true);
-
     if (token) {
-      const decodedToken = JSON.parse(atob(token.split(".")[1]));
-      setUser(decodedToken);
+      try {
+        const decodedToken = JSON.parse(atob(token.split(".")[1]));
+        setUser(decodedToken);
+      } catch (error) {
+        console.error("Invalid token:", error);
+        setUser(null);
+      }
     } else {
       setUser(null);
     }
-
     setIsLoading(false);
-  }, [token, setIsLoading, setUser]);
+  }, [token]);
 
-  if (!token) {
-    return <Navigate to="/" />;
-  }
+  if (!token) return <Navigate to="/" replace />;
 
   return children;
 };
