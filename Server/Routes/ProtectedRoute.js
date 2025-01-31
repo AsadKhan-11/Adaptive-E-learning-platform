@@ -315,4 +315,24 @@ router.post("/add-questions/:courseId", async (req, res) => {
   }
 });
 
+router.delete("/deleteQuestion/:id", async (req, res) => {
+  try {
+    const questionId = req.params.id;
+
+    console.log(questionId);
+    // Remove the question from the database
+    const deletedQuestion = await Question.findByIdAndDelete(questionId);
+
+    console.log(deletedQuestion);
+
+    if (!deletedQuestion) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+
+    res.status(200).json({ message: "Question deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting question", error });
+  }
+});
+
 module.exports = router;

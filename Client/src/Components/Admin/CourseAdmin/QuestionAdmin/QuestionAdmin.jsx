@@ -38,6 +38,26 @@ const QuestionAdmin = () => {
     }
   };
 
+  const handleDelete = async (questionId) => {
+    try {
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this question?"
+      );
+      if (!confirmDelete) return;
+      const response = await axios.delete(
+        `https://complex-giant-need.glitch.me/api/deleteQuestion/${questionId}`
+      );
+
+      setQuestions((prevQuestions) =>
+        prevQuestions.filter((q) => q._id !== questionId)
+      );
+
+      alert("Question deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting question:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -45,6 +65,7 @@ const QuestionAdmin = () => {
       const validVideoLinks = formData.videoLinks.filter(
         (link) => link.trim() !== ""
       );
+      console.log("Question adding");
 
       // Send question data to backend
       const response = await axios.post(
@@ -103,6 +124,12 @@ const QuestionAdmin = () => {
           questions.map((q, index) => (
             <div key={q._id} className="questions-container ">
               <div className="question-card ">
+                <button
+                  className="remove-button"
+                  onClick={() => handleDelete(q._id)}
+                >
+                  x{" "}
+                </button>
                 <div className="question-text">
                   <strong>{`Q${index + 1}:`}</strong> {q.text}
                 </div>
@@ -115,7 +142,7 @@ const QuestionAdmin = () => {
             </div>
           ))
         ) : (
-          <p className="text-center text-muted">No questions found.</p>
+          <p className="question-error">No questions found.</p>
         )}
       </div>
       <button className="add-question" onClick={toggle}>
@@ -198,11 +225,13 @@ const QuestionAdmin = () => {
                   <option value="3">Hard (3)</option>
                 </select>
               </div>
-              <button className="remove-button" onClick={toggle}>
-                x
+              <button type="submit" className="modal-btn">
+                Submit
               </button>
             </form>
-            <button type="submit">Submit</button>
+            <button className="remove-button" onClick={toggle}>
+              x
+            </button>
           </div>
         </div>
       )}
