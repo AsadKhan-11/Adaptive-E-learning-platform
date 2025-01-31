@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Verification.css";
 import axios from "../../../Api/AuthApi";
+import Config from "../../../Config/Config";
 
 const Verification = ({
   setNavText,

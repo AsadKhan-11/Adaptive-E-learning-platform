@@ -4,12 +4,15 @@ import { useLoader } from "../../../Context/LoaderContext";
 import axios from "axios";
 import "./CourseAdmin.css";
 import Config from "../../../Config/Config";
-import html from "../../Course/images/html.png";
-import css from "../../Course/images/css.jpg";
-import js from "../../Course/images/js.jpg";
+import image1 from "../../Course/images/image1.png";
+import image2 from "../../Course/images/image2.jpg";
+import image3 from "../../Course/images/image3.jpg";
+import image4 from "../../Course/images/image4.jpg";
+import image5 from "../../Course/images/image5.jpg";
+import image6 from "../../Course/images/image6.avif";
 
 const CourseAdmin = () => {
-  const imageMapping = [html, css, js];
+  const imageMapping = [image1, image2, image3, image4, image5, image6];
   const navigate = useNavigate();
   const [toggleCourse, setToggleCourse] = useState(false);
   const [title, setTitle] = useState("");

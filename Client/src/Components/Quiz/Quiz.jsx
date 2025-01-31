@@ -4,6 +4,9 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLoader } from "../../Context/LoaderContext";
 import Config from "../../Config/Config";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 function Quiz() {
   const [question, setQuestion] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
@@ -13,10 +16,13 @@ function Quiz() {
   const [isCorrect, setIsCorrect] = useState(null);
   const [err, setErr] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [currentDifficulty, setCurrentDifficulty] = useState(null);
   const token = localStorage.getItem("token");
   const { courseId } = useParams();
   const isFetched = useRef(false); // Ref to prevent duplicate calls
   const navigate = useNavigate();
+  const prevDifficulty = useRef(null); // Keep track of previous difficulty
+
   const fetchNextQuestion = useCallback(async () => {
     isFetched.current = true;
     try {
@@ -29,8 +35,18 @@ function Quiz() {
           },
         }
       );
+      console.log(response.data);
       setQuestion(response.data);
+      const newDifficulty = response.data.difficulty;
+      if (newDifficulty !== prevDifficulty.current) {
+        prevDifficulty.current = newDifficulty; // Update the previous difficulty
+        setCurrentDifficulty(newDifficulty); // Update the state with the new difficulty
+
+        // Show the toast only if the difficulty has changed
+        toast.success(`Difficulty level has changed to ${newDifficulty}!`, {});
+      }
     } catch (error) {
+      if (!isFetched.current) return;
       alert("No questions available at the moment");
       navigate("/course");
       console.error("Error fetching the next question:", error);
@@ -61,8 +77,25 @@ function Quiz() {
     }
   };
   useEffect(() => {
+    const fetchCurrentDifficulty = async () => {
+      try {
+        const response = await axios.get(
+          `${Config.API_URL}/api/course/difficulty/${courseId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCurrentDifficulty(response.data.difficulty);
+      } catch (error) {
+        console.error("Error fetching current difficulty:", error);
+      }
+    };
+    fetchCurrentDifficulty();
+
     fetchNextQuestion();
-  }, [setIsLoading]);
+  }, [setIsLoading, courseId]);
 
   const handleAnswerSubmit = async (selectedAnswer) => {
     try {
@@ -82,10 +115,12 @@ function Quiz() {
       const { isCorrect, nextQuestion, correctAnswer } = response.data;
       if (isCorrect) {
         setErr(false);
-        setMessage("Correct Answer 🎉");
+        setMessage("");
+        toast.success("Correct Answer 🎉");
       } else {
+        toast.success("Keep it up");
         setErr(true);
-        setMessage(`The correct answer is ${correctAnswer}`);
+        toast.error(`The correct answer is ${correctAnswer}`);
       }
 
       setTimeout(() => {
@@ -183,6 +218,7 @@ function Quiz() {
           )}
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 }

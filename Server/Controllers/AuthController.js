@@ -126,7 +126,7 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
 
-    const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+    const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
 
     // await sendEmail(email, "Password Reset", `Click here: ${resetLink}`);
     const mailOptions = {
@@ -160,6 +160,7 @@ const resetPassword = async (req, res) => {
       resetPasswordToken: token,
       resetPasswordExpires: { $gt: Date.now() },
     });
+    console.log(user);
 
     if (!user) return res.status(400).json({ message: "The link has expired" });
     else if (!password) {
@@ -187,7 +188,7 @@ const resetPassword = async (req, res) => {
 
 const validateResetToken = async (req, res) => {
   const { token } = req.body;
-
+  console.log(token);
   try {
     const user = await userModel.findOne({
       resetPasswordToken: token,

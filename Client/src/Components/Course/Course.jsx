@@ -4,8 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import data from "./Data";
 import { useLoader } from "../../Context/LoaderContext";
-import html from "./images/html.png";
-import css from "./images/css.jpg";
+import image1 from "./images/image1.png";
+import image2 from "./images/image2.jpg";
+import image3 from "./images/image3.jpg";
+import image4 from "./images/image4.jpg";
+import image5 from "./images/image5.jpg";
+import image6 from "./images/image6.avif";
+
 import Config from "../../Config/Config";
 
 function Course() {
@@ -14,6 +19,8 @@ function Course() {
   const token = localStorage.getItem("token");
 
   const { setIsLoading } = useLoader();
+
+  const imageMapping = [image1, image2, image3, image4, image5, image6];
 
   const fetchCourse = useCallback(async () => {
     try {
@@ -59,17 +66,13 @@ function Course() {
 
   return (
     <div className="course">
-      {course.map((course) => (
+      {course.map((course, index) => (
         <div
           className="course-container"
           key={course._id}
           onClick={() => handleClick(course._id)}
         >
-          <img
-            className="course-image"
-            src={html} // Default image fallback
-            alt="Course-Img"
-          />
+          <img className="course-image" src={imageMapping[index]} alt="image" />
           <h2 className="course-name">{course.title}</h2>
         </div>
       ))}

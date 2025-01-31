@@ -16,13 +16,6 @@ const LoginActivity = require("../Model/LoginActivity");
 const multer = require("multer");
 const { Router } = require("express");
 
-router.get("/dashboard", authMiddleware, (req, res) => {
-  res.json({ message: `Welcome to your dashboard, ${req.user.email}!` });
-});
-router.get("/send/email", authMiddleware, (req, res) => {
-  res.json({ message: `Welcome to your dashboard, ${req.user.email}!` });
-});
-
 router.get("/user/average", authMiddleware, async (req, res) => {
   const userId = req.user._id;
 
@@ -86,6 +79,7 @@ router.get("/user/average", authMiddleware, async (req, res) => {
         .status(404)
         .json({ message: "No enrolled courses found for the user." });
     }
+
     return res.status(200).json({
       results,
       overallStats: {
@@ -214,9 +208,24 @@ router.get("/quiz/:courseId", authMiddleware, getNextQuestions);
 
 router.post("/quiz/:courseId/submit-answer", authMiddleware, submitAnswer);
 
+router.get("/course/difficulty/:courseId", async (req, res) => {
+  const { courseId } = req.params;
+
+  try {
+    const course = await Course.findById(courseId).populate("questions");
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    res.status(200).json({ difficulty: course.currentDifficulty });
+  } catch (err) {
+    console.error("Error fetching course difficulty:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 router.post("/addcourse", async (req, res) => {
   const { title, desc } = req.body;
-  console.log(req.body);
   if (!title || !desc)
     return res.status(400).json({ message: "All fields are required" });
 
@@ -341,14 +350,22 @@ router.delete("/deleteQuestion/:id", async (req, res) => {
   try {
     const questionId = req.params.id;
 
-    console.log(questionId);
     // Remove the question from the database
     const deletedQuestion = await Question.findByIdAndDelete(questionId);
 
-    console.log(deletedQuestion);
-
     if (!deletedQuestion) {
       return res.status(404).json({ message: "Question not found" });
+    }
+
+    const updateCourses = await Course.updateMany(
+      { questions: questionId },
+      { $pull: { questions: questionId } }
+    );
+
+    if (updateCourses.nModified === 0) {
+      return res
+        .status(404)
+        .json({ message: "Question ID not found in any courses" });
     }
 
     res.status(200).json({ message: "Question deleted successfully" });

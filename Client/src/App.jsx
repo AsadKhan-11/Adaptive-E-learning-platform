@@ -46,27 +46,7 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
-    // setIsLoading(true);
-    // if (isLoaderVisible) {
-    //   setIsLoading(true);
-    //   const timer = setTimeout(() => setIsLoading(false), 500);
-    //   return () => clearTimeout(timer);
-    // }
-    // if (user === null) {
-    //   setIsLoading(true);
-    // }
   }, [pathname, setIsLoading, isLoaderVisible]);
-
-  // const Login = React.lazy(() => import("./Components/Landing/Login"));
-  // const Forgot = React.lazy(() => import("./Components/Forgot/Forgot"));
-  // const Reset = React.lazy(() => import("./Components/Landing/Reset/Reset"));
-  // const Course = React.lazy(() => import("./Components/Course/Course"));
-  // const Profile = React.lazy(() => import("./Components/Profile/Profile"));
-  // const Question = React.lazy(() => import("./Components/Questiom/Question"));
-  // const Dashboard = React.lazy(() =>
-  //   import("./Components/Dashboard/Dashboard")
-  // );
 
   return (
     <div className="App">

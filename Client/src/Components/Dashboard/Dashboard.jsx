@@ -42,7 +42,6 @@ function Dashboard() {
 
         localStorage.setItem("user", JSON.stringify(userResponse.data));
 
-        // Fetch average stats, but handle possible errors
         try {
           const averageResponse = await axios.get(
             `${Config.API_URL}/api/user/average`,
@@ -69,7 +68,7 @@ function Dashboard() {
           });
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.warn("No average stats found. Setting default values.");
       } finally {
         setIsLoading(false);
       }
@@ -159,22 +158,24 @@ function Dashboard() {
           </div>
           <hr style={{ height: "1px", width: "200px" }} />
           {courseStats && courseStats.length > 0 ? (
-            courseStats.map((course, index) => (
-              <div key={index}>
-                <div
-                  className="Dashboard-detail-container d1"
-                  onClick={() => {
-                    window.location.href = `/course/${course._id}/answers`;
-                  }}
-                >
-                  <h3 className="Dashboard-name">{course.courseName}</h3>
-                  <p className="Dashboard-num">
-                    {course.averageCorrect.toFixed(2)}%
-                  </p>
+            courseStats
+              .filter((course) => !course.deleted)
+              .map((course, index) => (
+                <div key={index}>
+                  <div
+                    className="Dashboard-detail-container d1"
+                    // onClick={() => {
+                    //   window.location.href = `/course/${course._id}/answers`;
+                    // }}
+                  >
+                    <h3 className="Dashboard-name">{course.courseName}</h3>
+                    <p className="Dashboard-num">
+                      {course.averageCorrect.toFixed(2)}%
+                    </p>
+                  </div>
+                  <hr style={{ height: "1px", width: "200px" }} />
                 </div>
-                <hr style={{ height: "1px", width: "200px" }} />
-              </div>
-            ))
+              ))
           ) : (
             <div className="Dashboard-completion">
               <div className="Dashboard-detail-container d1">
