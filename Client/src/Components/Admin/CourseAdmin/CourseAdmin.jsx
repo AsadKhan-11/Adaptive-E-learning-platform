@@ -5,6 +5,12 @@ import axios from "axios";
 import html from "../../Course/images/html.png";
 import css from "../../Course/images/css.jpg";
 import "./CourseAdmin.css";
+import {
+  getDownloadURL,
+  ref,
+  storage,
+  uploadBytes,
+} from "../../../Firebase/Firebase";
 
 const CourseAdmin = () => {
   const imageMapping = {
@@ -15,6 +21,7 @@ const CourseAdmin = () => {
   const [toggleCourse, setToggleCourse] = useState(false);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const [image, setImage] = useState(null);
   const [course, setCourse] = useState([]);
   const token = localStorage.getItem("token");
 
@@ -41,37 +48,69 @@ const CourseAdmin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log(image);
+
+    if (!image) {
+      console.error("No image selected");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", desc);
+    formData.append("image", image);
+
     try {
+      // Create a reference to the image in Firebase Storage
+      const imageRef = ref(storage, `images/${image.name}`);
+
+      // Upload image to Firebase Storage
+      await uploadBytes(imageRef, image);
+
+      // After the image is uploaded, get the download URL
+      const imageUrl = await getDownloadURL(imageRef);
+
+      console.log(title);
+      // Now send course data to the backend (including image URL)
       const response = await axios.post(
         "https://complex-giant-need.glitch.me/api/addcourse",
         {
-          title,
+          title: title,
           description: desc,
+          imageUrl: imageUrl,
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
 
+      // Handle successful response
       setTitle("");
       setDesc("");
+      setImage(null);
 
       fetchCourse();
-
       setToggleCourse(false);
     } catch (error) {
-      console.log(error);
+      console.log("Error during form submission: ", error);
     }
   };
 
   const handleDelete = async (courseId) => {
     try {
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this course?"
+      );
+      if (!confirmDelete) return;
       const response = await axios.delete(
         `https://complex-giant-need.glitch.me/api/deletecourse/${courseId}`
       );
       fetchCourse();
+      alert("Course deleted successfully!");
     } catch (error) {
       console.error("Error deleting course:", error);
     }
@@ -140,6 +179,13 @@ const CourseAdmin = () => {
                 onChange={(e) => setDesc(e.target.value)}
                 value={desc}
               ></textarea>
+              <h4 className="course-title">Course Image</h4>
+              <input
+                type="file"
+                className="course-input"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
               <button type="submit">Submit</button>
             </form>
             <button className="remove-button" onClick={showModal}>

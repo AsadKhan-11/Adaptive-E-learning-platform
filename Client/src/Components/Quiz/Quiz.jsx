@@ -31,8 +31,8 @@ function Quiz() {
       );
       setQuestion(response.data);
     } catch (error) {
-      alert(error.response.data.message);
-      navigate("/dashboard");
+      alert("No questions available at the moment");
+      navigate("/course");
       console.error("Error fetching the next question:", error);
     } finally {
       setIsLoading(false);

@@ -8,11 +8,6 @@ import html from "./images/html.png";
 import css from "./images/css.jpg";
 
 function Course() {
-  const imageMapping = {
-    "67670d9599b56943a89a45fb": html,
-    "6767ccc42cbd1950877526c4": css,
-  };
-
   const navigate = useNavigate();
   const [course, setCourse] = useState([]);
   const token = localStorage.getItem("token");
@@ -30,6 +25,7 @@ function Course() {
           },
         }
       );
+
       setCourse(info.data);
     } catch (err) {
       console.log(err);
@@ -73,7 +69,7 @@ function Course() {
         >
           <img
             className="course-image"
-            src={imageMapping[course._id]} // Default image fallback
+            src={course.imageUrl} // Default image fallback
             alt="Course-Img"
           />
           <h2 className="course-name">{course.title}</h2>

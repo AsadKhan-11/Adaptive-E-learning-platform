@@ -12,6 +12,12 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    deleted: { type: Boolean, default: false },
+
+    imageUrl: {
+      type: String,
+      required: true,
+    },
 
     questions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Question" }],
   },

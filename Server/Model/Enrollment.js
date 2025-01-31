@@ -32,10 +32,6 @@ const enrollmentSchema = new mongoose.Schema(
       default: 0,
     },
 
-    completed: {
-      type: Boolean,
-      default: false,
-    },
     answeredQuestions: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Question" },
     ],

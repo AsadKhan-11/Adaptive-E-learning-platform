@@ -11,6 +11,7 @@ const {
 } = require("../Controllers/QuestionController");
 const userModel = require("../Model/User");
 const LoginActivity = require("../Model/LoginActivity");
+const multer = require("multer");
 
 router.get("/dashboard", authMiddleware, (req, res) => {
   res.json({ message: `Welcome to your dashboard, ${req.user.email}!` });
@@ -107,9 +108,11 @@ router.get("/user", authMiddleware, async (req, res) => {
       "courseId"
     );
 
-    const courses = enrollment.map((enrollment) => enrollment.courseId);
+    const validCourses = enrollment
+      .map((enroll) => enroll.courseId)
+      .filter((course) => !course.deleted);
 
-    return res.status(200).json({ user, courses });
+    return res.status(200).json({ user, courses: validCourses });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -118,7 +121,7 @@ router.get("/user", authMiddleware, async (req, res) => {
 //get courses
 router.get("/course", authMiddleware, async (req, res) => {
   try {
-    const courses = await Course.find();
+    const courses = await Course.find({ deleted: false });
     return res.status(200).json(courses);
   } catch (err) {
     return res.status(500).json({ error: "Server Error" });
@@ -139,7 +142,9 @@ router.post("/course/enroll/:courseId", authMiddleware, async (req, res) => {
     const course = await Course.findById(courseId).populate("questions");
 
     if (!course || !course.questions || course.questions.length === 0) {
-      throw new Error("No questions available for this course.");
+      return res
+        .status(400)
+        .json({ error: "No questions available for this course." });
     }
 
     const firstQuestion = course.questions[0];
@@ -159,7 +164,9 @@ router.post("/course/enroll/:courseId", authMiddleware, async (req, res) => {
       .status(201)
       .json({ message: "Enrollment successful", success: true });
   } catch (err) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: err.message });
   }
 });
 
@@ -189,7 +196,7 @@ router.put("/profile", authMiddleware, async (req, res) => {
   const upperCaseName = name.toUpperCase();
 
   try {
-    updateUser = await User.findByIdAndUpdate(
+    const updateUser = await User.findByIdAndUpdate(
       req.user._id,
       { name: upperCaseName },
       { new: true }
@@ -204,17 +211,29 @@ router.get("/quiz/:courseId", authMiddleware, getNextQuestions);
 
 router.post("/quiz/:courseId/submit-answer", authMiddleware, submitAnswer);
 
-router.post("/addcourse", async (req, res) => {
-  const { title, description } = req.body;
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // save files in 'uploads' folder (local storage, if needed)
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+const upload = multer({ storage });
 
-  if (!title || !description) {
-    return res
-      .status(400)
-      .json({ message: "Title and description are required" });
+router.post("/addcourse", async (req, res) => {
+  const { title, description, imageUrl } = req.body;
+
+  if (!title || !description || !imageUrl) {
+    return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
-    const newCourse = new Course({ title, description });
+    const newCourse = new Course({
+      title,
+      description,
+      imageUrl,
+    });
     await newCourse.save();
     res.status(201).json(newCourse);
   } catch (error) {
@@ -227,7 +246,16 @@ router.delete("/deletecourse/:courseId", async (req, res) => {
   const id = req.params.courseId;
 
   try {
-    const course = await Course.findByIdAndDelete(id);
+    const course = await Course.findByIdAndUpdate(
+      id,
+      { deleted: true },
+      { new: true }
+    );
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
     res.status(200).send({ success: true, message: "Course has been deleted" });
   } catch (error) {
     res
