@@ -3,6 +3,7 @@ import "./StudentAdmin.css";
 import axios from "axios";
 import moment from "moment";
 import { useLoader } from "../../../Context/LoaderContext";
+import Config from "../../../Config/Config";
 
 const StudentAdmin = () => {
   const [students, setStudents] = useState([]);
@@ -13,12 +14,9 @@ const StudentAdmin = () => {
     const getStudents = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(
-          `https://complex-giant-need.glitch.me/api/students`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const response = await axios.get(`${Config.API_URL}/api/students`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         setStudents(response.data);
       } catch (err) {

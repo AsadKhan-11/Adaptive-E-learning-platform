@@ -4,6 +4,7 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./Card.css";
 import ReactCardFlip from "react-card-flip";
 import { UserContext } from "../../../Context/UserContext";
+import Config from "../../../Config/Config";
 
 function Card({
   isFlipped,
@@ -44,14 +45,11 @@ function Card({
     e.preventDefault();
 
     try {
-      const result = await axios.post(
-        `https://complex-giant-need.glitch.me/auth/verify-email`,
-        {
-          name: signupName,
-          email: signupEmail,
-          password: signupPassword,
-        }
-      );
+      const result = await axios.post(`${Config.API_URL}/auth/verify-email`, {
+        name: signupName,
+        email: signupEmail,
+        password: signupPassword,
+      });
 
       alert(result.data.message);
 
@@ -83,13 +81,10 @@ function Card({
     e.preventDefault();
 
     try {
-      const result = await axios.post(
-        `https://complex-giant-need.glitch.me/auth/login`,
-        {
-          email: loginEmail,
-          password: loginPassword,
-        }
-      );
+      const result = await axios.post(`${Config.API_URL}/auth/login`, {
+        email: loginEmail,
+        password: loginPassword,
+      });
 
       setMessage(result.data.message);
 

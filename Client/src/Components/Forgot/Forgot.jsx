@@ -3,6 +3,8 @@ import "./Forgot.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLoader } from "../../Context/LoaderContext";
+import Config from "../../Config/Config";
+
 function Forgot() {
   const [email, setEmail] = useState("");
   const [err, setErr] = useState("");
@@ -17,7 +19,7 @@ function Forgot() {
       setIsLoading(true);
       // Replace with your backend endpoint
       const response = await axios.post(
-        "https://complex-giant-need.glitch.me/auth/forgot-password",
+        `${Config.API_URL}/auth/forgot-password`,
         { email }
       );
 

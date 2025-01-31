@@ -6,6 +6,7 @@ import { useLoader } from "../../Context/LoaderContext";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { UserContext, UserProvider } from "../../Context/UserContext";
+import Config from "../../Config/Config";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -34,12 +35,9 @@ function Dashboard() {
         setIsLoading(true);
 
         // Fetch user data
-        const userResponse = await axios.get(
-          `https://complex-giant-need.glitch.me/api/user`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const userResponse = await axios.get(`${Config.API_URL}/api/user`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setUser(userResponse.data.user);
 
         localStorage.setItem("user", JSON.stringify(userResponse.data));
@@ -47,7 +45,7 @@ function Dashboard() {
         // Fetch average stats, but handle possible errors
         try {
           const averageResponse = await axios.get(
-            `https://complex-giant-need.glitch.me/api/user/average`,
+            `${Config.API_URL}/api/user/average`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }

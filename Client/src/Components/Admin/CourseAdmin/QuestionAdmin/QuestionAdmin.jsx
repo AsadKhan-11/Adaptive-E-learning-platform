@@ -4,6 +4,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../../Context/LoaderContext";
 import "./QuestionAdmin.css";
+import Config from "../../../../Config/Config";
 
 const QuestionAdmin = () => {
   const { courseId } = useParams();
@@ -45,7 +46,7 @@ const QuestionAdmin = () => {
       );
       if (!confirmDelete) return;
       const response = await axios.delete(
-        `https://complex-giant-need.glitch.me/api/deleteQuestion/${questionId}`
+        `${Config.API_URL}/api/deleteQuestion/${questionId}`
       );
 
       setQuestions((prevQuestions) =>
@@ -69,7 +70,7 @@ const QuestionAdmin = () => {
 
       // Send question data to backend
       const response = await axios.post(
-        `https://complex-giant-need.glitch.me/api/add-questions/${courseId}`,
+        `${Config.API_URL}/api/add-questions/${courseId}`,
         {
           text: formData.title,
           answer: formData.answer,
@@ -94,7 +95,7 @@ const QuestionAdmin = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `https://complex-giant-need.glitch.me/api/${courseId}/getQuestions`,
+          `${Config.API_URL}/api/${courseId}/getQuestions`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

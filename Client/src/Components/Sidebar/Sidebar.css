@@ -1,3 +1,4 @@
+/* Default sidebar styles */
 .sidebar {
   height: 100vh;
   color: white;
@@ -5,8 +6,13 @@
   padding: 50px 0 0;
   width: 200px;
   position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999; /* Ensure the sidebar is below the navbar */
+  transition: transform 0.3s ease; /* For smooth slide-in animation */
 }
 
+/* Sidebar content styles */
 .sidebar-list {
   overflow-x: hidden;
   display: flex;
@@ -48,7 +54,40 @@
   height: 50px;
   padding-left: 10px;
 }
+
 .active {
   background-color: #bbdefb;
   color: #1565c0;
+}
+
+/* Sidebar behavior for small screens */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Sidebar takes full width */
+    height: auto; /* Let sidebar height adjust based on content */
+    position: absolute; /* Sidebar takes up the entire screen */
+    top: 0;
+    left: 0;
+    transform: translateX(-100%); /* Initially hidden off-screen */
+  }
+
+  .sidebar.open {
+    transform: translateX(0); /* Slide in the sidebar */
+  }
+
+  /* Add a toggle button for the sidebar */
+  .sidebar-toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 2000; /* Button on top of everything */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .sidebar-toggle-btn ion-icon {
+    font-size: 30px;
+    color: white;
+  }
 }

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./Question.css";
 import axios from "axios";
 import { useLoader } from "../../Context/LoaderContext";
+import Config from "../../Config/Config";
+
 function Question() {
   const [message, setmessage] = useState("");
   const user = JSON.parse(localStorage.getItem("user"));
@@ -11,14 +13,11 @@ function Question() {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        "https://complex-giant-need.glitch.me/email/send",
-        {
-          email: user.user.email,
-          user: user.user.name,
-          message: message,
-        }
-      );
+      const response = await axios.post(`${Config.API_URL}/email/send`, {
+        email: user.user.email,
+        user: user.user.name,
+        message: message,
+      });
       alert(response.data.message);
       window.location.reload();
     } catch (error) {

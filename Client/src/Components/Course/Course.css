@@ -26,6 +26,7 @@
   cursor: pointer;
   position: relative;
 }
+
 .course-link {
   text-decoration: none;
   color: black;
@@ -47,4 +48,56 @@
 
 .course-name {
   color: #1a237e;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .course-container {
+    width: 230px;
+    height: 220px;
+  }
+}
+
+@media (max-width: 992px) {
+  .course-container {
+    width: 200px;
+    height: 200px;
+  }
+
+  .course {
+    gap: 30px;
+  }
+  .course-name {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .course-container {
+    width: 180px;
+    height: 180px;
+  }
+
+  .course {
+    gap: 20px;
+  }
+  .course-name {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .course-container {
+    width: 150px;
+    height: 150px;
+  }
+
+  .course {
+    gap: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .course-name {
+    font-size: 14px;
+  }
 }

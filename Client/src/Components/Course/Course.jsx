@@ -6,6 +6,7 @@ import data from "./Data";
 import { useLoader } from "../../Context/LoaderContext";
 import html from "./images/html.png";
 import css from "./images/css.jpg";
+import Config from "../../Config/Config";
 
 function Course() {
   const navigate = useNavigate();
@@ -17,14 +18,11 @@ function Course() {
   const fetchCourse = useCallback(async () => {
     try {
       setIsLoading(true);
-      const info = await axios.get(
-        `https://complex-giant-need.glitch.me/api/course`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const info = await axios.get(`${Config.API_URL}/api/course`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setCourse(info.data);
     } catch (err) {
@@ -41,7 +39,7 @@ function Course() {
   const handleClick = async (courseId) => {
     try {
       const response = await axios.get(
-        `https://complex-giant-need.glitch.me/api/course/enrollment/${courseId}`,
+        `${Config.API_URL}/api/course/enrollment/${courseId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -69,7 +67,7 @@ function Course() {
         >
           <img
             className="course-image"
-            src={course.imageUrl} // Default image fallback
+            src={html} // Default image fallback
             alt="Course-Img"
           />
           <h2 className="course-name">{course.title}</h2>

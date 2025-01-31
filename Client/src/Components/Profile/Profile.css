@@ -3,6 +3,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  padding: 20px;
 }
 
 .profile-form {
@@ -16,69 +17,136 @@
   max-width: 450px;
   border-radius: 12px;
   padding: 30px;
-  overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #d6d6d6;
 }
 
 .profile-info {
   display: flex;
-  align-items: center;
-  gap: 50px;
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
   font-size: 18px;
-  height: 100%;
+  height: auto;
 }
 
 .profile-info label {
   color: #1a237e;
   font-weight: 600;
-  width: 70px;
+  font-size: 16px;
 }
 
 .disabled {
   font-weight: 400;
-  font-size: 18px;
-  text-align: left;
-  max-width: 100%;
-  white-space: normal;
-  word-wrap: break-word;
-  outline: none;
+  font-size: 16px;
   color: #212121;
   background-color: white;
   border: none;
+  word-wrap: break-word;
 }
 
 .editable {
-  width: 50%;
+  width: 100%;
   border: 1px solid #ccc;
   background-color: white;
   cursor: text;
-  height: 20px;
+  height: 40px;
   border-radius: 12px;
   padding: 5px;
   font-size: 18px;
 }
 
 .courses-container {
-  display: inline;
-}
-
-/* .profile-btns {
   display: flex;
-  width: 40%;
-  justify-content: space-between;
-  } */
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
 .btns-container {
   display: flex;
   gap: 20px;
+  width: 100%;
+  justify-content: center;
 }
 
 .cancel {
   background-color: #e0e0e0;
   color: #212121;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  width: 100%;
 }
+
 .cancel:hover {
   background-color: #bdbdbd;
+}
+
+.profile-change {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.nav-sign-btn {
+  background-color: #0d47a1;
+  color: white;
+  font-size: 18px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.nav-sign-btn:hover {
+  background-color: #1565c0;
+}
+
+@media (max-width: 768px) {
+  .profile-form {
+    padding: 20px;
+  }
+
+  .profile-info label {
+    font-size: 14px;
+  }
+
+  .editable {
+    font-size: 16px;
+    height: 35px;
+  }
+
+  .profile-change,
+  .cancel,
+  .nav-sign-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .btns-container {
+    flex-direction: column;
+  }
+
+  .cancel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-info {
+    gap: 5px;
+  }
+
+  .profile-form {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .profile-change,
+  .cancel,
+  .nav-sign-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
 }

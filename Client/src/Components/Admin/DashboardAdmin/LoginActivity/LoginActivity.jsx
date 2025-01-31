@@ -13,7 +13,7 @@ import {
   Legend,
 } from "chart.js";
 import { useLoader } from "../../../../Context/LoaderContext";
-
+import Config from "../../../../Config/Config";
 // Register chart.js components
 ChartJS.register(
   CategoryScale,
@@ -34,7 +34,7 @@ const LoginGraph = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "https://complex-giant-need.glitch.me/api/logins-per-day"
+          `${Config.API_URL}/api/logins-per-day`
         );
         setData(response.data);
       } catch (error) {

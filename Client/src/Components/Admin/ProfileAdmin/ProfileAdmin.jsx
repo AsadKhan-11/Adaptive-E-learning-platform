@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLoader } from "../../../Context/LoaderContext";
+import Config from "../../../Config/Config";
 
 function ProfileAdmin() {
   const [isEditable, setIsEditable] = useState(false);
@@ -17,12 +18,9 @@ function ProfileAdmin() {
     const fetchUserData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(
-          "https://complex-giant-need.glitch.me/api/user",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const response = await axios.get(`${Config.API_URL}/api/user`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setUser(response.data.user);
         setCourses(response.data.courses);
         setOriginalUser(response.data.user);
@@ -62,7 +60,7 @@ function ProfileAdmin() {
 
     try {
       const response = await axios.put(
-        "https://complex-giant-need.glitch.me/api/profile",
+        `${Config.API_URL}/api/profile`,
         payload,
         {
           headers: { Authorization: `Bearer ${token}` },

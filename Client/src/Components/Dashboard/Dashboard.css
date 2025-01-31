@@ -6,6 +6,7 @@
   justify-content: flex-start;
   padding-left: 20px;
   padding-right: 20px;
+  flex-wrap: wrap; /* Added for wrapping items on smaller screens */
 }
 
 .Dashboard-items {
@@ -15,6 +16,7 @@
   gap: 30px;
   padding: 50px 0;
 }
+
 .Dashboard-container {
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -25,6 +27,7 @@
   justify-content: start;
   padding: 10px 0px;
 }
+
 .Dashboard-container:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: box-shadow 0.3s ease;
@@ -34,6 +37,7 @@
   grid-column: span 2;
   padding: 10px 0;
 }
+
 .Dashboard-name {
   font-size: 18px;
   color: #1a237e;
@@ -49,11 +53,12 @@
   align-items: center;
   justify-content: space-between;
 }
+
 .Course-completion {
   max-height: 200px;
-
   overflow-y: auto;
 }
+
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -75,6 +80,7 @@
   flex-direction: column;
   overflow-x: hidden;
 }
+
 .d1 {
   width: 90%;
   display: flex;
@@ -85,4 +91,89 @@
 
 .d1:hover {
   background-color: rgb(222, 226, 247);
+}
+
+@media (max-width: 1024px) {
+  .Dashboard-items {
+    grid-template-columns: 1fr 1fr; /* 2 columns for medium screens */
+  }
+
+  .Dashboard-container {
+    padding: 15px 0px;
+  }
+
+  .Dashboard-name {
+    font-size: 16px;
+  }
+
+  .Dashboard-num {
+    font-size: 14px;
+  }
+
+  .d1 {
+    gap: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .Dashboard {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .Dashboard-items {
+    grid-template-columns: 1fr;
+  }
+
+  .Dashboard-container {
+    padding: 20px 0px;
+  }
+
+  .Dashboard-name {
+    font-size: 14px;
+  }
+
+  .Dashboard-num {
+    font-size: 12px;
+  }
+
+  .d1 {
+    gap: 30px;
+  }
+
+  .Course-completion {
+    max-height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .Dashboard {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .Dashboard-items {
+    grid-template-columns: 1fr;
+  }
+
+  .Dashboard-container {
+    padding: 25px 0px;
+  }
+
+  .Dashboard-name {
+    font-size: 10px;
+  }
+
+  .Dashboard-num {
+    font-size: 8px;
+  }
+
+  .d1 {
+    gap: 20px;
+  }
+
+  .Course-completion {
+    width: 100%; /* Ensure it occupies full width */
+    margin-top: 10px; /* Add a little space above */
+  }
 }

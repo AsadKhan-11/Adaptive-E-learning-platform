@@ -3,13 +3,13 @@ import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCzJr97QCPyP9s81ttbCr9hQVoJ5fGU2RI",
-  authDomain: "nexedu-b3ba8.firebaseapp.com",
-  projectId: "nexedu-b3ba8",
-  storageBucket: "nexedu-b3ba8.firebasestorage.app",
-  messagingSenderId: "746190261316",
-  appId: "1:746190261316:web:53a7647e1495eba2464011",
-  measurementId: "G-NH7QXNTX4B",
+  apiKey: "AIzaSyAG2_3__4T7MVMReR5S9KumcHTjXS8DBX8",
+  authDomain: "nexedu-ea30f.firebaseapp.com",
+  projectId: "nexedu-ea30f",
+  storageBucket: "nexedu-ea30f.firebasestorage.app",
+  messagingSenderId: "186428591469",
+  appId: "1:186428591469:web:af6ca30a3be9fd02565e64",
+  measurementId: "G-YZ46HX5NL5",
 };
 
 const app = initializeApp(firebaseConfig);

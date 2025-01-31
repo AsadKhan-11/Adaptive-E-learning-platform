@@ -3,6 +3,8 @@ import "./Reset.css";
 import axios from "axios";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useLoader } from "../../../Context/LoaderContext";
+import Config from "../../../Config/Config";
+
 function Reset() {
   const [confirmPassword, setconfirmPassword] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +21,7 @@ function Reset() {
       try {
         setIsLoading(true);
         const response = await axios.post(
-          "https://complex-giant-need.glitch.me/auth/reset-token",
+          `${Config.API_URL}/auth/reset-token`,
           {
             token,
           }
@@ -61,7 +63,7 @@ function Reset() {
     try {
       // Make API call to reset the password
       const response = await axios.post(
-        `https://complex-giant-need.glitch.me/auth/reset-password`,
+        `${Config.API_URL}/auth/reset-password`,
         {
           token,
           password,

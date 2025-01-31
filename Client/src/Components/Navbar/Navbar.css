@@ -3,9 +3,9 @@
   font-size: 20px;
   background-color: #0d47a1;
   position: sticky;
+  top: 0;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  top: 0;
 }
 
 .nav-container {
@@ -17,17 +17,16 @@
 
 .nav-logo {
   height: 80px;
-  width: 80px;
+  width: auto;
   user-select: none;
   cursor: default;
-  -ms-user-select: none;
-  -moz-user-select: none;
 }
 
 .nav-first {
   background-color: transparent;
   position: fixed;
 }
+
 .nav-sign-btn {
   display: flex;
   align-items: center;
@@ -38,13 +37,23 @@
   width: 100px;
   border: none;
   border-radius: 35px;
-  font-size: 18px;
+  font-size: 20px;
   text-decoration: none;
-
   cursor: pointer;
-  transition: all 1s;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .nav-sign-btn:hover {
   background-color: #1565c0;
+}
+
+@media (max-width: 768px) {
+  .nav-logo {
+    height: 60px;
+  }
+
+  .nav-sign-btn {
+    width: 80px;
+    font-size: 18px;
+  }
 }

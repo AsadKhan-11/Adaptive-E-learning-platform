@@ -3,7 +3,7 @@ import "./Quiz.css";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLoader } from "../../Context/LoaderContext";
-
+import Config from "../../Config/Config";
 function Quiz() {
   const [question, setQuestion] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
@@ -22,7 +22,7 @@ function Quiz() {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `https://complex-giant-need.glitch.me/api/quiz/${courseId}`,
+        `${Config.API_URL}/api/quiz/${courseId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ function Quiz() {
   const handleAnswerSubmit = async (selectedAnswer) => {
     try {
       const response = await axios.post(
-        `https://complex-giant-need.glitch.me/api/quiz/${courseId}/submit-answer`,
+        `${Config.API_URL}/api/quiz/${courseId}/submit-answer`,
         {
           questionId: question._id,
           answer: selectedAnswer,

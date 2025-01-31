@@ -4,6 +4,8 @@ import html2 from "../images/html2.jpg";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLoader } from "../../../Context/LoaderContext";
+import Config from "../../../Config/Config";
+
 function Enroll() {
   const { courseId } = useParams();
   const [enroll, setEnroll] = useState([]);
@@ -15,7 +17,7 @@ function Enroll() {
     const checkEnrollment = async () => {
       try {
         const response = await axios.get(
-          `https://complex-giant-need.glitch.me/api/course/enrollment/${courseId}`,
+          `${Config.API_URL}/api/course/enrollment/${courseId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -34,7 +36,7 @@ function Enroll() {
 
   const handleClick = async () => {
     const response = await axios.post(
-      `https://complex-giant-need.glitch.me/api/course/enroll/${courseId}`,
+      `${Config.API_URL}/api/course/enroll/${courseId}`,
       {},
       {
         headers: {
