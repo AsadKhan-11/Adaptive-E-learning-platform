@@ -3,6 +3,9 @@ import "./Question.css";
 import axios from "axios";
 import { useLoader } from "../../Context/LoaderContext";
 import Config from "../../Config/Config";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 function Question() {
   const [message, setmessage] = useState("");
@@ -18,10 +21,10 @@ function Question() {
         user: user.user.name,
         message: message,
       });
-      alert(response.data.message);
+      toast.success(response.data.message);
       window.location.reload();
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -45,9 +48,10 @@ function Question() {
           }}
         ></textarea>
 
-        <button type="submit" className="nav-sign-btn">
+        <button type="submit" className="nav-sign-btn profile-change">
           Send
         </button>
+        <ToastContainer />
       </div>
     </form>
   );

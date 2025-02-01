@@ -41,9 +41,9 @@ function App() {
   const { isLoading, setIsLoading } = useLoader();
   const [isVerification, setIsVerification] = useState(false);
   const { pathname } = useLocation();
-  const [userRole, setUserRole] = useState();
   const isLoaderVisible = !["/signup", "/verify-email"].includes(pathname);
   const { user, setUser } = useContext(UserContext);
+  const userRole = localStorage.getItem("user");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -84,7 +84,7 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute role="student">
+            <ProtectedRoute role={["student"]} userRole={userRole}>
               <Layout>
                 {" "}
                 <Dashboard />{" "}
@@ -95,7 +95,7 @@ function App() {
         <Route
           path="/course/:courseId/answers"
           element={
-            <ProtectedRoute role="student">
+            <ProtectedRoute role={["student"]} userRole={userRole}>
               <Layout>{<CourseProgress />}</Layout>
             </ProtectedRoute>
           }
@@ -103,7 +103,7 @@ function App() {
         <Route
           path="/course"
           element={
-            <ProtectedRoute role="student">
+            <ProtectedRoute role={["student"]} userRole={userRole}>
               <Layout> {<Course />}</Layout>
             </ProtectedRoute>
           }
@@ -111,7 +111,7 @@ function App() {
         <Route
           path="/profile"
           element={
-            <ProtectedRoute role="student">
+            <ProtectedRoute role={["student"]} userRole={userRole}>
               <Layout>
                 {" "}
                 <Profile />{" "}
@@ -122,7 +122,7 @@ function App() {
         <Route
           path="/question"
           element={
-            <ProtectedRoute role="student">
+            <ProtectedRoute role={["student"]} userRole={userRole}>
               <Layout>
                 <Question />
               </Layout>
@@ -132,7 +132,7 @@ function App() {
         <Route
           path="/course/:courseId/enrollment"
           element={
-            <ProtectedRoute role="student">
+            <ProtectedRoute role={["student"]} userRole={userRole}>
               <Layout>
                 <Enroll />
               </Layout>
@@ -142,7 +142,7 @@ function App() {
         <Route
           path="/course/:courseId/quiz"
           element={
-            <ProtectedRoute role="student">
+            <ProtectedRoute role={["student"]} userRole={userRole}>
               <Layout>
                 <Quiz />
               </Layout>
@@ -154,7 +154,7 @@ function App() {
         <Route
           path="/admin-dashboard"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute role={["admin"]} userRole={user}>
               <Layout>
                 <DashboardAdmin />
               </Layout>
@@ -164,7 +164,7 @@ function App() {
         <Route
           path="/admin-courses"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute role={["admin"]} userRole={user}>
               <Layout>
                 <CourseAdmin />
               </Layout>
@@ -174,7 +174,7 @@ function App() {
         <Route
           path="/admin-students"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute role={["admin"]} userRole={user}>
               <Layout>
                 <StudentAdmin />
               </Layout>
@@ -184,7 +184,7 @@ function App() {
         <Route
           path="/admin-profile"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute role={["admin"]} userRole={user}>
               <Layout>
                 <ProfileAdmin />
               </Layout>
@@ -194,7 +194,7 @@ function App() {
         <Route
           path="/admin-course/:courseId/questions"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute role={["admin"]} userRole={user}>
               <Layout>
                 <QuestionAdmin />
               </Layout>

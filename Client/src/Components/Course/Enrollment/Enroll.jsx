@@ -5,6 +5,9 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLoader } from "../../../Context/LoaderContext";
 import Config from "../../../Config/Config";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 function Enroll() {
   const { courseId } = useParams();
@@ -27,6 +30,7 @@ function Enroll() {
 
         setEnroll(response.data.courses);
       } catch (err) {
+        toast.error(err.response.data.error);
         console.error("Error checking enrollment status:", err);
       } finally {
       }
@@ -35,23 +39,23 @@ function Enroll() {
   }, []);
 
   const handleClick = async () => {
-    const response = await axios.post(
-      `${Config.API_URL}/api/course/enroll/${courseId}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
     try {
+      const response = await axios.post(
+        `${Config.API_URL}/api/course/enroll/${courseId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       if (response.data && response.data.success) {
-        alert("You have been enrolled in this course");
+        toast.success(err.response.data.error), {};
         navigate(`/course/${courseId}/quiz`);
       }
     } catch (err) {
-      alert("Error while enrolling try again");
+      toast.error(err.response.data.error), {};
       console.error("Error checking enrollment status:", err);
     }
   };
@@ -66,6 +70,7 @@ function Enroll() {
       <button className="enroll-btn" onClick={handleClick}>
         {"Enroll"}
       </button>
+      <ToastContainer />
     </div>
   );
 }

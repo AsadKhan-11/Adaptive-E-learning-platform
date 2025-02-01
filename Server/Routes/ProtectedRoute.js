@@ -139,7 +139,7 @@ router.post("/course/enroll/:courseId", authMiddleware, async (req, res) => {
     if (!course || !course.questions || course.questions.length === 0) {
       return res
         .status(400)
-        .json({ error: "No questions available for this course." });
+        .json({ error: "No questions available yet for this course." });
     }
 
     const firstQuestion = course.questions[0];

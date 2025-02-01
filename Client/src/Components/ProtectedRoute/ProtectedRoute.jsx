@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { UserContext } from "../../Context/UserContext";
 import { useLoader } from "../../Context/LoaderContext";
 
-const ProtectedRoute = ({ role, children }) => {
+const ProtectedRoute = ({ userRole, role, children }) => {
   const { setIsLoading } = useLoader();
   const { user, setUser } = useContext(UserContext);
   const token = localStorage.getItem("token");
@@ -24,6 +24,8 @@ const ProtectedRoute = ({ role, children }) => {
   }, [token]);
 
   if (!token) return <Navigate to="/" replace />;
+
+  // return role.includes(userRole) ? <Outlet /> : <Navigate to="/error404" />;
 
   return children;
 };

@@ -93,7 +93,13 @@ function Quiz() {
       }
     };
     fetchCurrentDifficulty();
-
+    if (currentDifficulty !== prevDifficulty.current) {
+      prevDifficulty.current = currentDifficulty; // Update ref after state change
+      toast.success(
+        `Difficulty level has changed to ${currentDifficulty}!`,
+        {}
+      );
+    }
     fetchNextQuestion();
   }, [setIsLoading, courseId]);
 
@@ -120,7 +126,7 @@ function Quiz() {
       } else {
         toast.success("Keep it up");
         setErr(true);
-        toast.error(`The correct answer is ${correctAnswer}`);
+        toast.error(`The correct answer is: ${correctAnswer}`);
       }
 
       setTimeout(() => {
@@ -129,7 +135,7 @@ function Quiz() {
         if (nextQuestion) {
           setQuestion(nextQuestion);
         } else {
-          alert("No more questions available!");
+          toast.error(`No more questions available at the moment`);
         }
       }, 3000);
     } catch (error) {

@@ -86,7 +86,6 @@
   display: flex;
   gap: 70px;
   padding: 0 20px;
-  cursor: pointer;
 }
 
 .d1:hover {
@@ -95,7 +94,7 @@
 
 @media (max-width: 1024px) {
   .Dashboard-items {
-    grid-template-columns: 1fr 1fr; /* 2 columns for medium screens */
+    grid-template-columns: 1fr 1fr;
   }
 
   .Dashboard-container {
